@@ -14,8 +14,6 @@ namespace BAAR.Droid
 	[Activity (Label = "BAAR.Android", MainLauncher = true, Icon = "@drawable/icon")]
 	public class MainActivity : Activity
 	{
-		
-
 		protected override void OnCreate (Bundle bundle)
 		{
 			base.OnCreate (bundle);
