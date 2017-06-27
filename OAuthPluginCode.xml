@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<plugin xmlns="http://plugin.powerschool.pearson.com"
+
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema‐instance"
+
+    xsi:schemaLocation="http://plugin.powerschool.pearson.com plugin.xsd"
+
+    name="Basic Data Access Plugin"
+
+    version="1.0"
+
+    description="Basic Data Access Plugin">
+
+  <oauth></oauth>
+
+  <publisher name="Basic Data">
+
+    <contact email="basic.data@pearson.com"/>
+
+  </publisher>
+
+</plugin>
