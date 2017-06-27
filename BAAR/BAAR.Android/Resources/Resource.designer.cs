@@ -94,8 +94,11 @@ namespace BAAR.Droid
 		public partial class Id
 		{
 			
+			// aapt resource value: 0x7f060006
+			public const int contentFrame = 2131099654;
+			
 			// aapt resource value: 0x7f060005
-			public const int contentFrame = 2131099653;
+			public const int editText1 = 2131099653;
 			
 			// aapt resource value: 0x7f060002
 			public const int scanButton = 2131099650;
