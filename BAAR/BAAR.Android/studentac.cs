@@ -9,7 +9,7 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
-//this is a push test
+//this is a push 
 namespace BAAR.Droid
 {
     [Activity(Label = "student")]
