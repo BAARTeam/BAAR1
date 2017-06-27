@@ -22,7 +22,7 @@ namespace BAAR.Droid
 			// Get our button from the layout resource,
 			// and attach an event to it
 			ImageButton button = FindViewById<ImageButton> (Resource.Id.scanButton);
-            
+            Android.Widget.Button LoginButton = FindViewById<Android.Widget.Button>(Resource.Id.LoginText_button);
 
             /*var authenticator = new OAuth2Authenticator(
                 clientId,
@@ -34,6 +34,11 @@ namespace BAAR.Droid
                 null,
                 true);*/
 
+            LoginButton.Click +=  (sender, e) =>
+            {
+                var LoginScreen = new Intent(this,typeof(Login));
+                StartActivity(LoginScreen);
+            };
 
             MobileBarcodeScanner.Initialize(Application);
             button.Click += async (sender, e) => {
