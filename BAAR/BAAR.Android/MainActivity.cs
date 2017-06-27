@@ -7,7 +7,7 @@ using Android.Views;
 using Android.Widget;
 using Android.OS;
 using ZXing.Mobile;
-//using Xamarin.Auth;
+
 namespace BAAR.Droid
 {
 	[Activity (Label = "BAAR.Android", MainLauncher = true, Icon = "@drawable/icon")]

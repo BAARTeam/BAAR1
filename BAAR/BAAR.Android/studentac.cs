@@ -9,11 +9,7 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
-<<<<<<< HEAD
-// is a push test
-=======
-//this is a push 
->>>>>>> 66e91577fcb78d3b295e4c457a1de81a8895a32a
+
 namespace BAAR.Droid
 {
     [Activity(Label = "student")]
