@@ -20,8 +20,8 @@ namespace BAAR.Droid
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.student);
             var STID = Intent.Extras.GetString("StudentID");
-            TextView textv = FindViewById<TextView>(Resource.Id.stuName);
-            textv.Text = STID; 
+            TextView tev = FindViewById<TextView>(Resource.Id.stuName);
+            tev.Text = STID; 
             
             // Create your application here
         }
