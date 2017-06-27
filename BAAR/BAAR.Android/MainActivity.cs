@@ -8,9 +8,6 @@ using Android.Widget;
 using Android.OS;
 using ZXing.Mobile;
 //using Xamarin.Auth;
-
-
-    //This is a test by dakota Stickney
 namespace BAAR.Droid
 {
 	[Activity (Label = "BAAR.Android", MainLauncher = true, Icon = "@drawable/icon")]
