@@ -12,15 +12,11 @@ using Android.Widget;
 
 namespace BAAR.Droid
 {
-    [Activity(Label = "Login")]
     public class Login : Activity
     {
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-            SetContentView(Resource.Layout.Login);
-
-
             // Create your application here
         }
     }
