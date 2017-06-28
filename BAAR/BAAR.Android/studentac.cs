@@ -18,6 +18,9 @@ namespace BAAR.Droid
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
+
+
+
             SetContentView(Resource.Layout.student);
             var STID = Intent.Extras.GetString("StudentID");
             TextView tev = FindViewById<TextView>(Resource.Id.stuName);
