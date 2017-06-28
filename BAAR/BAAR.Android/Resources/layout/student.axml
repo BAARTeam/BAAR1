@@ -17,4 +17,9 @@
         android:id="@+id/stuName"
         android:gravity="center"
         android:textAlignment="gravity" />
+    <EditText
+        android:inputType="time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/editText1" />
 </LinearLayout>

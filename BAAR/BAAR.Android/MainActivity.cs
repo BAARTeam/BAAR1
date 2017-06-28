@@ -1,5 +1,4 @@
 ﻿using System;
-
 using Android.App;
 using Android.Content;
 using Android.Runtime;
@@ -10,7 +9,8 @@ using ZXing.Mobile;
 
 namespace BAAR.Droid
 {
-	[Activity (Label = "BAAR.Android", MainLauncher = true, Icon = "@drawable/icon")]
+    [Activity(Label = "Login", MainLauncher = true, Icon = "@drawable/icon")]
+
 	public class MainActivity : Activity
 	{
 		protected override void OnCreate (Bundle bundle)
@@ -23,7 +23,6 @@ namespace BAAR.Droid
 			// Get our button from the layout resource,
 			// and attach an event to it
 			ImageButton button = FindViewById<ImageButton> (Resource.Id.scanButton);
-            
 
             /*var authenticator = new OAuth2Authenticator(
                 clientId,
@@ -34,7 +33,6 @@ namespace BAAR.Droid
                 new Uri(Constants.AccessTokenUrl),
                 null,
                 true);*/
-
 
             MobileBarcodeScanner.Initialize(Application);
             button.Click += async (sender, e) => {
