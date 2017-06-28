@@ -9,9 +9,8 @@ using ZXing.Mobile;
 
 namespace BAAR.Droid
 {
-    [Activity(Label = "Login", MainLauncher = true, Icon = "@drawable/icon")]
-
-	public class MainActivity : Activity
+    [Activity(Label = "BarcodeScanner")]
+    public class MainActivity : Activity
 	{
 		protected override void OnCreate (Bundle bundle)
 		{

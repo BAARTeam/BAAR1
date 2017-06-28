@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/Username_Text"
-        android:textSize="50" />
+        android:textSize="50dp" />
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -18,9 +18,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/Password_Text"
-        android:textSize="50" />
+        android:textSize="50dp" />
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/Password_Textbox" />
+    <ImageButton
+        android:src="@android:drawable/ic_menu_gallery"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/DebugButton" />
 </LinearLayout>
