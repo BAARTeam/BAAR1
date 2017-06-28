@@ -12,7 +12,7 @@ using Android.Widget;
 
 namespace BAAR.Droid
 {
-    [Activity(Label = "Login", MainLauncher = true, Icon = "@drawable/icon", ScreenOrientation = ScreenOrientation.Portrait)]
+    [Activity(Label = "BAAR", MainLauncher = true, Icon = "@drawable/icon", ScreenOrientation = ScreenOrientation.Portrait)]
     public class Login : Activity
     {
         protected override void OnCreate(Bundle savedInstanceState)
