@@ -4,12 +4,13 @@ using Android.Content;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using Android.Content.PM;
 using Android.OS;
 using ZXing.Mobile;
 
 namespace BAAR.Droid
 {
-    [Activity(Label = "BarcodeScanner")]
+    [Activity(Label = "BarcodeScanner", ScreenOrientation = ScreenOrientation.Portrait)]
     public class MainActivity : Activity
 	{
 		protected override void OnCreate (Bundle bundle)
