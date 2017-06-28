@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <color name="theme_custom_background">?android:attr/colorAccent</color><color name="theme_devicedefault_background">#ffffffff</color>
+  <color name="theme_devicedefault_background">#ff5c6bc0</color>
   <style name="Theme.Custom" parent="@android:style/Theme.DeviceDefault">
-    <item name="android:colorBackground">@color/theme_custom_background</item>
     <item name="android:windowBackground">?android:attr/colorBackground</item>
     <item name="android:colorAccent">#ff40c4ff</item>
   <item name="android:colorPrimary">#ff060606</item></style>
