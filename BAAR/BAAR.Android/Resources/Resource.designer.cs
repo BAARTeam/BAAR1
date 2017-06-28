@@ -31,6 +31,9 @@ namespace BAAR.Droid
 			global::Xamarin.Auth.Resource.Drawable.ic_arrow_back = global::BAAR.Droid.Resource.Drawable.ic_arrow_back;
 			global::Xamarin.Auth.Resource.Id.webview = global::BAAR.Droid.Resource.Id.webview;
 			global::Xamarin.Auth.Resource.Layout.activity_webview = global::BAAR.Droid.Resource.Layout.activity_webview;
+			global::Xamarin.Auth.Resource.String.ApplicationName = global::BAAR.Droid.Resource.String.ApplicationName;
+			global::Xamarin.Auth.Resource.String.Hello = global::BAAR.Droid.Resource.String.Hello;
+			global::Xamarin.Auth.Resource.String.library_name = global::BAAR.Droid.Resource.String.library_name;
 			global::Xamarin.Auth.Resource.String.title_activity_webview = global::BAAR.Droid.Resource.String.title_activity_webview;
 			global::ZXing.Mobile.Resource.Id.contentFrame = global::BAAR.Droid.Resource.Id.contentFrame;
 			global::ZXing.Mobile.Resource.Layout.zxingscanneractivitylayout = global::BAAR.Droid.Resource.Layout.zxingscanneractivitylayout;
