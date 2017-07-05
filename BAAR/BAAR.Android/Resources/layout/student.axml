@@ -16,7 +16,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:textAlignment="gravity"
-        android:id="@+id/stuName" />
+        android:id="@+id/stuID" />
     <TextView
         android:text="Student Name"
         android:textAppearance="?android:attr/textAppearanceMedium"

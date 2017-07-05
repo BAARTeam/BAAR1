@@ -11,6 +11,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using System.Net.Mail;
+using MimeKit;
 
 namespace BAAR.Droid
 {
@@ -39,6 +40,7 @@ namespace BAAR.Droid
 
         private void SendEmail()
         {
+
             MailMessage message = new System.Net.Mail.MailMessage();
             string toEmail = "dakotastickney@gmail.com";
             message.From = new MailAddress("dakotastickney@gmail.com");
@@ -46,6 +48,15 @@ namespace BAAR.Droid
             message.Subject = "Test Email";
             message.Body = "Congratulations Your Kid has done something to grant you this email!";
             message.DeliveryNotificationOptions = DeliveryNotificationOptions.OnFailure;
+
+            using (var Client = new SmtpClient("smtp.gmail.com",587))
+            {
+                // Client.SmtpServer = "MyMailServer";
+                Client.EnableSsl = true;
+                Client.UseDefaultCredentials = true;
+                Client.Send(message);
+            }
+
             Console.Write("Sending Email");
          //   var Email = new Intent(Android.Content.Intent.ActionSend);
             //Email.PutExtra(Android.Content.Intent.ExtraEmail, new string[] {"dakotastickney@gmail.com" });
