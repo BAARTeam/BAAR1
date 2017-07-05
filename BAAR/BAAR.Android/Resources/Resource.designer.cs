@@ -116,8 +116,8 @@ namespace BAAR.Droid
 			// aapt resource value: 0x7f080005
 			public const int DebugButton = 2131230725;
 			
-			// aapt resource value: 0x7f08000d
-			public const int EmailButton = 2131230733;
+			// aapt resource value: 0x7f08000e
+			public const int EmailButton = 2131230734;
 			
 			// aapt resource value: 0x7f08000c
 			public const int Location_Spinner = 2131230732;
@@ -128,14 +128,17 @@ namespace BAAR.Droid
 			// aapt resource value: 0x7f080004
 			public const int Password_Textbox = 2131230724;
 			
+			// aapt resource value: 0x7f08000d
+			public const int StudentTable = 2131230733;
+			
 			// aapt resource value: 0x7f080001
 			public const int Username_Text = 2131230721;
 			
 			// aapt resource value: 0x7f080002
 			public const int Username_Textbox = 2131230722;
 			
-			// aapt resource value: 0x7f08000e
-			public const int contentFrame = 2131230734;
+			// aapt resource value: 0x7f08000f
+			public const int contentFrame = 2131230735;
 			
 			// aapt resource value: 0x7f080007
 			public const int scanButton = 2131230727;

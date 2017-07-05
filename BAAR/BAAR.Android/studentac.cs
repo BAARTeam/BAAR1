@@ -44,6 +44,22 @@ namespace BAAR.Droid
             var Locations = new List<string>() { "E-Wing", "Commons", "Main Office" };
             var adapter2 = new ArrayAdapter(this, Android.Resource.Layout.SimpleSpinnerItem, Locations);
             LocationSpinner.Adapter = adapter2;
+
+            Spinner TestSpin = new Spinner(this);
+            TextView NewView = new TextView(this);
+
+            TextView NewView2 = new TextView(this);
+            NewView.Text = STInfo[0];
+            NewView2.Text = STInfo[1];
+            RelativeLayout Test = FindViewById<RelativeLayout>(Resource.Id.StudentTable);
+            var param = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.FillParent,
+    ViewGroup.LayoutParams.WrapContent);
+            param.AddRule(LayoutRules.AlignParentTop);
+            Test.AddView(NewView,param);
+            var param2 = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent,
+ViewGroup.LayoutParams.WrapContent);
+            param.AddRule(LayoutRules.Below, NewView.Id);
+            Test.AddView(NewView2,param2);
         }
 
         private void SendEmail()
