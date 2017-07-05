@@ -10,6 +10,14 @@
         android:id="@+id/stuPic"
         android:layout_gravity="center" />
     <TextView
+        android:text="Student Number"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textAlignment="gravity"
+        android:id="@+id/stuName" />
+    <TextView
         android:text="Student Name"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_width="match_parent"
