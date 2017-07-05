@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using Android.Content.PM;
 using Android.App;
 using Android.Content;
@@ -20,11 +21,13 @@ namespace BAAR.Droid
             base.OnCreate(savedInstanceState);
 
 
-
+            
             SetContentView(Resource.Layout.student);
             var STID = Intent.Extras.GetString("StudentID");
             TextView tev = FindViewById<TextView>(Resource.Id.stuName);
-            tev.Text = STID;
+            string Splitter = @";";
+            string[] STInfo = Regex.Split(STID, Splitter);
+            tev.Text = STInfo[0];
             Button EmailButton = FindViewById<Button>(Resource.Id.EmailButton);
             EmailButton.Click +=  delegate
             {
