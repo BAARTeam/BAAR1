@@ -10,6 +10,7 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using System.Net.Mail;
 
 namespace BAAR.Droid
 {
@@ -36,13 +37,20 @@ namespace BAAR.Droid
 
         private void SendEmail()
         {
+            MailMessage message = new System.Net.Mail.MailMessage();
+            string toEmail = "dakotastickney@gmail.com";
+            message.From = new MailAddress("dakotastickney@gmail.com");
+            message.To.Add(toEmail);
+            message.Subject = "Test Email";
+            message.Body = "Congratulations Your Kid has done something to grant you this email!";
+            message.DeliveryNotificationOptions = DeliveryNotificationOptions.OnFailure;
             Console.Write("Sending Email");
-            var Email = new Intent(Android.Content.Intent.ActionSend);
-            Email.PutExtra(Android.Content.Intent.ExtraEmail, new string[] {"dakotastickney@gmail.com" });
-            Email.PutExtra(Android.Content.Intent.ExtraSubject,"Testing");
-            Email.PutExtra(Android.Content.Intent.ExtraText,"Congratulations Your Kid has done something to grant you this email!");
-            Email.SetType("message/rfc822");
-            StartActivity(Email);
+         //   var Email = new Intent(Android.Content.Intent.ActionSend);
+            //Email.PutExtra(Android.Content.Intent.ExtraEmail, new string[] {"dakotastickney@gmail.com" });
+           // Email.PutExtra(Android.Content.Intent.ExtraSubject,"Testing");
+           // Email.PutExtra(Android.Content.Intent.ExtraText,"Congratulations Your Kid has done something to grant you this email!");
+            //Email.SetType("message/rfc822");
+           // StartActivity(Email);
         }
     }
 }
