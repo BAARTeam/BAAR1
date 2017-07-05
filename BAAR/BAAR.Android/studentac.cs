@@ -24,7 +24,7 @@ namespace BAAR.Droid
             SetContentView(Resource.Layout.student);
             var STID = Intent.Extras.GetString("StudentID");
             TextView TID = FindViewById<TextView>(Resource.Id.stuID);
-            TextView TName = FindViewById<TextView>(Resource.Id.stuID);
+            TextView TName = FindViewById<TextView>(Resource.Id.stuName);
             string Splitter = @";";
             string[] STInfo = Regex.Split(STID, Splitter);
             TID.Text = STInfo[0];
