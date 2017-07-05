@@ -11,7 +11,6 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using System.Net.Mail;
-using MimeKit;
 
 namespace BAAR.Droid
 {
@@ -34,8 +33,17 @@ namespace BAAR.Droid
             {
                 SendEmail();
             };
-            
-            // Create your application here
+
+            Spinner BehaviourSpinner;
+            BehaviourSpinner = FindViewById<Spinner>(Resource.Id.Behaviour_Spinner);
+            var Behaviours = new List<string>() { "Cleaned Up", "COmplimented", "Turned In Assignment" };
+            var adapter = new ArrayAdapter(this, Android.Resource.Layout.SimpleSpinnerItem, Behaviours);
+            BehaviourSpinner.Adapter = adapter;
+            Spinner LocationSpinner;
+            LocationSpinner = FindViewById<Spinner>(Resource.Id.Location_Spinner);
+            var Locations = new List<string>() { "E-Wing", "Commons", "Main Office" };
+            var adapter2 = new ArrayAdapter(this, Android.Resource.Layout.SimpleSpinnerItem, Locations);
+            LocationSpinner.Adapter = adapter2;
         }
 
         private void SendEmail()

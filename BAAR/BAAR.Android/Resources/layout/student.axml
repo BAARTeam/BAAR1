@@ -25,14 +25,20 @@
         android:id="@+id/stuName"
         android:gravity="center"
         android:textAlignment="gravity" />
-    <EditText
-        android:inputType="time"
+    <Spinner
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/editText1" />
+        android:id="@+id/Behaviour_Spinner"
+        android:layout_marginTop="20px" />
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/Location_Spinner"
+        android:layout_marginTop="20px" />
     <Button
-        android:text="Send Email"
+        android:text="Submit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/EmailButton" />
+        android:id="@+id/EmailButton"
+        android:layout_marginTop="300px" />
 </LinearLayout>
