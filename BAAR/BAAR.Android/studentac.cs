@@ -22,10 +22,12 @@ namespace BAAR.Droid
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.student);
             var STID = Intent.Extras.GetString("StudentID");
-            TextView tev = FindViewById<TextView>(Resource.Id.stuName);
+            TextView TID = FindViewById<TextView>(Resource.Id.stuID);
+            TextView TName = FindViewById<TextView>(Resource.Id.stuID);
             string Splitter = @";";
             string[] STInfo = Regex.Split(STID, Splitter);
-            tev.Text = STInfo[0];
+            TID.Text = STInfo[0];
+            TName.Text = STInfo[1];
             Button EmailButton = FindViewById<Button>(Resource.Id.EmailButton);
             EmailButton.Click += (sender, e) =>
             {

@@ -139,9 +139,12 @@ namespace BAAR.Droid
 			
 			// aapt resource value: 0x7f080009
 			public const int stuName = 2131230729;
-			
-			// aapt resource value: 0x7f080008
-			public const int stuPic = 2131230728;
+
+            // aapt resource value: 0x7f080009
+            public const int stuID = 2131230750;
+
+            // aapt resource value: 0x7f080008
+            public const int stuPic = 2131230728;
 			
 			// aapt resource value: 0x7f080006
 			public const int textView2 = 2131230726;
