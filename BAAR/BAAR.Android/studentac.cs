@@ -18,15 +18,12 @@ namespace BAAR.Droid
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-
-
-
             SetContentView(Resource.Layout.student);
             var STID = Intent.Extras.GetString("StudentID");
             TextView tev = FindViewById<TextView>(Resource.Id.stuName);
             tev.Text = STID;
             Button EmailButton = FindViewById<Button>(Resource.Id.EmailButton);
-            EmailButton.Click +=  delegate
+            EmailButton.Click += (sender, e) =>
             {
                 SendEmail();
             };
@@ -36,10 +33,13 @@ namespace BAAR.Droid
 
         private void SendEmail()
         {
+            Console.Write("Sending Email");
             var Email = new Intent(Android.Content.Intent.ActionSend);
             Email.PutExtra(Android.Content.Intent.ExtraEmail, new string[] {"dakotastickney@gmail.com" });
+            Email.PutExtra(Android.Content.Intent.ExtraSubject,"Testing");
             Email.PutExtra(Android.Content.Intent.ExtraText,"Congratulations Your Kid has done something to grant you this email!");
             Email.SetType("message/rfc822");
+            StartActivity(Email);
         }
     }
 }
