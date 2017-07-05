@@ -113,6 +113,9 @@ namespace BAAR.Droid
 			// aapt resource value: 0x7f080005
 			public const int DebugButton = 2131230725;
 			
+			// aapt resource value: 0x7f08000b
+			public const int EmailButton = 2131230731;
+			
 			// aapt resource value: 0x7f080003
 			public const int Password_Text = 2131230723;
 			
@@ -125,8 +128,8 @@ namespace BAAR.Droid
 			// aapt resource value: 0x7f080002
 			public const int Username_Textbox = 2131230722;
 			
-			// aapt resource value: 0x7f08000b
-			public const int contentFrame = 2131230731;
+			// aapt resource value: 0x7f08000c
+			public const int contentFrame = 2131230732;
 			
 			// aapt resource value: 0x7f08000a
 			public const int editText1 = 2131230730;

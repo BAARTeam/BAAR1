@@ -7,6 +7,7 @@ using Android.Widget;
 using Android.Content.PM;
 using Android.OS;
 using ZXing.Mobile;
+using Xamarin.Auth;
 
 namespace BAAR.Droid
 {
@@ -24,7 +25,7 @@ namespace BAAR.Droid
 			// and attach an event to it
 			ImageButton button = FindViewById<ImageButton> (Resource.Id.scanButton);
 
-            /*var authenticator = new OAuth2Authenticator(
+          /* var authenticator = new OAuth2Authenticator(
                 clientId,
                 null,
                 Constants.Scope,
