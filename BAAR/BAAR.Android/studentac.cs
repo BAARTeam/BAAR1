@@ -57,14 +57,16 @@ namespace BAAR.Droid
         {
 
             Spinner BehaviourSpinner = new Spinner(this);
-            var Behaviours = new List<string>() { "Cleaned Up", "Complimented", "Turned In Assignment" };
-            var Adapter = new ArrayAdapter(this, Android.Resource.Layout.SimpleSpinnerItem, Behaviours);
+            var Behaviours = new List<string>() { "Showed Responsibility", "Showed Respect", "Demonstrated Initiative","Was Safe","Demonstrated Professionalism" };
+            var Adapter = new ArrayAdapter(this, Android.Resource.Layout.SimpleSpinnerDropDownItem, Behaviours);
             BehaviourSpinner.Adapter = Adapter;
+  
 
             Spinner LocationSpinner = new Spinner(this);
             var Locations = new List<string>() { "E-Wing", "Commons", "Main Office" };
-            var LocationAdapter = new ArrayAdapter(this, Android.Resource.Layout.SimpleSpinnerItem, Locations);
+            var LocationAdapter = new ArrayAdapter(this, Android.Resource.Layout.SimpleSpinnerDropDownItem, Locations);
             LocationSpinner.Adapter = LocationAdapter;
+
             TextView StudentName = new TextView(this);
             TextView StudentIdNumber = new TextView(this);
             ImageView StudentImage = new ImageView(this);
@@ -79,7 +81,6 @@ namespace BAAR.Droid
 
             StudentIdNumber.Text = Name;//STInfo[0];
             StudentName.Text = Number;// STInfo[1];
-          //  RelativeLayout Test = FindViewById<RelativeLayout>(Resource.Id.StudentTable);
             LinearLayout MainLayout = FindViewById<LinearLayout>(Resource.Id.TicketHolder);
             RelativeLayout Test = new RelativeLayout(this);
             Test.SetPadding(0,5,0,0);
@@ -103,6 +104,7 @@ namespace BAAR.Droid
 ViewGroup.LayoutParams.WrapContent);
             param3.AddRule(LayoutRules.Below, StudentIdNumber.Id);
             Test.AddView(BehaviourSpinner, param3);
+
 
             var param4 = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent,
 ViewGroup.LayoutParams.WrapContent);
@@ -130,7 +132,7 @@ ViewGroup.LayoutParams.WrapContent);
 
             //Console.Write("Sending Email");
             var Email = new Intent(Android.Content.Intent.ActionSend);
-            Email.PutExtra(Android.Content.Intent.ExtraEmail, new string[] { "dakotastickney@gmail.com" });
+            Email.PutExtra(Android.Content.Intent.ExtraBcc, new string[] { "dakotastickney@gmail.com", "soccersalinas18@gmail.com" });
             Email.PutExtra(Android.Content.Intent.ExtraSubject, "Testing");
             Email.PutExtra(Android.Content.Intent.ExtraText, "Congratulations Your Kid has done something to grant you this email!");
             Email.SetType("message/rfc822");

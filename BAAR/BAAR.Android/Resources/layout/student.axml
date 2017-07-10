@@ -10,7 +10,7 @@
         android:minWidth="25px"
         android:minHeight="25px"
         android:layout_width="match_parent"
-        android:layout_height="350dp"
+        android:layout_height="450dp"
         android:id="@+id/scrollView1"
         android:verticalScrollbarPosition="right"
         android:scrollbars="vertical"
@@ -18,7 +18,8 @@
         android:scrollbarAlwaysDrawVerticalTrack="true"
         android:scrollbarStyle="insideOverlay"
         android:clipChildren="true"
-        android:layoutMode="clipBounds">
+        android:layoutMode="clipBounds"
+        android:layout_gravity="top">
         <LinearLayout
             android:orientation="vertical"
             android:minWidth="25px"
@@ -35,10 +36,13 @@
         android:text="Submit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/EmailButton" />
+        android:id="@+id/EmailButton"
+        android:layout_gravity="bottom" />
     <Button
         android:text="Add Ticket"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/AddTicket" />
+        android:id="@+id/AddTicket"
+        android:gravity="center"
+        android:layout_gravity="end" />
 </LinearLayout>
