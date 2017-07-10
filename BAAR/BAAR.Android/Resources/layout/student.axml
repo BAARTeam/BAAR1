@@ -2,17 +2,43 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <RelativeLayout
+    android:layout_height="match_parent"
+    android:id="@+id/Root"
+    android:scrollbars="vertical"
+    android:fadeScrollbars="true">
+    <ScrollView
         android:minWidth="25px"
         android:minHeight="25px"
         android:layout_width="match_parent"
-        android:layout_height="118.5dp"
-        android:id="@+id/StudentTable" />
+        android:layout_height="350dp"
+        android:id="@+id/scrollView1"
+        android:verticalScrollbarPosition="right"
+        android:scrollbars="vertical"
+        android:fadeScrollbars="false"
+        android:scrollbarAlwaysDrawVerticalTrack="true"
+        android:scrollbarStyle="insideOverlay"
+        android:clipChildren="true"
+        android:layoutMode="clipBounds">
+        <LinearLayout
+            android:orientation="vertical"
+            android:minWidth="25px"
+            android:minHeight="25px"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:id="@+id/TicketHolder"
+            android:scrollbarStyle="insideInset"
+            android:scrollbarAlwaysDrawVerticalTrack="true"
+            android:clipChildren="true"
+            android:layoutMode="clipBounds" />
+    </ScrollView>
     <Button
         android:text="Submit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/EmailButton"
-        android:layout_marginTop="300px" />
+        android:id="@+id/EmailButton" />
+    <Button
+        android:text="Add Ticket"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/AddTicket" />
 </LinearLayout>

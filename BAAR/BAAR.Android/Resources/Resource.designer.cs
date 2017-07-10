@@ -110,11 +110,14 @@ namespace BAAR.Droid
 		public partial class Id
 		{
 			
+			// aapt resource value: 0x7f08000c
+			public const int AddTicket = 2131230732;
+			
 			// aapt resource value: 0x7f080005
 			public const int DebugButton = 2131230725;
 			
-			// aapt resource value: 0x7f080009
-			public const int EmailButton = 2131230729;
+			// aapt resource value: 0x7f08000b
+			public const int EmailButton = 2131230731;
 			
 			// aapt resource value: 0x7f080003
 			public const int Password_Text = 2131230723;
@@ -123,7 +126,10 @@ namespace BAAR.Droid
 			public const int Password_Textbox = 2131230724;
 			
 			// aapt resource value: 0x7f080008
-			public const int StudentTable = 2131230728;
+			public const int Root = 2131230728;
+			
+			// aapt resource value: 0x7f08000a
+			public const int TicketHolder = 2131230730;
 			
 			// aapt resource value: 0x7f080001
 			public const int Username_Text = 2131230721;
@@ -131,11 +137,14 @@ namespace BAAR.Droid
 			// aapt resource value: 0x7f080002
 			public const int Username_Textbox = 2131230722;
 			
-			// aapt resource value: 0x7f08000a
-			public const int contentFrame = 2131230730;
+			// aapt resource value: 0x7f08000d
+			public const int contentFrame = 2131230733;
 			
 			// aapt resource value: 0x7f080007
 			public const int scanButton = 2131230727;
+			
+			// aapt resource value: 0x7f080009
+			public const int scrollView1 = 2131230729;
 			
 			// aapt resource value: 0x7f080006
 			public const int textView2 = 2131230726;

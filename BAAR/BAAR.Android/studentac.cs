@@ -11,6 +11,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using System.Net.Mail;
+using ZXing.Mobile;
 
 namespace BAAR.Droid
 {
@@ -33,6 +34,27 @@ namespace BAAR.Droid
             {
                 SendEmail();
             };
+            Button TicketButton = FindViewById<Button>(Resource.Id.AddTicket);
+     
+
+                MobileBarcodeScanner.Initialize(Application);
+                TicketButton.Click += async (sender, e) => {
+
+                    var scanner = new ZXing.Mobile.MobileBarcodeScanner();
+                    var result = await scanner.Scan();
+
+                    var NewScreen = new Intent(this, typeof(studentac));
+                    NewScreen.PutExtra("StudentID", result.Text);
+                    string[] Test =Regex.Split(result.Text,Splitter);
+                    CreateStudentTicket(Test[0],Test[1]);
+            };
+
+            CreateStudentTicket(STInfo[0], STInfo[1]);
+
+        }
+
+        public void CreateStudentTicket(string Name,string Number)
+        {
 
             Spinner BehaviourSpinner = new Spinner(this);
             var Behaviours = new List<string>() { "Cleaned Up", "Complimented", "Turned In Assignment" };
@@ -43,39 +65,43 @@ namespace BAAR.Droid
             var Locations = new List<string>() { "E-Wing", "Commons", "Main Office" };
             var LocationAdapter = new ArrayAdapter(this, Android.Resource.Layout.SimpleSpinnerItem, Locations);
             LocationSpinner.Adapter = LocationAdapter;
-
             TextView StudentName = new TextView(this);
             TextView StudentIdNumber = new TextView(this);
             ImageView StudentImage = new ImageView(this);
             StudentImage.SetImageDrawable(Resources.GetDrawable(Resource.Drawable.Icon));
             StudentName.Id = 2;
+            StudentName.TextSize = 25;
+            StudentIdNumber.TextSize = 25;
             StudentIdNumber.Id = 4;
             StudentImage.Id = 10;
             BehaviourSpinner.Id = 6;
             LocationSpinner.Id = 8;
 
-            StudentIdNumber.Text = STInfo[0];
-            StudentName.Text = STInfo[1];
-            RelativeLayout Test = FindViewById<RelativeLayout>(Resource.Id.StudentTable);
+            StudentIdNumber.Text = Name;//STInfo[0];
+            StudentName.Text = Number;// STInfo[1];
+          //  RelativeLayout Test = FindViewById<RelativeLayout>(Resource.Id.StudentTable);
+            LinearLayout MainLayout = FindViewById<LinearLayout>(Resource.Id.TicketHolder);
+            RelativeLayout Test = new RelativeLayout(this);
+            Test.SetPadding(0,5,0,0);
+            MainLayout.AddView(Test);
 
-
-            var param1 = new RelativeLayout.LayoutParams(100, 100);
+            var param1 = new RelativeLayout.LayoutParams(200, 200);
             param1.AddRule(LayoutRules.AlignParentLeft);
-            Test.AddView(StudentImage,param1);
+            Test.AddView(StudentImage, param1);
 
             var param = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent,
     ViewGroup.LayoutParams.WrapContent);
-            param.AddRule(LayoutRules.RightOf,StudentImage.Id);
-            Test.AddView(StudentName,param);
+            param.AddRule(LayoutRules.RightOf, StudentImage.Id);
+            Test.AddView(StudentName, param);
             var param2 = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent,
     ViewGroup.LayoutParams.WrapContent);
             param2.AddRule(LayoutRules.RightOf, StudentImage.Id);
             param2.AddRule(LayoutRules.Below, StudentName.Id);
-            Test.AddView(StudentIdNumber,param2);
+            Test.AddView(StudentIdNumber, param2);
 
             var param3 = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent,
 ViewGroup.LayoutParams.WrapContent);
-            param3.AddRule(LayoutRules.Below,StudentIdNumber.Id);
+            param3.AddRule(LayoutRules.Below, StudentIdNumber.Id);
             Test.AddView(BehaviourSpinner, param3);
 
             var param4 = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent,
