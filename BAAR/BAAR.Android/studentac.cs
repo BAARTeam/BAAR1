@@ -22,46 +22,66 @@ namespace BAAR.Droid
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.student);
             var STID = Intent.Extras.GetString("StudentID");
-            TextView TID = FindViewById<TextView>(Resource.Id.stuID);
-            TextView TName = FindViewById<TextView>(Resource.Id.stuName);
+          //  TextView TID = FindViewById<TextView>(Resource.Id.stuID);
+           // TextView TName = FindViewById<TextView>(Resource.Id.stuName);
             string Splitter = @";";
             string[] STInfo = Regex.Split(STID, Splitter);
-            TID.Text = STInfo[0];
-            TName.Text = STInfo[1];
+           // TID.Text = STInfo[0];
+           // TName.Text = STInfo[1];
             Button EmailButton = FindViewById<Button>(Resource.Id.EmailButton);
             EmailButton.Click += (sender, e) =>
             {
                 SendEmail();
             };
 
-            Spinner BehaviourSpinner;
-            BehaviourSpinner = FindViewById<Spinner>(Resource.Id.Behaviour_Spinner);
-            var Behaviours = new List<string>() { "Cleaned Up", "COmplimented", "Turned In Assignment" };
-            var adapter = new ArrayAdapter(this, Android.Resource.Layout.SimpleSpinnerItem, Behaviours);
-            BehaviourSpinner.Adapter = adapter;
-            Spinner LocationSpinner;
-            LocationSpinner = FindViewById<Spinner>(Resource.Id.Location_Spinner);
+            Spinner BehaviourSpinner = new Spinner(this);
+            var Behaviours = new List<string>() { "Cleaned Up", "Complimented", "Turned In Assignment" };
+            var Adapter = new ArrayAdapter(this, Android.Resource.Layout.SimpleSpinnerItem, Behaviours);
+            BehaviourSpinner.Adapter = Adapter;
+
+            Spinner LocationSpinner = new Spinner(this);
             var Locations = new List<string>() { "E-Wing", "Commons", "Main Office" };
-            var adapter2 = new ArrayAdapter(this, Android.Resource.Layout.SimpleSpinnerItem, Locations);
-            LocationSpinner.Adapter = adapter2;
+            var LocationAdapter = new ArrayAdapter(this, Android.Resource.Layout.SimpleSpinnerItem, Locations);
+            LocationSpinner.Adapter = LocationAdapter;
 
-            Spinner TestSpin = new Spinner(this);
-            TextView NewView = new TextView(this);
-            TextView NewView2 = new TextView(this);
-            NewView.Id = 2;
-            NewView2.Id = 4;
+            TextView StudentName = new TextView(this);
+            TextView StudentIdNumber = new TextView(this);
+            ImageView StudentImage = new ImageView(this);
+            StudentImage.SetImageDrawable(Resources.GetDrawable(Resource.Drawable.Icon));
+            StudentName.Id = 2;
+            StudentIdNumber.Id = 4;
+            StudentImage.Id = 10;
+            BehaviourSpinner.Id = 6;
+            LocationSpinner.Id = 8;
 
-            NewView2.Text = STInfo[0];
-            NewView.Text = STInfo[1];
+            StudentIdNumber.Text = STInfo[0];
+            StudentName.Text = STInfo[1];
             RelativeLayout Test = FindViewById<RelativeLayout>(Resource.Id.StudentTable);
+
+
+            var param1 = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.FillParent,
+    ViewGroup.LayoutParams.WrapContent);
+            param1.AddRule(LayoutRules.AlignLeft);
+            Test.AddView(StudentImage,param1);
+
             var param = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent,
     ViewGroup.LayoutParams.WrapContent);
-            param.AddRule(LayoutRules.AlignParentTop);
-            Test.AddView(NewView,param);
+            param.AddRule(LayoutRules.Below,StudentImage.Id);
+            Test.AddView(StudentName,param);
             var param2 = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent,
     ViewGroup.LayoutParams.WrapContent);
-            param2.AddRule(LayoutRules.Below, NewView.Id);
-            Test.AddView(NewView2,param2);
+            param2.AddRule(LayoutRules.Below, StudentName.Id);
+            Test.AddView(StudentIdNumber,param2);
+
+            var param3 = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent,
+ViewGroup.LayoutParams.WrapContent);
+            param3.AddRule(LayoutRules.Below,StudentIdNumber.Id);
+            Test.AddView(BehaviourSpinner, param3);
+
+            var param4 = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent,
+ViewGroup.LayoutParams.WrapContent);
+            param4.AddRule(LayoutRules.Below, BehaviourSpinner.Id);
+            Test.AddView(LocationSpinner, param4);
         }
 
         private void SendEmail()
@@ -82,7 +102,7 @@ namespace BAAR.Droid
             //    Client.Send(message);
             //}
 
-            Console.Write("Sending Email");
+            //Console.Write("Sending Email");
             var Email = new Intent(Android.Content.Intent.ActionSend);
             Email.PutExtra(Android.Content.Intent.ExtraEmail, new string[] { "dakotastickney@gmail.com" });
             Email.PutExtra(Android.Content.Intent.ExtraSubject, "Testing");

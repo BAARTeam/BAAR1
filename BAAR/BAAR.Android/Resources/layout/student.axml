@@ -9,32 +9,6 @@
         android:layout_height="100dp"
         android:id="@+id/stuPic"
         android:layout_gravity="center" />
-    <TextView
-        android:text="Student Number"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:textAlignment="gravity"
-        android:id="@+id/stuID" />
-    <TextView
-        android:text="Student Name"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/stuName"
-        android:gravity="center"
-        android:textAlignment="gravity" />
-    <Spinner
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/Behaviour_Spinner"
-        android:layout_marginTop="20px" />
-    <Spinner
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/Location_Spinner"
-        android:layout_marginTop="20px" />
     <RelativeLayout
         android:minWidth="25px"
         android:minHeight="25px"
