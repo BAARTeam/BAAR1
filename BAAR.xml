@@ -1,7 +1,29 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
   <plugin version="1.0" name="WBL Extension Fields" description="WBL Extension Fields" xsi:schemaLocation="http://plugin.powerschool.pearson.com plugin.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://plugin.powerschool.pearson.com">
   <oauth></oauth>
+    <access_request>
+      <field table="STUDENTS" field="DCID" access="ViewOnly"/>
+      <field table="STUDENTS" field="LastFirst" access="ViewOnly"/>
+    </access_request>
      <publisher name="Kent ISD">
-         <contact email="peternethercott@kentisd.org"/>
+         <contact email="lauriefernandez@kentisd.org"/>
      </publisher>
   </plugin>
+
+  
+    
+<queries>
+  <query name="org.kentisd.BAAR.students.get_name">
+    <columns>
+      <column>students.dcid</column>
+      <column>students.lastfirst</column>
+    </columns>
+    <sql><![CDATA[
+       SELECT student_LastFirst
+       FROM Students 
+       WHERE student_DCID = "Scanned Barcode"
+       ORDERBY student_DCID
+    ]]></sql>
+  </query>
+  <!-- Define more queries here -->
+</queries>
