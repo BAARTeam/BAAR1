@@ -47,47 +47,48 @@ namespace BAAR.Droid
 
             Spinner TestSpin = new Spinner(this);
             TextView NewView = new TextView(this);
-
             TextView NewView2 = new TextView(this);
-            NewView.Text = STInfo[0];
-            NewView2.Text = STInfo[1];
+            NewView.Id = 2;
+            NewView2.Id = 4;
+
+            NewView2.Text = STInfo[0];
+            NewView.Text = STInfo[1];
             RelativeLayout Test = FindViewById<RelativeLayout>(Resource.Id.StudentTable);
-            var param = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.FillParent,
+            var param = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent,
     ViewGroup.LayoutParams.WrapContent);
             param.AddRule(LayoutRules.AlignParentTop);
             Test.AddView(NewView,param);
             var param2 = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent,
-ViewGroup.LayoutParams.WrapContent);
-            param.AddRule(LayoutRules.Below, NewView.Id);
+    ViewGroup.LayoutParams.WrapContent);
+            param2.AddRule(LayoutRules.Below, NewView.Id);
             Test.AddView(NewView2,param2);
         }
 
         private void SendEmail()
         {
+            //MailMessage message = new System.Net.Mail.MailMessage();
+            //string toEmail = "dakotastickney@gmail.com";
+            //message.From = new MailAddress("dakotastickney@gmail.com");
+            //message.To.Add(toEmail);
+            //message.Subject = "Test Email";
+            //message.Body = "Congratulations Your Kid has done something to grant you this email!";
+            //message.DeliveryNotificationOptions = DeliveryNotificationOptions.OnFailure;
 
-            MailMessage message = new System.Net.Mail.MailMessage();
-            string toEmail = "dakotastickney@gmail.com";
-            message.From = new MailAddress("dakotastickney@gmail.com");
-            message.To.Add(toEmail);
-            message.Subject = "Test Email";
-            message.Body = "Congratulations Your Kid has done something to grant you this email!";
-            message.DeliveryNotificationOptions = DeliveryNotificationOptions.OnFailure;
-
-            using (var Client = new SmtpClient("smtp.gmail.com",587))
-            {
-                // Client.SmtpServer = "MyMailServer";
-                Client.EnableSsl = true;
-                Client.UseDefaultCredentials = true;
-                Client.Send(message);
-            }
+            //using (var Client = new SmtpClient("smtp.gmail.com",587))
+            //{
+            //    // Client.SmtpServer = "MyMailServer";
+            //    Client.EnableSsl = true;
+            //    Client.UseDefaultCredentials = true;
+            //    Client.Send(message);
+            //}
 
             Console.Write("Sending Email");
-         //   var Email = new Intent(Android.Content.Intent.ActionSend);
-            //Email.PutExtra(Android.Content.Intent.ExtraEmail, new string[] {"dakotastickney@gmail.com" });
-           // Email.PutExtra(Android.Content.Intent.ExtraSubject,"Testing");
-           // Email.PutExtra(Android.Content.Intent.ExtraText,"Congratulations Your Kid has done something to grant you this email!");
-            //Email.SetType("message/rfc822");
-           // StartActivity(Email);
+            var Email = new Intent(Android.Content.Intent.ActionSend);
+            Email.PutExtra(Android.Content.Intent.ExtraEmail, new string[] { "dakotastickney@gmail.com" });
+            Email.PutExtra(Android.Content.Intent.ExtraSubject, "Testing");
+            Email.PutExtra(Android.Content.Intent.ExtraText, "Congratulations Your Kid has done something to grant you this email!");
+            Email.SetType("message/rfc822");
+            StartActivity(Email);
         }
     }
 }
