@@ -3,12 +3,6 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <ImageView
-        android:src="@android:drawable/ic_menu_gallery"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:id="@+id/stuPic"
-        android:layout_gravity="center" />
     <RelativeLayout
         android:minWidth="25px"
         android:minHeight="25px"

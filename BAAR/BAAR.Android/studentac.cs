@@ -59,17 +59,17 @@ namespace BAAR.Droid
             RelativeLayout Test = FindViewById<RelativeLayout>(Resource.Id.StudentTable);
 
 
-            var param1 = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.FillParent,
-    ViewGroup.LayoutParams.WrapContent);
-            param1.AddRule(LayoutRules.AlignLeft);
+            var param1 = new RelativeLayout.LayoutParams(100, 100);
+            param1.AddRule(LayoutRules.AlignParentLeft);
             Test.AddView(StudentImage,param1);
 
             var param = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent,
     ViewGroup.LayoutParams.WrapContent);
-            param.AddRule(LayoutRules.Below,StudentImage.Id);
+            param.AddRule(LayoutRules.RightOf,StudentImage.Id);
             Test.AddView(StudentName,param);
             var param2 = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent,
     ViewGroup.LayoutParams.WrapContent);
+            param2.AddRule(LayoutRules.RightOf, StudentImage.Id);
             param2.AddRule(LayoutRules.Below, StudentName.Id);
             Test.AddView(StudentIdNumber,param2);
 
