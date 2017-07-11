@@ -25,5 +25,4 @@
        ORDERBY student_DCID
     ]]></sql>
   </query>
-  <!-- Define more queries here -->
 </queries>

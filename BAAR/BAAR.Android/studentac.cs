@@ -25,44 +25,41 @@ namespace BAAR.Droid
             SetContentView(Resource.Layout.student);
 
             var STID = Intent.Extras.GetString("StudentID");
-          //  TextView TID = FindViewById<TextView>(Resource.Id.stuID);
-           // TextView TName = FindViewById<TextView>(Resource.Id.stuName);
             string Splitter = @";";
             string[] STInfo = Regex.Split(STID, Splitter);
-           // TID.Text = STInfo[0];
-           // TName.Text = STInfo[1];
             Button EmailButton = FindViewById<Button>(Resource.Id.EmailButton);
             EmailButton.Click += (sender, e) =>
             {
                 SendEmail();
             };
             Button TicketButton = FindViewById<Button>(Resource.Id.AddTicket);
-     
 
-                MobileBarcodeScanner.Initialize(Application);
-                TicketButton.Click += async (sender, e) => {
 
-                    var scanner = new ZXing.Mobile.MobileBarcodeScanner();
-                    var result = await scanner.Scan();
+            MobileBarcodeScanner.Initialize(Application);
+            TicketButton.Click += async (sender, e) =>
+            {
 
-                    var NewScreen = new Intent(this, typeof(studentac));
-                    NewScreen.PutExtra("StudentID", result.Text);
-                    string[] Test =Regex.Split(result.Text,Splitter);
-                    CreateStudentTicket(Test[0],Test[1]);
+                var scanner = new ZXing.Mobile.MobileBarcodeScanner();
+                var result = await scanner.Scan();
+
+                var NewScreen = new Intent(this, typeof(studentac));
+                NewScreen.PutExtra("StudentID", result.Text);
+                string[] Test = Regex.Split(result.Text, Splitter);
+                CreateStudentTicket(Test[0], Test[1]);
             };
 
             CreateStudentTicket(STInfo[0], STInfo[1]);
 
         }
 
-        public void CreateStudentTicket(string Name,string Number)
+        public void CreateStudentTicket(string Name, string Number)
         {
 
             Spinner BehaviourSpinner = new Spinner(this);
-            var Behaviours = new List<string>() { "Showed Responsibility", "Showed Respect", "Demonstrated Initiative","Was Safe","Demonstrated Professionalism" };
+            var Behaviours = new List<string>() { "Showed Responsibility", "Showed Respect", "Demonstrated Initiative", "Was Safe", "Demonstrated Professionalism" };
             var Adapter = new ArrayAdapter(this, Android.Resource.Layout.SimpleSpinnerDropDownItem, Behaviours);
             BehaviourSpinner.Adapter = Adapter;
-  
+
 
             Spinner LocationSpinner = new Spinner(this);
             var Locations = new List<string>() { "E-Wing", "Commons", "Main Office" };
@@ -81,11 +78,11 @@ namespace BAAR.Droid
             BehaviourSpinner.Id = 6;
             LocationSpinner.Id = 8;
 
-            StudentIdNumber.Text = Name;//STInfo[0];
-            StudentName.Text = Number;// STInfo[1];
+            StudentIdNumber.Text = Name;
+            StudentName.Text = Number;
             LinearLayout MainLayout = FindViewById<LinearLayout>(Resource.Id.TicketHolder);
             RelativeLayout Test = new RelativeLayout(this);
-            Test.SetPadding(0,5,0,0);
+            Test.SetPadding(0, 5, 0, 0);
             MainLayout.AddView(Test);
 
             var param1 = new RelativeLayout.LayoutParams(200, 200);
