@@ -152,12 +152,6 @@
   <ItemGroup>
     <AndroidResource Include="Resources\values\theme.xml" />
   </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\layout\CustomSpinner.axml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\layout\SuperSpinner.xml" />
-  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

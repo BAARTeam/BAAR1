@@ -21,7 +21,9 @@ namespace BAAR.Droid
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
+            Window.RequestFeature(WindowFeatures.NoTitle);
             SetContentView(Resource.Layout.student);
+
             var STID = Intent.Extras.GetString("StudentID");
           //  TextView TID = FindViewById<TextView>(Resource.Id.stuID);
            // TextView TName = FindViewById<TextView>(Resource.Id.stuName);
@@ -132,8 +134,8 @@ ViewGroup.LayoutParams.WrapContent);
 
             //Console.Write("Sending Email");
             var Email = new Intent(Android.Content.Intent.ActionSend);
-            Email.PutExtra(Android.Content.Intent.ExtraBcc, new string[] { "dakotastickney@gmail.com", "soccersalinas18@gmail.com" });
-            Email.PutExtra(Android.Content.Intent.ExtraSubject, "Testing");
+            Email.PutExtra(Android.Content.Intent.ExtraBcc, new string[] { "dakotastickney@gmail.com"});
+            Email.PutExtra(Android.Content.Intent.ExtraSubject, "Testing " + DateTime.Today);
             Email.PutExtra(Android.Content.Intent.ExtraText, "Congratulations Your Kid has done something to grant you this email!");
             Email.SetType("message/rfc822");
             StartActivity(Email);

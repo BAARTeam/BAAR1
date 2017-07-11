@@ -19,6 +19,7 @@ namespace BAAR.Droid
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
+            Window.RequestFeature(WindowFeatures.NoTitle);
             SetContentView(Resource.Layout.Login);
 
             ImageButton button = FindViewById<ImageButton>(Resource.Id.DebugButton);
