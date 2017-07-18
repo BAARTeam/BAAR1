@@ -24,39 +24,41 @@ namespace BAAR.Droid
             SetContentView(Resource.Layout.Login);
 
             ImageButton button = FindViewById<ImageButton>(Resource.Id.DebugButton);
-            button.Click +=  (sender, e) => {
+            button.Click +=  (sender1, e) => {
                // var activity = this.BaseContext as Activity;
                 // Get our button from the layout resource,
                 // and attach an event to it
                 // var Test = new OAuth2Request("GET");
-                var authenticator = new OAuth2Authenticator(
-                      "679b09c5-2498-45e3-a6b4-929516a7d732",
-                      "read",
-                      new Uri("https://www.facebook.com"),
-                      new Uri("https://www.google.com"));
-                authenticator.Completed += (sender1, args) =>
-                {
                     Console.WriteLine("This is definately working!!");
+                UriBuilder Thing = new UriBuilder("172.21.123.196/public");
+                var authenticator = new OAuth2Authenticator(
+                      "1405657182805045",
+                      "read",
+                      Thing.Uri,
+                      new Uri("https://www.facebook.com/v2.9/dialog/oauth?client_id={1405657182805045}&redirect_uri={https://www.facebook.com/connect/login_success.html}"));
+
+                authenticator.Completed += (sender, args) =>
+                {
                     if (args.IsAuthenticated)
                     {
                         var account = args.Account;
-                        AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
-                        builder1.SetMessage(args.Account.Username);
-                        AlertDialog alert11 = builder1.Create();
-                        alert11.Show();
-                        Console.WriteLine(account.Username);
+                        Console.WriteLine("YOooooo");
+
                         // Do success work 
                     }
                     else
                     {
                         // The user cancelled 
-
+                        Console.WriteLine("YOooooo");
                     }
                 };
+                authenticator.OnError("Blasphemy");
                     Console.Write("This is definately Not Working");
                     this.StartActivity(authenticator.GetUI(this));
-              //  var NewScreen = new Intent(this, typeof(MainActivity));
-               // StartActivity(NewScreen);
+                //Intent Testing = new Intent(this, typeof(MainActivity));
+                //StartActivity(Testing);
+                //  var NewScreen = new Intent(this, typeof(MainActivity));
+                // StartActivity(NewScreen);
             };
 
         }
