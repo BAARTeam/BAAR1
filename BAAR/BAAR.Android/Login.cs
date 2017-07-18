@@ -32,11 +32,12 @@ namespace BAAR.Droid
                     Console.WriteLine("This is definately working!!");
                 UriBuilder Thing = new UriBuilder("172.21.123.196/public");
                 var authenticator = new OAuth2Authenticator(
-                      "1405657182805045",
+                      "679b09c5-2498-45e3-a6b4-929516a7d732",
                       "read",
                       Thing.Uri,
-                      new Uri("https://www.facebook.com/v2.9/dialog/oauth?client_id={1405657182805045}&redirect_uri={https://www.facebook.com/connect/login_success.html}"));
+                      new Uri("http://172.21.123.196/guardian/bulletin2.html"));
 
+             
                 authenticator.Completed += (sender, args) =>
                 {
                     if (args.IsAuthenticated)
