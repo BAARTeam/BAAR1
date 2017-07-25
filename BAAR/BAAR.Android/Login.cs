@@ -89,13 +89,11 @@ namespace BAAR.Droid
                             Console.Out.WriteLine("Response Body: \r\n {0}", content);
                         }
 
-                      AccessObject Test = (AccessObject)JsonConvert.DeserializeObject(content);
-                        Console.WriteLine("This is here " + Test);
+                      AccessObject Test = JsonConvert.DeserializeObject<AccessObject>(content);
+                        Console.WriteLine("This is here " + Test.AccessToken);
                     }
                 }
 
-                Intent Testing = new Intent(this, typeof(MainActivity));
-                StartActivity(Testing);
                   var NewScreen = new Intent(this, typeof(MainActivity));
                  StartActivity(NewScreen);
             };
@@ -106,8 +104,11 @@ namespace BAAR.Droid
 
     public class AccessObject
     {
+        [JsonProperty("access_token")]
         public string AccessToken;
+        [JsonProperty("token_type")]
         public string Bearer;
+        [JsonProperty("expires_in")]
         public string Expiration;
     }
 }
