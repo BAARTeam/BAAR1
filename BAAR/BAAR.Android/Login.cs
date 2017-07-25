@@ -16,6 +16,7 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Net;
 using System.IO;
+using Newtonsoft.Json;
 
 namespace BAAR.Droid
 {
@@ -72,9 +73,6 @@ namespace BAAR.Droid
                 request.Method = "POST";
                 request.Headers.Add(HttpRequestHeader.Authorization,"Basic MTM2ZDZmNzEtYTYzOS00Nzc1LWIxMjktNDMwNWE4YjA4ZDZkOjQzNDFmMjNmLTczZTEtNGI4ZS1iMzNjLTVhMWQ5MTkyZDczNQ==");
                 
-                
-                
-
                 using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
                 {
                     if (response.StatusCode != HttpStatusCode.OK)
@@ -91,7 +89,8 @@ namespace BAAR.Droid
                             Console.Out.WriteLine("Response Body: \r\n {0}", content);
                         }
 
-                        //Assert.NotNull(content);
+                      AccessObject Test = (AccessObject)JsonConvert.DeserializeObject(content);
+                        Console.WriteLine("This is here " + Test);
                     }
                 }
 
@@ -103,5 +102,12 @@ namespace BAAR.Droid
 
         }
 
+    }
+
+    public class AccessObject
+    {
+        public string AccessToken;
+        public string Bearer;
+        public string Expiration;
     }
 }
