@@ -29,20 +29,17 @@ namespace BAAR.Droid
             ImageButton button = FindViewById<ImageButton>(Resource.Id.scanButton);
             button.Click += async (sender, e) =>
             {
-
                 var scanner = new ZXing.Mobile.MobileBarcodeScanner();
                 var result = await scanner.Scan();
-
                 var NewScreen = new Intent(this, typeof(studentac));
                 NewScreen.PutExtra("StudentID", result.Text);
                 StartActivity(NewScreen);
             };
-
         }
 
         public static object MakeRequest(string RequestURL, string ContentType, string Method, string AuthHeader, bool ReturnAccessToken = false)
         {
-            var request = HttpWebRequest.Create(RequestURL);
+            HttpWebRequest request =(HttpWebRequest) HttpWebRequest.Create(RequestURL);
             request.ContentType = ContentType;
             request.Method = Method;
             request.Headers.Add(HttpRequestHeader.Authorization, AuthHeader);

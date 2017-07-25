@@ -57,12 +57,11 @@ namespace BAAR.Droid
                       Console.Write("This is definately Not Working");
                       this.StartActivity(authenticator.GetUI(this));*/
 
-
-                //var rxcui = "grant_type=client_credentials";
-                //youre trying to pass the body as seen above but cant figure out how to get it in the request.
-                //perhaps you need to just put in in the url
-
                 AccessObject Test = (AccessObject)MainActivity.MakeRequest(string.Format(@"http://172.21.123.196/oauth/access_token?grant_type=client_credentials"), "application/x-www-form-urlencoded;charset=UTF-8", "POST", "Basic MTM2ZDZmNzEtYTYzOS00Nzc1LWIxMjktNDMwNWE4YjA4ZDZkOjQzNDFmMjNmLTczZTEtNGI4ZS1iMzNjLTVhMWQ5MTkyZDczNQ==", true);
+                //Save Accoun that will eventually be givn from Oauth2 Authenticator
+                Account NewAccount = new Account("Dakota");
+                NewAccount.Properties.Add("AccessToken","123494949");
+                AccountStore.Create().Save(NewAccount,"1");
 
                 Console.WriteLine("Testing" + Test.AccessToken);
                 var NewScreen = new Intent(this, typeof(MainActivity));
