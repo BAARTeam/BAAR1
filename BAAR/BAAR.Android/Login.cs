@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
 using Android.Content.PM;
 using Android.App;
 using Android.Content;
@@ -11,9 +7,6 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Xamarin.Auth;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Threading.Tasks;
 using System.Net;
 using System.IO;
 using Newtonsoft.Json;
@@ -30,7 +23,8 @@ namespace BAAR.Droid
             SetContentView(Resource.Layout.Login);
 
             ImageButton button = FindViewById<ImageButton>(Resource.Id.DebugButton);
-            button.Click +=  (sender1, e) => {
+            button.Click += (sender1, e) =>
+            {
                 /* // var activity = this.BaseContext as Activity;
                   // Get our button from the layout resource,
                   // and attach an event to it
@@ -68,40 +62,49 @@ namespace BAAR.Droid
                 //youre trying to pass the body as seen above but cant figure out how to get it in the request.
                 //perhaps you need to just put in in the url
 
-                var request = HttpWebRequest.Create(string.Format(@"http://172.21.123.196/oauth/access_token?{0}", "grant_type=client_credentials"));
-                request.ContentType = "application/x-www-form-urlencoded;charset=UTF-8";
-                request.Method = "POST";
-                request.Headers.Add(HttpRequestHeader.Authorization,"Basic MTM2ZDZmNzEtYTYzOS00Nzc1LWIxMjktNDMwNWE4YjA4ZDZkOjQzNDFmMjNmLTczZTEtNGI4ZS1iMzNjLTVhMWQ5MTkyZDczNQ==");
-                
-                using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
-                {
-                    if (response.StatusCode != HttpStatusCode.OK)
-                        Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
-                    using (StreamReader reader = new StreamReader(response.GetResponseStream()))
-                    {
-                        var content = reader.ReadToEnd();
-                        if (string.IsNullOrWhiteSpace(content))
-                        {
-                            Console.Out.WriteLine("Response contained empty body...");
-                        }
-                        else
-                        {
-                            Console.Out.WriteLine("Response Body: \r\n {0}", content);
-                        }
+                MakeRequest(string.Format(@"http://172.21.123.196/oauth/access_token?{0}", "grant_type=client_credentials"), "application/x-www-form-urlencoded;charset=UTF-8", "POST", "Basic MTM2ZDZmNzEtYTYzOS00Nzc1LWIxMjktNDMwNWE4YjA4ZDZkOjQzNDFmMjNmLTczZTEtNGI4ZS1iMzNjLTVhMWQ5MTkyZDczNQ==",true);
 
-                      AccessObject Test = JsonConvert.DeserializeObject<AccessObject>(content);
-                        Console.WriteLine("This is here " + Test.AccessToken);
-                    }
-                }
-
-                  var NewScreen = new Intent(this, typeof(MainActivity));
-                 StartActivity(NewScreen);
+                var NewScreen = new Intent(this, typeof(MainActivity));
+                StartActivity(NewScreen);
             };
 
         }
 
+        public object MakeRequest(string RequestURL,string ContentType,string Method,string AuthHeader,bool ReturnAccessToken = false)
+        {
+            var request = HttpWebRequest.Create(RequestURL);
+            request.ContentType = ContentType;
+            request.Method = Method;
+            request.Headers.Add(HttpRequestHeader.Authorization, AuthHeader);
+
+            using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+            {
+                if (response.StatusCode != HttpStatusCode.OK)
+                    Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
+                using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                {
+                    var content = reader.ReadToEnd();
+                    if (string.IsNullOrWhiteSpace(content))
+                    {
+                        Console.Out.WriteLine("Response contained empty body...");
+                    }
+                    else
+                    {
+                        Console.Out.WriteLine("Response Body: \r\n {0}", content);
+                    }
+
+                    if (ReturnAccessToken)
+                    {
+                        AccessObject Token = JsonConvert.DeserializeObject<AccessObject>(content);
+                        return Token;
+                    }
+                    return response;
+                }
+            }
+        }
     }
 
+    
     public class AccessObject
     {
         [JsonProperty("access_token")]
