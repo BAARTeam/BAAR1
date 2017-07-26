@@ -24,32 +24,30 @@ namespace BAAR.Droid
             Window.RequestFeature(WindowFeatures.NoTitle);
             SetContentView(Resource.Layout.student);
 
-            var STID = Intent.Extras.GetString("StudentID");
+            var StudentID = Intent.Extras.GetString("StudentID");
             string Splitter = @";";
-            string[] STInfo = Regex.Split(STID, Splitter);
+            string[] STInfo = Regex.Split(StudentID, Splitter);
             Button EmailButton = FindViewById<Button>(Resource.Id.EmailButton);
             EmailButton.Click += (sender, e) =>
             {
                 SendEmail();
             };
-            Button TicketButton = FindViewById<Button>(Resource.Id.AddTicket);
 
+            Button TicketButton = FindViewById<Button>(Resource.Id.AddTicket);
 
             MobileBarcodeScanner.Initialize(Application);
             TicketButton.Click += async (sender, e) =>
             {
-
                 var scanner = new ZXing.Mobile.MobileBarcodeScanner();
                 var result = await scanner.Scan();
 
                 var NewScreen = new Intent(this, typeof(studentac));
                 NewScreen.PutExtra("StudentID", result.Text);
-                string[] Test = Regex.Split(result.Text, Splitter);
-                CreateStudentTicket(Test[0], Test[1]);
+                string[] StudentInformation = Regex.Split(result.Text, Splitter);
+                CreateStudentTicket(StudentInformation[0], StudentInformation[1]);
             };
 
             CreateStudentTicket(STInfo[0], STInfo[1]);
-
         }
 
         public void CreateStudentTicket(string Name, string Number)
@@ -81,55 +79,39 @@ namespace BAAR.Droid
             StudentIdNumber.Text = Name;
             StudentName.Text = Number;
             LinearLayout MainLayout = FindViewById<LinearLayout>(Resource.Id.TicketHolder);
-            RelativeLayout Test = new RelativeLayout(this);
-            Test.SetPadding(0, 5, 0, 0);
-            MainLayout.AddView(Test);
+            RelativeLayout RelLayout = new RelativeLayout(this);
+            RelLayout.SetPadding(0, 5, 0, 0);
+            MainLayout.AddView(RelLayout);
 
-            var param1 = new RelativeLayout.LayoutParams(200, 200);
-            param1.AddRule(LayoutRules.AlignParentLeft);
-            Test.AddView(StudentImage, param1);
+            var StudentImageParam = new RelativeLayout.LayoutParams(200, 200);
+            StudentImageParam.AddRule(LayoutRules.AlignParentLeft);
+            RelLayout.AddView(StudentImage, StudentImageParam);
 
-            var param = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent,
+            var StudentNameParam = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent,
     ViewGroup.LayoutParams.WrapContent);
-            param.AddRule(LayoutRules.RightOf, StudentImage.Id);
-            Test.AddView(StudentName, param);
-            var param2 = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent,
+            StudentNameParam.AddRule(LayoutRules.RightOf, StudentImage.Id);
+            RelLayout.AddView(StudentName, StudentNameParam);
+
+            var StudentIDNumber = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent,
     ViewGroup.LayoutParams.WrapContent);
-            param2.AddRule(LayoutRules.RightOf, StudentImage.Id);
-            param2.AddRule(LayoutRules.Below, StudentName.Id);
-            Test.AddView(StudentIdNumber, param2);
+            StudentIDNumber.AddRule(LayoutRules.RightOf, StudentImage.Id);
+            StudentIDNumber.AddRule(LayoutRules.Below, StudentName.Id);
+            RelLayout.AddView(StudentIdNumber, StudentIDNumber);
 
-            var param3 = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent,
+            var BehaviourParam = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent,
 ViewGroup.LayoutParams.WrapContent);
-            param3.AddRule(LayoutRules.Below, StudentIdNumber.Id);
-            Test.AddView(BehaviourSpinner, param3);
+            BehaviourParam.AddRule(LayoutRules.Below, StudentIdNumber.Id);
+            RelLayout.AddView(BehaviourSpinner, BehaviourParam);
 
 
-            var param4 = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent,
+            var LocationParam = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent,
 ViewGroup.LayoutParams.WrapContent);
-            param4.AddRule(LayoutRules.Below, BehaviourSpinner.Id);
-            Test.AddView(LocationSpinner, param4);
+            LocationParam.AddRule(LayoutRules.Below, BehaviourSpinner.Id);
+            RelLayout.AddView(LocationSpinner, LocationParam);
         }
 
         private void SendEmail()
         {
-            //MailMessage message = new System.Net.Mail.MailMessage();
-            //string toEmail = "dakotastickney@gmail.com";
-            //message.From = new MailAddress("dakotastickney@gmail.com");
-            //message.To.Add(toEmail);
-            //message.Subject = "Test Email";
-            //message.Body = "Congratulations Your Kid has done something to grant you this email!";
-            //message.DeliveryNotificationOptions = DeliveryNotificationOptions.OnFailure;
-
-            //using (var Client = new SmtpClient("smtp.gmail.com",587))
-            //{
-            //    // Client.SmtpServer = "MyMailServer";
-            //    Client.EnableSsl = true;
-            //    Client.UseDefaultCredentials = true;
-            //    Client.Send(message);
-            //}
-
-            //Console.Write("Sending Email");
             var Email = new Intent(Android.Content.Intent.ActionSend);
             Email.PutExtra(Android.Content.Intent.ExtraBcc, new string[] { "dakotastickney@gmail.com"});
             Email.PutExtra(Android.Content.Intent.ExtraSubject, "Testing " + DateTime.Today);
