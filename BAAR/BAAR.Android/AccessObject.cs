@@ -1,7 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace BAAR.Droid
-{
+
     public class AccessObject
     {
         [JsonProperty("access_token")]
@@ -11,4 +10,3 @@ namespace BAAR.Droid
         [JsonProperty("expires_in")]
         public string Expiration;
     }
-}
