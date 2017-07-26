@@ -113,7 +113,7 @@ ViewGroup.LayoutParams.WrapContent);
         private void SendEmail()
         {
             var Email = new Intent(Android.Content.Intent.ActionSend);
-            Email.PutExtra(Android.Content.Intent.ExtraBcc, new string[] { "dakotastickney@gmail.com"});
+            Email.PutExtra(Android.Content.Intent.ExtraBcc, new string[] { "parent_guardian@gmail.com"});
             Email.PutExtra(Android.Content.Intent.ExtraSubject, "Testing " + DateTime.Today);
             Email.PutExtra(Android.Content.Intent.ExtraText, "Congratulations Your Kid has done something to grant you this email!");
             Email.SetType("message/rfc822");
