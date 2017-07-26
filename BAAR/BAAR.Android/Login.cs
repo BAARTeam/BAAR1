@@ -69,10 +69,42 @@ namespace BAAR.Droid
                 //string blah = "{\"scannedbarcode\": 12000}";
                 //Console.WriteLine("THIS IS THE THING" + "http://172.21.123.196/ws/schema/query/pqtest?" + blah);
                 //int scannedbarcode = 12000;
-                
-                        
+                HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create("http://172.21.123.196/ws/schema/query/pqtest?");
+                request.Method = "POST";
+                request.ContentType = "application/json";
+                request.Headers.Add(HttpRequestHeader.Authorization, string.Format("Bearer {0}", Test.AccessToken));
+                request.Accept = "application/json";
 
-                        Console.WriteLine("Testing" + Test.AccessToken);
+
+                using (var streamWriter = new StreamWriter(request.GetRequestStream()))
+                {
+                    string json = "{\"scannedbarcode\": 12000}";
+
+                    streamWriter.Write(json);
+                    streamWriter.Flush();
+                    streamWriter.Close();
+                }
+
+                using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+                {
+                    if (response.StatusCode != HttpStatusCode.OK)
+                        Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
+                    using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                    {
+                        var content = reader.ReadToEnd();
+                        if (string.IsNullOrWhiteSpace(content))
+                        {
+                            Console.Out.WriteLine("Response contained empty body...");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Info Body: \r\n {0}", content);
+                        }
+                    }
+                }
+
+
+                Console.WriteLine("Testing" + Test.AccessToken);
                 var NewScreen = new Intent(this, typeof(MainActivity));
                 StartActivity(NewScreen);
             };
