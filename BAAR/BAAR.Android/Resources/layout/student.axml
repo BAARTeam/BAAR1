@@ -17,9 +17,15 @@
         android:id="@+id/stuName"
         android:gravity="center"
         android:textAlignment="gravity" />
-    <EditText
-        android:inputType="time"
+    <Button
+        android:text="Open Side Menu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/editText1" />
+        android:id="@+id/OpenMenu_Button" />
+    <android.support.v4.widget.SlidingPaneLayout
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/slidingPaneLayout1" />
 </LinearLayout>

@@ -12,7 +12,7 @@ using Android.Widget;
 
 namespace BAAR.Droid
 {
-    [Activity(Label = "student",ScreenOrientation = ScreenOrientation.Portrait)]
+    [Activity(Label = "student", ScreenOrientation = ScreenOrientation.Portrait)]
     public class studentac : Activity
     {
         protected override void OnCreate(Bundle savedInstanceState)
@@ -21,9 +21,17 @@ namespace BAAR.Droid
             SetContentView(Resource.Layout.student);
             var STID = Intent.Extras.GetString("StudentID");
             TextView tev = FindViewById<TextView>(Resource.Id.stuName);
-            tev.Text = STID; 
-            
+            tev.Text = STID;
             // Create your application here
+
+            ImageButton MenuButton = FindViewById<ImageButton>(Resource.Id.OpenMenu_Button);
+            MenuButton.Click += (sender, e) =>
+            {
+            };
+        }
+        public void OpenMenuClick()
+        {
+
         }
     }
 }
