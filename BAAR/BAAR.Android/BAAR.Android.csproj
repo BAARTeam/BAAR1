@@ -118,6 +118,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AccessTokenObjectt.cs" />
     <Compile Include="Laurie\Logintry.cs" />
     <Compile Include="Laurie\URLSchemeInterceptor.cs" />
     <Compile Include="Login.cs" />
