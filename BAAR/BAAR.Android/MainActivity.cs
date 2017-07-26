@@ -59,7 +59,7 @@ namespace BAAR.Droid
                     {
                         Console.Out.WriteLine("Response Body: \r\n {0}", content);
                     }
-
+                      
                     if (ReturnAccessToken)
                     {
                         AccessObject Token = JsonConvert.DeserializeObject<AccessObject>(content);
