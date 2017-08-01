@@ -27,13 +27,13 @@ namespace BAAR.Droid
             SetContentView(Resource.Layout.Main);
             MobileBarcodeScanner.Initialize(Application);
             ImageButton button = FindViewById<ImageButton>(Resource.Id.scanButton);
-                            //async
-            button.Click +=  (sender, e) =>
-            {
-           //     var scanner = new ZXing.Mobile.MobileBarcodeScanner();
-            //    var result = await scanner.Scan();
-                var NewScreen = new Intent(this, typeof(studentac));
-                StartActivity(NewScreen);
+            //async
+            button.Click += (sender, e) =>
+           {
+               //     var scanner = new ZXing.Mobile.MobileBarcodeScanner();
+               //    var result = await scanner.Scan();
+               var NewScreen = new Intent(this, typeof(studentac));
+               StartActivity(NewScreen);
 
                /* HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create("http://172.21.123.196/ws/schema/query/pqtest?");
                 request.Method = "POST";
@@ -80,12 +80,12 @@ namespace BAAR.Droid
                     }
                 }
                 StartActivity(NewScreen); */
-            };
+           };
         }
 
         public static object MakeRequest(string RequestURL, string ContentType, string Method, string AuthHeader, bool ReturnAccessToken = false)
         {
-            HttpWebRequest request =(HttpWebRequest) HttpWebRequest.Create(RequestURL);
+            HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(RequestURL);
             request.ContentType = ContentType;
             request.Method = Method;
             request.Headers.Add(HttpRequestHeader.Authorization, AuthHeader);
@@ -105,13 +105,54 @@ namespace BAAR.Droid
                     {
                         Console.Out.WriteLine("Response Body: \r\n {0}", content);
                     }
-                      
+
                     if (ReturnAccessToken)
                     {
                         AccessObject Token = JsonConvert.DeserializeObject<AccessObject>(content);
                         return Token;
                     }
                     return response;
+                }
+            }
+        }
+        public static object MakeRequest2(string Result)
+        {
+            HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create("http://172.21.123.196/ws/schema/query/pqtest?");
+            request.Method = "POST";
+            request.ContentType = "application/json";
+            request.Headers.Add(HttpRequestHeader.Authorization, string.Format("Bearer {0}", Login.Test.AccessToken));
+            request.Accept = "application/json";
+
+
+            using (var streamWriter = new StreamWriter(request.GetRequestStream()))
+            {
+                //FIx this mess
+                int THing = Convert.ToInt16(Result.ToString());
+                JsonPayload New = new JsonPayload();
+                New.Number = THing;
+                string Tests = (string)JsonConvert.SerializeObject(New);
+
+                streamWriter.Write(Tests);
+                streamWriter.Flush();
+                streamWriter.Close();
+            }
+
+            using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+            {
+                if (response.StatusCode != HttpStatusCode.OK)
+                    Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
+                using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                {
+                    var content = reader.ReadToEnd();
+                    if (string.IsNullOrWhiteSpace(content))
+                    {
+                        Console.Out.WriteLine("Response contained empty body...");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Info Body: \r\n {0}", content);
+                    }
+                    return content;
                 }
             }
         }

@@ -34,11 +34,10 @@ namespace BAAR.Droid
 
             var scanner = new ZXing.Mobile.MobileBarcodeScanner();
             var result =  scanner.Scan();
+            string Contra =(string) MainActivity.MakeRequest2(result.ToString());
 
-            // var StudentID = Intent.Extras.GetString("StudentName");
-            CreateStudentTicket(result.ToString(), "Test");//Intent.Extras.GetString("StudentID"));
-            /*string Splitter = @";";
-            string[] STInfo = Regex.Split(StudentID, Splitter);*/
+            CreateStudentTicket(Contra, "Test");
+               
             Button EmailButton = FindViewById<Button>(Resource.Id.EmailButton);
             EmailButton.Click += (sender, e) =>
             {
