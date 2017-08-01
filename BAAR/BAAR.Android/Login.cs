@@ -27,8 +27,7 @@ namespace BAAR.Droid
             button.Click += (sender1, e) =>
             {
 
-               Test = (AccessObject)MainActivity.MakeRequest(string.Format(@"http://172.21.123.196/oauth/access_token?grant_type=client_credentials"), "application/x-www-form-urlencoded;charset=UTF-8", "POST", "Basic M2VmOGZlMWQtNmVhNC00N2ZlLTljMDItN2VmYWUzMGEwOGJkOjdmZWVmZGZkLTA1MzEtNGI1NC04NGQ5LTMzY2UwZDc3NTAxYw==", true);
-                //
+                Test = (AccessObject)MainActivity.MakeRequest(string.Format(@"http://172.21.123.196/oauth/access_token?grant_type=client_credentials"), "application/x-www-form-urlencoded;charset=UTF-8", "POST", "Basic M2VmOGZlMWQtNmVhNC00N2ZlLTljMDItN2VmYWUzMGEwOGJkOjdmZWVmZGZkLTA1MzEtNGI1NC04NGQ5LTMzY2UwZDc3NTAxYw==", true);
 
                 HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create("http://172.21.123.196/ws/schema/query/pqgemail");
                 request.Method = "POST";
@@ -68,10 +67,9 @@ namespace BAAR.Droid
                         Console.WriteLine("email here " + content);
                     }
                 }
-                        //
-                        /*Console.WriteLine("Testing" + Test.AccessToken);
+
                 var NewScreen = new Intent(this, typeof(MainActivity));
-                StartActivity(NewScreen);*/
+                StartActivity(NewScreen);
             };
         }
     }

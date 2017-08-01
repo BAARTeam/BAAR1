@@ -20,102 +20,102 @@ namespace BAAR.Droid
     [Activity(Label = "student",ScreenOrientation = ScreenOrientation.Portrait)]
     public class studentac : Activity
     {
+        public Dictionary<int,Tuple<Spinner,Spinner>> LayoutSpinner = new Dictionary<int, Tuple<Spinner, Spinner>>();
         public string studentname;
+        public string EmailName;
+        public string EmailLocation;
+        public string EmailBehaviour;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
             Window.RequestFeature(WindowFeatures.NoTitle);
             SetContentView(Resource.Layout.student);
+            MobileBarcodeScanner.Initialize(Application);
 
+            var scanner = new ZXing.Mobile.MobileBarcodeScanner();
+            var result =  scanner.Scan();
 
-
-
-
-            var StudentID = Intent.Extras.GetString("StudentID");
+            // var StudentID = Intent.Extras.GetString("StudentName");
+            CreateStudentTicket(result.ToString(), "Test");//Intent.Extras.GetString("StudentID"));
             /*string Splitter = @";";
             string[] STInfo = Regex.Split(StudentID, Splitter);*/
             Button EmailButton = FindViewById<Button>(Resource.Id.EmailButton);
             EmailButton.Click += (sender, e) =>
             {
-                SendEmail();
+                EmailBehaviour = LayoutSpinner[0].Item1.SelectedItem.ToString();
+                EmailLocation = LayoutSpinner[0].Item2.SelectedItem.ToString();
+                SendEmail(ref EmailName, ref EmailLocation, ref EmailBehaviour);
             };
 
             Button TicketButton = FindViewById<Button>(Resource.Id.AddTicket);
 
-            MobileBarcodeScanner.Initialize(Application);
+
             TicketButton.Click += async (sender, e) =>
             {
-                var scanner = new ZXing.Mobile.MobileBarcodeScanner();
-                var result = await scanner.Scan();
-
-            /*
-            { 
-            "name":"students",
-            "record":[
-                { 
-                "name":"students",
-                "tables":
-                    { "students":
-                        { "lastfirst":"Schroyer, Daniel R"}
-                    } 
-                }
-            ],
-            "@extensions":"activities,u_alerts,u_lea,s_mi_stu_gc_x,u_sped,u_health,c_studentlocator,u_studentsuserfields,u_wbl,u_section504,u_equipment,studentcorefields,u_students_extension,s_stu_ncea_x,s_stu_crdc_x,s_mi_stu_crdc_x,s_mi_stu_assess_x,u_intake"
-            }
-
-
-            */
-        HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create("http://172.21.123.196/ws/schema/query/pqtest?");
-                request.Method = "POST";
-                request.ContentType = "application/json";
-                request.Headers.Add(HttpRequestHeader.Authorization, string.Format("Bearer {0}", Login.Test.AccessToken));
-                request.Accept = "application/json";
-
-
-                using (var streamWriter = new StreamWriter(request.GetRequestStream()))
+                try
                 {
-                    string json = "{\"scannedbarcode\": 12000}";
+                    var scanner1 = new ZXing.Mobile.MobileBarcodeScanner();
+                    var result1 = await scanner.Scan();
 
-                    streamWriter.Write(json);
-                    streamWriter.Flush();
-                    streamWriter.Close();
-                }
+                    HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create("http://172.21.123.196/ws/schema/query/pqtest?");
+                    request.Method = "POST";
+                    request.ContentType = "application/json";
+                    request.Headers.Add(HttpRequestHeader.Authorization, string.Format("Bearer {0}", Login.Test.AccessToken));
+                    request.Accept = "application/json";
 
-                using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
-                {
-                    if (response.StatusCode != HttpStatusCode.OK)
-                        Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
-                    using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+
+                    using (var streamWriter = new StreamWriter(request.GetRequestStream()))
                     {
-                        var content = reader.ReadToEnd();
-                        if (string.IsNullOrWhiteSpace(content))
-                        {
-                            Console.Out.WriteLine("Response contained empty body...");
-                        }
-                        else
-                        {
-                            Console.WriteLine("Info Body: \r\n {0}", content);
-                        }
-                        content = content.Substring(content.IndexOf("lastfirst"));
-                        content = content.Substring(content.IndexOf(":") + 2);
-                        content = content.Remove(content.IndexOf('"'));
-                        Console.WriteLine("CHECK " + content);
-                        studentname = content;
+                        //FIx this mess
+                        int THing = Convert.ToInt16(result1.ToString());
+                        JsonPayload New = new JsonPayload();
+                        New.Number = THing;
+                        string Tests = (string)JsonConvert.SerializeObject(New);
+
+                        streamWriter.Write(Tests);
+                        streamWriter.Flush();
+                        streamWriter.Close();
                     }
+
+                    using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+                    {
+                        if (response.StatusCode != HttpStatusCode.OK)
+                            Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
+                        using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                        {
+                            var content = reader.ReadToEnd();
+                            if (string.IsNullOrWhiteSpace(content))
+                            {
+                                Console.Out.WriteLine("Response contained empty body...");
+                            }
+                            else
+                            {
+                                Console.WriteLine("Info Body: \r\n {0}", content);
+                            }
+                            content = content.Substring(content.IndexOf("lastfirst"));
+                            content = content.Substring(content.IndexOf(":") + 2);
+                            content = content.Remove(content.IndexOf('"'));
+                            Console.WriteLine("CHECK " + content);
+                            studentname = content;
+                        }
+                    }
+
+                    string[] SplitName = studentname.Split(',');
+                    string[] SpaceSplit = SplitName[1].Split(' ');
+                    Console.WriteLine("Give me potato Salad " + SpaceSplit[0] + "  " + SpaceSplit[1]);
+                    EmailName = SpaceSplit[1];
+             
+                    var NewScreen = new Intent(this, typeof(studentac));
+                    CreateStudentTicket(studentname, result1.ToString());
                 }
-
-                
-
-                var NewScreen = new Intent(this, typeof(studentac));
-                ;
-                /*string[] StudentInformation = Regex.Split(result.Text, Splitter);*/
-                CreateStudentTicket(studentname, Convert.ToString(NewScreen.PutExtra("StudentID", result.Text)));
+                catch
+                {
+                    Console.WriteLine("Woah Something Went Wrong When Scanning Barcode either that is not a valid barcode or there is no connection.");
+                }
             };
-
-            
         }
 
-        public void CreateStudentTicket(string Name, string Number)
+        public void CreateStudentTicket(string Number, string Name)
         {
 
             Spinner BehaviourSpinner = new Spinner(this);
@@ -168,22 +168,28 @@ ViewGroup.LayoutParams.WrapContent);
             BehaviourParam.AddRule(LayoutRules.Below, StudentIdNumber.Id);
             RelLayout.AddView(BehaviourSpinner, BehaviourParam);
 
-
             var LocationParam = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent,
 ViewGroup.LayoutParams.WrapContent);
             LocationParam.AddRule(LayoutRules.Below, BehaviourSpinner.Id);
             RelLayout.AddView(LocationSpinner, LocationParam);
+            LayoutSpinner.Add(0,new Tuple<Spinner,Spinner>(BehaviourSpinner,LocationSpinner));
         }
 
-        private void SendEmail()
+        private void SendEmail(ref string Name,ref string Location,ref string Behaviours)
         {
             var Email = new Intent(Android.Content.Intent.ActionSend);
-            Email.PutExtra(Android.Content.Intent.ExtraBcc, new string[] { "parent_guardian@gmail.com"});
-            Email.PutExtra(Android.Content.Intent.ExtraSubject, "Testing " + DateTime.Today);
-            Email.PutExtra(Android.Content.Intent.ExtraText, "Congratulations Your Kid has done something to grant you this email!");
+            Email.PutExtra(Android.Content.Intent.ExtraEmail, new string[] { "dakotastickney@gmail.com"});
+            Email.PutExtra(Android.Content.Intent.ExtraSubject, "“" + Name +" was positively recognized today at Kent ISD!”");
+            Email.PutExtra(Android.Content.Intent.ExtraText, "“A staff member at Kent ISD secondary campus schools recognized "+Name +" for "+Behaviours+" in the "+Location+" today!” \n “This recognition comes with our campus initiative, “Going Pro at Kent ISD”, which is preparing students to be college and career ready by focusing on positive behaviors.\n Be professional.Be Respectful.Be Responsible.Demonstrate Initiative.Be Safe.” \n “Please make sure to congratulate "+Name+" tonight!”");
             Email.SetType("message/rfc822");
             StartActivity(Email);
         }
+    }
+
+    public class JsonPayload
+    {
+        [JsonProperty("scannedbarcode")]
+       public int Number;
     }
 
     public class Test {
@@ -197,5 +203,4 @@ ViewGroup.LayoutParams.WrapContent);
         [JsonProperty("lastfirst")]
         public string Name;
     }
-
 }
