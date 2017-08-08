@@ -9,11 +9,12 @@ using Android.Widget;
 using System.Net;
 using System.IO;
 using Newtonsoft.Json;
+using Xamarin.Auth;
 using System.Json;
 
 namespace BAAR.Droid
 {
-    [Activity(Label = "GoingPro", MainLauncher = true, Icon = "@drawable/icon", ScreenOrientation = ScreenOrientation.Portrait)]
+    [Activity(Label = "High Five", MainLauncher = true, Icon = "@drawable/icon", ScreenOrientation = ScreenOrientation.Portrait)]
     public class Login : Activity
     {
         public static AccessObject Test;

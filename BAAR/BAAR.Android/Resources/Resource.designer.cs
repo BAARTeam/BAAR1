@@ -72,11 +72,14 @@ namespace BAAR.Droid
 		public partial class Color
 		{
 			
-			// aapt resource value: 0x7f060000
-			public const int theme_custom2_background = 2131099648;
-			
 			// aapt resource value: 0x7f060001
-			public const int theme_devicedefault_background = 2131099649;
+			public const int theme_custom2_background = 2131099649;
+			
+			// aapt resource value: 0x7f060000
+			public const int theme_custom3_background = 2131099648;
+			
+			// aapt resource value: 0x7f060002
+			public const int theme_devicedefault_background = 2131099650;
 			
 			static Color()
 			{
@@ -229,6 +232,9 @@ namespace BAAR.Droid
 			
 			// aapt resource value: 0x7f070002
 			public const int Theme_Custom2 = 2131165186;
+			
+			// aapt resource value: 0x7f070003
+			public const int Theme_Custom3 = 2131165187;
 			
 			static Style()
 			{
