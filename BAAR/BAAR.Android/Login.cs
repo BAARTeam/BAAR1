@@ -28,9 +28,9 @@ namespace BAAR.Droid
             button.Click += (sender1, e) =>
             {
 
-                Test = (AccessObject)MainActivity.MakeRequest(string.Format(@"http://172.21.123.196/oauth/access_token?grant_type=client_credentials"), "application/x-www-form-urlencoded;charset=UTF-8", "POST", "Basic M2VmOGZlMWQtNmVhNC00N2ZlLTljMDItN2VmYWUzMGEwOGJkOjdmZWVmZGZkLTA1MzEtNGI1NC04NGQ5LTMzY2UwZDc3NTAxYw==", true);
+                Test = (AccessObject)MainActivity.MakeRequest(string.Format(@"http://" + Resource.String.IP + "/oauth/access_token?grant_type=client_credentials"), "application/x-www-form-urlencoded;charset=UTF-8", "POST", "Basic M2VmOGZlMWQtNmVhNC00N2ZlLTljMDItN2VmYWUzMGEwOGJkOjdmZWVmZGZkLTA1MzEtNGI1NC04NGQ5LTMzY2UwZDc3NTAxYw==", true);
 
-                HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create("http://172.21.123.196/ws/schema/query/pqgemail");
+                HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create("http://" + Resource.String.IP + "/ws/schema/query/pqgemail");
                 request.Method = "POST";
                 request.ContentType = "application/json";
                 request.Headers.Add(HttpRequestHeader.Authorization, string.Format("Bearer {0}", Login.Test.AccessToken));
@@ -39,7 +39,7 @@ namespace BAAR.Droid
 
                 using (var streamWriter = new StreamWriter(request.GetRequestStream()))
                 {
-                    string json = "{\"scannedbarcode\": 12000}";
+                    string json = "{\"scannedbarcode\": 12005}";
 
                     streamWriter.Write(json);
                     streamWriter.Flush();
@@ -62,9 +62,14 @@ namespace BAAR.Droid
                             Console.WriteLine("Info Body: \r\n {0}", content);
                         }
                         content = content.Substring(content.IndexOf("guardianemail"));
+                        Console.WriteLine(content);
                         content = content.Substring(content.IndexOf(":") + 2);
-                        content = content.Remove(content.IndexOf('"'));
+                        Console.WriteLine(content);
+                        
+                        Console.WriteLine(content);
                         content = content.Remove(content.IndexOf('}'));
+                        content = content.Remove(content.IndexOf('"'));
+
                         Console.WriteLine("email here " + content);
                     }
                 }

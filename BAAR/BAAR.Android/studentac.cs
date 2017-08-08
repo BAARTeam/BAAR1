@@ -13,6 +13,7 @@ using Android.Widget;
 using System.Net;
 using System.IO;
 using Newtonsoft.Json;
+using System.Net.Mail;
 using ZXing.Mobile;
 
 namespace BAAR.Droid
@@ -54,9 +55,14 @@ namespace BAAR.Droid
                    string EmailBehaviour = LayoutSpinner[i + 1].Item1.SelectedItem.ToString();
                    string EmailLocation = LayoutSpinner[i + 1].Item2.SelectedItem.ToString();
                    string EmailName = EmailNames[i];
-                   SendEmail( EmailName,  EmailLocation,  EmailBehaviour);
-                   Console.WriteLine(i);
+                   BackgroundEmail(EmailName,EmailLocation,EmailBehaviour);
+                  // SendEmail( EmailName,  EmailLocation,  EmailBehaviour);
+                  // Console.WriteLine(i);
                 }
+                Toast.MakeText(this, "Email Sent", ToastLength.Long).Show();
+
+                Intent MainPage = new Intent(this,typeof(MainActivity));
+                StartActivity(MainPage);
             };
 
             Button TicketButton = FindViewById<Button>(Resource.Id.AddTicket);
@@ -69,7 +75,7 @@ namespace BAAR.Droid
                     var scanner1 = new ZXing.Mobile.MobileBarcodeScanner();
                     var result1 = await scanner.Scan();
 
-                    HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create("http://172.21.123.196/ws/schema/query/pqtest?");
+                    HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create("http://"+ Resource.String.IP + "/ws/schema/query/pqtest?");
                     request.Method = "POST";
                     request.ContentType = "application/json";
                     request.Headers.Add(HttpRequestHeader.Authorization, string.Format("Bearer {0}", Login.Test.AccessToken));
@@ -189,12 +195,41 @@ ViewGroup.LayoutParams.WrapContent);
         {
             var Email = new Intent(Android.Content.Intent.ActionSend);
             Email.AddFlags(ActivityFlags.ReorderToFront);
+            //Email.PutExtra(Android.Content.Intent.);
             Email.PutExtra(Android.Content.Intent.ExtraEmail, new string[] { "dakotastickney@gmail.com"});
             Email.PutExtra(Android.Content.Intent.ExtraSubject, "“" + Name +" was positively recognized today at Kent ISD!”");
             Email.PutExtra(Android.Content.Intent.ExtraText, "“A staff member at Kent ISD secondary campus schools recognized "+Name +" for "+Behaviours+" in the "+Location+" today!” \n “This recognition comes with our campus initiative, “Going Pro at Kent ISD”, which is preparing students to be college and career ready by focusing on positive behaviors.\n Be professional.Be Respectful.Be Responsible.Demonstrate Initiative.Be Safe.” \n “Please make sure to congratulate "+Name+" tonight!”");
             Email.SetType("message/rfc822");
             StartActivity(Email);
         }
+
+        public void BackgroundEmail(string Name, string Location, string Behaviours)
+        {
+            var fromAddress = new MailAddress("dakotastickney@gmail.com", "Going Pro");
+            var toAddress = new MailAddress("soccersalinas18@gmail.com", "Jacoby");
+            const string fromPassword = Resource.String.Pass;
+            string subject = " "+ Name+ " was positively recognized today at Kent ISD!";
+            string body = "“A staff member at Kent ISD secondary campus schools recognized "+Name +" for "+Behaviours+" in the "+Location+" today!” \n “This recognition comes with our campus initiative, “Going Pro at Kent ISD”, which is preparing students to be college and career ready by focusing on positive behaviors.\n Be professional.Be Respectful.Be Responsible.Demonstrate Initiative.Be Safe.” \n “Please make sure to congratulate "+Name+" tonight!”";
+
+            var smtp = new SmtpClient
+            {
+                Host = "smtp.gmail.com",
+                Port = 587,
+                EnableSsl = true,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                UseDefaultCredentials = false,
+                Credentials = new NetworkCredential(fromAddress.Address, fromPassword)
+            };
+            using (var message = new MailMessage(fromAddress, toAddress)
+            {
+                Subject = subject,
+                Body = body
+            })
+            {
+                smtp.Send(message);
+            }
+        }
+
     }
 
     public class JsonPayload
