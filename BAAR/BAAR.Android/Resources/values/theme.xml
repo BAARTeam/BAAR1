@@ -1,11 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
   <color name="theme_custom3_background">#ff0d164d</color><color name="theme_custom2_background">#ffe3e3e3</color><color name="theme_devicedefault_background">#fffbfbf4</color>
-  <style name="Theme.Custom" parent="@android:style/Theme.DeviceDefault">
+  <style name="Theme.Custom" parent="@android:style/Theme.NoTitleBar">
     
-    <item name="android:windowBackground">?android:attr/colorBackground</item>
-    <item name="android:colorAccent">#ff40c4ff</item>
-    <item name="android:colorPrimary">#ff060606</item>
+    
+    <!--orange #FEB303
+        green #CADB22
+        purple #C62962
+        indigo #6E479B
+        blue #1D99C6-->
+    
+    <item name="android:windowBackground">#6E479B</item>
+    <item name="android:colorAccent">#FEB303</item>
+    <!--<item name="android:colorPrimary">#ff060606</item>-->
+    <item name="android:statusBarColor">#1D99C6</item>
+    <item name="android:navigationBarColor">#CADB22</item>
+    <item name="android:textColorPrimary">#6E479B</item>
+    
     <item name="android:windowNoTitle">true</item>
   </style>
 
