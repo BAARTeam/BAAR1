@@ -35,32 +35,26 @@ namespace BAAR.Droid
             var scanner = new ZXing.Mobile.MobileBarcodeScanner();
             var result = await scanner.Scan();
             string Contra = (string)MainActivity.MakeRequest2(result.ToString());
-            Contra = Contra.Substring(Contra.IndexOf("lastfirst"));
-            Contra = Contra.Substring(Contra.IndexOf(":") + 2);
-            Contra = Contra.Remove(Contra.IndexOf('"'));
-            string[] SplitName1 = Contra.Split(',');
-            string[] SpaceSplit1 = SplitName1[1].Split(' ');
-            EmailNames.Add(SpaceSplit1[1]);
+            Contra = Contra.GetStringOut("lastfirst");
+            string[] Name = SplitName(Contra);
+
+            EmailNames.Add(Name[0]);
             Console.WriteLine("CHECK " + Contra);
-            CreateStudentTicket(SpaceSplit1[1] + " " + SplitName1[0], result.ToString());
+            CreateStudentTicket(Name[0] + " " + Name[1], result.ToString());
             MobileBarcodeScanner.Uninitialize(Application);
 
             Button EmailButton = FindViewById<Button>(Resource.Id.EmailButton);
             EmailButton.Click += (sender, e) =>
             {
-                Console.WriteLine("Email Number " + NumberOfTickets);
-                Console.WriteLine("EmailNames Count " + EmailNames.Count);
                 for (int i = 0; i < NumberOfTickets; i++)
                 {
                    string EmailBehaviour = LayoutSpinner[i + 1].Item1.SelectedItem.ToString();
                    string EmailLocation = LayoutSpinner[i + 1].Item2.SelectedItem.ToString();
                    string EmailName = EmailNames[i];
                    BackgroundEmail(EmailName,EmailLocation,EmailBehaviour);
-                  // SendEmail( EmailName,  EmailLocation,  EmailBehaviour);
-                  // Console.WriteLine(i);
                 }
-                Toast.MakeText(this, "Email Sent", ToastLength.Long).Show();
 
+                Toast.MakeText(this, "Email Sent", ToastLength.Long).Show();
                 Intent MainPage = new Intent(this,typeof(MainActivity));
                 StartActivity(MainPage);
             };
@@ -113,18 +107,24 @@ namespace BAAR.Droid
                         }
                     }
 
-                    string[] SplitName = studentname.Split(',');
-                    string[] SpaceSplit = SplitName[1].Split(' ');
-                    EmailNames.Add(SpaceSplit[1]);
+                    string[] SecondaryName = SplitName(studentname);
+                    EmailNames.Add(SecondaryName[0]);
 
-                    CreateStudentTicket(SpaceSplit[1] + " " + SplitName[0], result1.ToString());
+                    CreateStudentTicket(SecondaryName[0] + " " + SecondaryName[1], result1.ToString());
                 }
                 catch
                 {
-                    Toast.MakeText(this,"Invalid Barcode Scanned",ToastLength.Long).Show(); 
+                    Toast.MakeText(this, "Invalid Barcode Scanned", ToastLength.Long).Show();
                     Console.WriteLine("Woah Something Went Wrong When Scanning Barcode either that is not a valid barcode or there is no connection.");
                 }
             };
+        }
+
+        private string[] SplitName(string ToSplit)
+        {
+            string[] SplitName = ToSplit.Split(',');
+            string[] SpaceSplit = SplitName[1].Split(' ');
+            return new string[] { SpaceSplit[1],SplitName[0] };
         }
        const string AccountPassword = "Fopo7082";
         public void CreateStudentTicket(string Number, string Name)
