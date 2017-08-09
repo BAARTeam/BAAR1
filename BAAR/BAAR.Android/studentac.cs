@@ -83,7 +83,6 @@ namespace BAAR.Droid
 
                     using (var streamWriter = new StreamWriter(request.GetRequestStream()))
                     {
-                        //FIx this mess
                         int ScannerResult = Convert.ToInt16(result1.ToString());
                         JsonPayload Payload = new JsonPayload();
                         Payload.Number = ScannerResult;
@@ -130,7 +129,7 @@ namespace BAAR.Droid
                 }
             };
         }
-
+       const string AccountPassword = "puppy12345";
         public void CreateStudentTicket(string Number, string Name)
         {
 
@@ -191,23 +190,11 @@ ViewGroup.LayoutParams.WrapContent);
             LayoutSpinner.Add(NumberOfTickets,new Tuple<Spinner,Spinner>(BehaviourSpinner,LocationSpinner));
         }
 
-        private void SendEmail( string Name,string  Location, string Behaviours)
-        {
-            var Email = new Intent(Android.Content.Intent.ActionSend);
-            Email.AddFlags(ActivityFlags.ReorderToFront);
-            //Email.PutExtra(Android.Content.Intent.);
-            Email.PutExtra(Android.Content.Intent.ExtraEmail, new string[] { "dakotastickney@gmail.com"});
-            Email.PutExtra(Android.Content.Intent.ExtraSubject, "“" + Name +" was positively recognized today at Kent ISD!”");
-            Email.PutExtra(Android.Content.Intent.ExtraText, "“A staff member at Kent ISD secondary campus schools recognized "+Name +" for "+Behaviours+" in the "+Location+" today!” \n “This recognition comes with our campus initiative, “Going Pro at Kent ISD”, which is preparing students to be college and career ready by focusing on positive behaviors.\n Be professional.Be Respectful.Be Responsible.Demonstrate Initiative.Be Safe.” \n “Please make sure to congratulate "+Name+" tonight!”");
-            Email.SetType("message/rfc822");
-            StartActivity(Email);
-        }
-
         public void BackgroundEmail(string Name, string Location, string Behaviours)
         {
             var fromAddress = new MailAddress("dakotastickney@gmail.com", "Going Pro");
             var toAddress = new MailAddress("soccersalinas18@gmail.com", "Jacoby");
-            const string fromPassword = Resource.String.Pass;
+            const string fromPassword = AccountPassword;
             string subject = " "+ Name+ " was positively recognized today at Kent ISD!";
             string body = "“A staff member at Kent ISD secondary campus schools recognized "+Name +" for "+Behaviours+" in the "+Location+" today!” \n “This recognition comes with our campus initiative, “Going Pro at Kent ISD”, which is preparing students to be college and career ready by focusing on positive behaviors.\n Be professional.Be Respectful.Be Responsible.Demonstrate Initiative.Be Safe.” \n “Please make sure to congratulate "+Name+" tonight!”";
 
