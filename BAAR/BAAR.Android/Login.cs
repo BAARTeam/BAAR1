@@ -14,7 +14,7 @@ using System.Json;
 
 namespace BAAR.Droid
 {
-    [Activity(Label = "High Five", MainLauncher = true, Icon = "@drawable/icon", ScreenOrientation = ScreenOrientation.Portrait)]
+    [Activity(Label = "Going Pro", MainLauncher = true, Icon = "@drawable/icon", ScreenOrientation = ScreenOrientation.Portrait)]
     public class Login : Activity
     {
         public static AccessObject Token;
@@ -27,6 +27,7 @@ namespace BAAR.Droid
             ImageButton button = FindViewById<ImageButton>(Resource.Id.DebugButton);
             button.Click += (sender1, e) =>
             {
+                //Requests an access token from powerschool that we use for getting data;
                 Token = (AccessObject)MainActivity.MakeRequest(string.Format(@"http://172.21.123.196/oauth/access_token?grant_type=client_credentials"), "application/x-www-form-urlencoded;charset=UTF-8", "POST", "Basic M2VmOGZlMWQtNmVhNC00N2ZlLTljMDItN2VmYWUzMGEwOGJkOjdmZWVmZGZkLTA1MzEtNGI1NC04NGQ5LTMzY2UwZDc3NTAxYw==", true);
 
                 // Create an intent allowing the program to change to a different page;

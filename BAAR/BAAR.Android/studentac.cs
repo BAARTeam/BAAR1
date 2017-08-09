@@ -143,7 +143,7 @@ namespace BAAR.Droid
             TextView StudentName = new TextView(this);
             TextView StudentIdNumber = new TextView(this);
             ImageView StudentImage = new ImageView(this);
-            StudentImage.SetImageDrawable(Resources.GetDrawable(Resource.Drawable.Icon));
+            StudentImage.SetImageDrawable(Resources.GetDrawable(Resource.Drawable.pbutton));
             StudentName.Id = 2;
             StudentName.TextSize = 25;
             StudentIdNumber.TextSize = 25;
