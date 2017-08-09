@@ -108,10 +108,7 @@ namespace BAAR.Droid
                             {
                                 Console.WriteLine("Info Body: \r\n {0}", content);
                             }
-                            content = content.Substring(content.IndexOf("lastfirst"));
-                            content = content.Substring(content.IndexOf(":") + 2);
-                            content = content.Remove(content.IndexOf('"'));
-                            Console.WriteLine("CHECK " + content);
+                            content = content.GetStringOut("lastfirst");
                             studentname = content;
                         }
                     }

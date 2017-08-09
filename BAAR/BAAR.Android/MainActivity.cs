@@ -27,6 +27,14 @@ namespace BAAR.Droid
             SetContentView(Resource.Layout.Main);
             MobileBarcodeScanner.Initialize(Application);
             ImageButton button = FindViewById<ImageButton>(Resource.Id.scanButton);
+
+       button.Click += (sender, e) =>
+       {
+           var NewScreen = new Intent(this, typeof(studentac));
+           StartActivity(NewScreen);
+       };
+
+            //This really should be in the student ac class;
             HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create("http://172.21.123.196/ws/schema/query/pqgemail");
             request.Method = "POST";
             request.ContentType = "application/json";
@@ -36,7 +44,7 @@ namespace BAAR.Droid
 
             using (var streamWriter = new StreamWriter(request.GetRequestStream()))
             {
-                string json = "{\"scannedbarcode\": 12005}";
+                string json = "{\"scannedbarcode\": 12050}";
 
                 streamWriter.Write(json);
                 streamWriter.Flush();
@@ -58,23 +66,11 @@ namespace BAAR.Droid
                     {
                         Console.WriteLine("Info Body: \r\n {0}", content);
                     }
-                    content = content.Substring(content.IndexOf("guardianemail"));
-                    Console.WriteLine(content);
-                    content = content.Substring(content.IndexOf(":") + 2);
-                    Console.WriteLine(content);
 
-                    Console.WriteLine(content);
-                    content = content.Remove(content.IndexOf('}'));
-                    content = content.Remove(content.IndexOf('"'));
-
+                    content = content.GetStringOut("guardianemail");
                     Console.WriteLine("email here " + content);
                 }
 
-                button.Click += (sender, e) =>
-           {
-               var NewScreen = new Intent(this, typeof(studentac));
-               StartActivity(NewScreen);
-           };
             }
         }
 
