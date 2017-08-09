@@ -207,7 +207,6 @@ namespace BAAR.Droid
 			
 			// aapt resource value: 0x7f050001
 			public const int hello = 2131034113;
-            public const string IP = "172.21.123.196";
 			
 			// aapt resource value: 0x7f050000
 			public const int title_activity_webview = 2131034112;

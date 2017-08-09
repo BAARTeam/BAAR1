@@ -75,10 +75,10 @@ namespace BAAR.Droid
                     var scanner1 = new ZXing.Mobile.MobileBarcodeScanner();
                     var result1 = await scanner.Scan();
 
-                    HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create("http://"+ Resource.String.IP + "/ws/schema/query/pqtest?");
+                    HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create("http://172.21.123.196/ws/schema/query/pqtest?");
                     request.Method = "POST";
                     request.ContentType = "application/json";
-                    request.Headers.Add(HttpRequestHeader.Authorization, string.Format("Bearer {0}", Login.Test.AccessToken));
+                    request.Headers.Add(HttpRequestHeader.Authorization, string.Format("Bearer {0}", Login.Token.AccessToken));
                     request.Accept = "application/json";
 
                     using (var streamWriter = new StreamWriter(request.GetRequestStream()))
@@ -129,7 +129,7 @@ namespace BAAR.Droid
                 }
             };
         }
-       const string AccountPassword = "puppy12345";
+       const string AccountPassword = "Fopo7082";
         public void CreateStudentTicket(string Number, string Name)
         {
 
@@ -192,15 +192,15 @@ ViewGroup.LayoutParams.WrapContent);
 
         public void BackgroundEmail(string Name, string Location, string Behaviours)
         {
-            var fromAddress = new MailAddress("dakotastickney@gmail.com", "Going Pro");
-            var toAddress = new MailAddress("soccersalinas18@gmail.com", "Jacoby");
+            var fromAddress = new MailAddress("GoingPro@kentisd.org", "Going Pro");
+            var toAddress = new MailAddress("dakotastickney@gmail.com", "Jacoby");
             const string fromPassword = AccountPassword;
             string subject = " "+ Name+ " was positively recognized today at Kent ISD!";
-            string body = "“A staff member at Kent ISD secondary campus schools recognized "+Name +" for "+Behaviours+" in the "+Location+" today!” \n “This recognition comes with our campus initiative, “Going Pro at Kent ISD”, which is preparing students to be college and career ready by focusing on positive behaviors.\n Be professional.Be Respectful.Be Responsible.Demonstrate Initiative.Be Safe.” \n “Please make sure to congratulate "+Name+" tonight!”";
+            string body = "“A staff member at Kent ISD secondary campus schools recognized "+Name +" for "+Behaviours+" in the "+Location+" today!” \n “This recognition comes with our campus initiative, “Going Pro at Kent ISD”, which is preparing students to be college and career ready by focusing on positive behaviors.\n Be professional.Be Respectful.Be Responsible.Demonstrate Initiative.Be Safe.” \n “Please make sure to congratulate "+Name+" tonight!”" + "Sincerely <a href=\"mailto:dakotastickney@gmail.com?GoingPro\" target=\"_top\">LaurieFernandez</a>";
 
             var smtp = new SmtpClient
             {
-                Host = "smtp.gmail.com",
+                Host = "smtp.office365.com",
                 Port = 587,
                 EnableSsl = true,
                 DeliveryMethod = SmtpDeliveryMethod.Network,
@@ -210,13 +210,13 @@ ViewGroup.LayoutParams.WrapContent);
             using (var message = new MailMessage(fromAddress, toAddress)
             {
                 Subject = subject,
+                IsBodyHtml = true,
                 Body = body
             })
             {
                 smtp.Send(message);
             }
         }
-
     }
 
     public class JsonPayload

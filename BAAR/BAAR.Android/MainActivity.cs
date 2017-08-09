@@ -27,12 +27,55 @@ namespace BAAR.Droid
             SetContentView(Resource.Layout.Main);
             MobileBarcodeScanner.Initialize(Application);
             ImageButton button = FindViewById<ImageButton>(Resource.Id.scanButton);
-           
-            button.Click += (sender, e) =>
+            HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create("http://172.21.123.196/ws/schema/query/pqgemail");
+            request.Method = "POST";
+            request.ContentType = "application/json";
+            request.Headers.Add(HttpRequestHeader.Authorization, string.Format("Bearer {0}", Login.Token.AccessToken));
+            request.Accept = "application/json";
+
+
+            using (var streamWriter = new StreamWriter(request.GetRequestStream()))
+            {
+                string json = "{\"scannedbarcode\": 12005}";
+
+                streamWriter.Write(json);
+                streamWriter.Flush();
+                streamWriter.Close();
+            }
+
+            using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+            {
+                if (response.StatusCode != HttpStatusCode.OK)
+                    Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
+                using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                {
+                    var content = reader.ReadToEnd();
+                    if (string.IsNullOrWhiteSpace(content))
+                    {
+                        Console.Out.WriteLine("Response contained empty body...");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Info Body: \r\n {0}", content);
+                    }
+                    content = content.Substring(content.IndexOf("guardianemail"));
+                    Console.WriteLine(content);
+                    content = content.Substring(content.IndexOf(":") + 2);
+                    Console.WriteLine(content);
+
+                    Console.WriteLine(content);
+                    content = content.Remove(content.IndexOf('}'));
+                    content = content.Remove(content.IndexOf('"'));
+
+                    Console.WriteLine("email here " + content);
+                }
+
+                button.Click += (sender, e) =>
            {
                var NewScreen = new Intent(this, typeof(studentac));
                StartActivity(NewScreen);
            };
+            }
         }
 
         public static object MakeRequest(string RequestURL, string ContentType, string Method, string AuthHeader, bool ReturnAccessToken = false)
@@ -72,7 +115,7 @@ namespace BAAR.Droid
             HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create("http://172.21.123.196/ws/schema/query/pqtest?");
             request.Method = "POST";
             request.ContentType = "application/json";
-            request.Headers.Add(HttpRequestHeader.Authorization, string.Format("Bearer {0}", Login.Test.AccessToken));
+            request.Headers.Add(HttpRequestHeader.Authorization, string.Format("Bearer {0}", Login.Token.AccessToken));
             request.Accept = "application/json";
 
 
