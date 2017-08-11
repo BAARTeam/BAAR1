@@ -7,10 +7,9 @@
         indigo #6E479B
         blue #1D99C6-->
 
-  <!--
-  <color name="color_indigo">#6E479B</color>
+  <color name="indigo">#6E479B</color>
   <color name="orange">#FEB303</color>
   <color name="green">#CADB22</color>
   <color name="blue">#1D99C6</color>
-  <color name="purple">#C62962</color>-->
+  <color name="purple">#C62962</color>
 </resources>

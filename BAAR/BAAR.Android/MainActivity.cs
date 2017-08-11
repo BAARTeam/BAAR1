@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using System.Net;
 using System.IO;
 using Newtonsoft.Json;
+using Android.Graphics;
 
 namespace BAAR.Droid
 {
@@ -25,8 +26,10 @@ namespace BAAR.Droid
             Window.RequestFeature(WindowFeatures.NoTitle);
             // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.Main);
-            MobileBarcodeScanner.Initialize(Application);
+            
             ImageButton button = FindViewById<ImageButton>(Resource.Id.scanButton);
+
+            FindViewById<LinearLayout>(Resource.Id.main).SetBackgroundColor(Color.DarkSlateGray);
 
        button.Click += (sender, e) =>
        {

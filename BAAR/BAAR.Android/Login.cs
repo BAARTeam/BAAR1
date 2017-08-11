@@ -11,6 +11,7 @@ using System.IO;
 using Newtonsoft.Json;
 using Xamarin.Auth;
 using System.Json;
+using System.Data.SqlClient;
 
 namespace BAAR.Droid
 {
@@ -23,6 +24,7 @@ namespace BAAR.Droid
             base.OnCreate(savedInstanceState);
             Window.RequestFeature(WindowFeatures.NoTitle);
             SetContentView(Resource.Layout.Login);
+
 
             ImageButton button = FindViewById<ImageButton>(Resource.Id.DebugButton);
             button.Click += (sender1, e) =>

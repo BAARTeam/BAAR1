@@ -72,14 +72,29 @@ namespace BAAR.Droid
 		public partial class Color
 		{
 			
-			// aapt resource value: 0x7f060001
-			public const int theme_custom2_background = 2131099649;
-			
-			// aapt resource value: 0x7f060000
-			public const int theme_custom3_background = 2131099648;
+			// aapt resource value: 0x7f060003
+			public const int blue = 2131099651;
 			
 			// aapt resource value: 0x7f060002
-			public const int theme_devicedefault_background = 2131099650;
+			public const int green = 2131099650;
+			
+			// aapt resource value: 0x7f060000
+			public const int indigo = 2131099648;
+			
+			// aapt resource value: 0x7f060001
+			public const int orange = 2131099649;
+			
+			// aapt resource value: 0x7f060004
+			public const int purple = 2131099652;
+			
+			// aapt resource value: 0x7f060006
+			public const int theme_custom2_background = 2131099654;
+			
+			// aapt resource value: 0x7f060005
+			public const int theme_custom3_background = 2131099653;
+			
+			// aapt resource value: 0x7f060007
+			public const int theme_devicedefault_background = 2131099655;
 			
 			static Color()
 			{
@@ -116,14 +131,14 @@ namespace BAAR.Droid
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7f08000c
-			public const int AddTicket = 2131230732;
+			// aapt resource value: 0x7f08000d
+			public const int AddTicket = 2131230733;
 			
 			// aapt resource value: 0x7f080005
 			public const int DebugButton = 2131230725;
 			
-			// aapt resource value: 0x7f08000b
-			public const int EmailButton = 2131230731;
+			// aapt resource value: 0x7f08000c
+			public const int EmailButton = 2131230732;
 			
 			// aapt resource value: 0x7f080003
 			public const int Password_Text = 2131230723;
@@ -131,11 +146,11 @@ namespace BAAR.Droid
 			// aapt resource value: 0x7f080004
 			public const int Password_Textbox = 2131230724;
 			
-			// aapt resource value: 0x7f080008
-			public const int Root = 2131230728;
+			// aapt resource value: 0x7f080009
+			public const int Root = 2131230729;
 			
-			// aapt resource value: 0x7f08000a
-			public const int TicketHolder = 2131230730;
+			// aapt resource value: 0x7f08000b
+			public const int TicketHolder = 2131230731;
 			
 			// aapt resource value: 0x7f080001
 			public const int Username_Text = 2131230721;
@@ -143,17 +158,20 @@ namespace BAAR.Droid
 			// aapt resource value: 0x7f080002
 			public const int Username_Textbox = 2131230722;
 			
-			// aapt resource value: 0x7f08000d
-			public const int contentFrame = 2131230733;
-			
-			// aapt resource value: 0x7f080007
-			public const int scanButton = 2131230727;
-			
-			// aapt resource value: 0x7f080009
-			public const int scrollView1 = 2131230729;
+			// aapt resource value: 0x7f08000e
+			public const int contentFrame = 2131230734;
 			
 			// aapt resource value: 0x7f080006
-			public const int textView2 = 2131230726;
+			public const int main = 2131230726;
+			
+			// aapt resource value: 0x7f080008
+			public const int scanButton = 2131230728;
+			
+			// aapt resource value: 0x7f08000a
+			public const int scrollView1 = 2131230730;
+			
+			// aapt resource value: 0x7f080007
+			public const int textView2 = 2131230727;
 			
 			// aapt resource value: 0x7f080000
 			public const int webview = 2131230720;
