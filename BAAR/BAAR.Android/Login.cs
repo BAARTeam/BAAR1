@@ -27,6 +27,21 @@ namespace BAAR.Droid
             SetContentView(Resource.Layout.Login);
             FindViewById<LinearLayout>(Resource.Id.Login).SetBackgroundColor(Color.Argb(255, 0, 9, 26));
 
+            SqlConnection conn = new SqlConnection(@"Data Source = webdb\webdb; Initial Catalog = MTSS_BadgePro; Integrated Security = False; User ID = mtss_admin; Password =KBhSIQXqZ8J^; Pooling = False");
+
+            using (SqlConnection connection = new SqlConnection())
+            {
+                connection.ConnectionString = conn.ConnectionString;
+
+                connection.Open();
+                SqlCommand sel = new SqlCommand("SELECT Login_PW FROM MTSS_LoginAccount WHERE Login_Name = 'jacobsalinas'",connection);
+                string printthis= Convert.ToString(sel.ExecuteScalar());
+                Console.WriteLine("yellow " + printthis);
+                Console.WriteLine("State: {0}", connection.State);
+                Console.WriteLine("ConnectionString: {0}",
+                    connection.ConnectionString);
+            }
+
 
             Button button = FindViewById<Button>(Resource.Id.button1);
 
