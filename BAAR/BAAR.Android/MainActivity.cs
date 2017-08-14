@@ -122,7 +122,7 @@ namespace BAAR.Droid
             {
                 //FIx this mess
                 Console.WriteLine("Input String " + Result);
-                int THing = Convert.ToInt16(Result);
+                double THing = Convert.ToDouble(Result);
                 JsonPayload New = new JsonPayload();
                 New.Number = THing;
                 string Tests = (string)JsonConvert.SerializeObject(New);

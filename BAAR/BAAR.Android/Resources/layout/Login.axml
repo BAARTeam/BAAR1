@@ -18,7 +18,8 @@
         android:id="@+id/Username_Textbox"
         android:width="260sp"
         android:layout_gravity="center"
-        android:shadowColor="#00000000" />
+        android:shadowColor="#00000000"
+        android:singleLine="true" />
     <TextView
         android:text="Password"
         android:layout_width="match_parent"
@@ -33,7 +34,8 @@
         android:width="260sp"
         android:layout_gravity="center"
         android:password="true"
-        android:autoText="false" />
+        android:autoText="false"
+        android:singleLine="true" />
     <Button
         android:text="Login"
         android:layout_width="wrap_content"
