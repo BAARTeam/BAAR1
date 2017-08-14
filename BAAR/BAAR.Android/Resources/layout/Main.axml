@@ -20,7 +20,7 @@
         android:layout_marginBottom="300dp"
         android:textStyle="bold" />
     <ImageButton
-        android:src="@drawable/pbutton"
+        android:src="@drawable/GoingPro_Icon"
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:id="@+id/scanButton"
@@ -29,5 +29,6 @@
         android:layout_marginTop="-500px"
         android:backgroundTint="#00ffffff"
         android:backgroundTintMode="src_over"
-        android:contextClickable="true" />
+        android:contextClickable="true"
+        android:scaleType="fitCenter" />
 </LinearLayout>

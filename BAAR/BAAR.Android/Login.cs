@@ -12,10 +12,11 @@ using Newtonsoft.Json;
 using Xamarin.Auth;
 using System.Json;
 using System.Data.SqlClient;
+using Android.Graphics;
 
 namespace BAAR.Droid
 {
-    [Activity(Label = "Going Pro", MainLauncher = true, Icon = "@drawable/icon", ScreenOrientation = ScreenOrientation.Portrait)]
+    [Activity(Label = "Going Pro", MainLauncher = true, Icon = "@drawable/GoingPro_Icon", ScreenOrientation = ScreenOrientation.Portrait)]
     public class Login : Activity
     {
         public static AccessObject Token;
@@ -24,13 +25,24 @@ namespace BAAR.Droid
             base.OnCreate(savedInstanceState);
             Window.RequestFeature(WindowFeatures.NoTitle);
             SetContentView(Resource.Layout.Login);
+            FindViewById<LinearLayout>(Resource.Id.Login).SetBackgroundColor(Color.Argb(255, 0, 9, 26));
 
 
-            ImageButton button = FindViewById<ImageButton>(Resource.Id.DebugButton);
+            Button button = FindViewById<Button>(Resource.Id.button1);
+
+            EditText Username = FindViewById<EditText>(Resource.Id.Username_Textbox);
+            EditText Password = FindViewById<EditText>(Resource.Id.Password_Textbox);
+
+            Username.SetBackgroundColor(Color.White);
+            Username.SetTextColor(Color.Black);
+            Password.SetBackgroundColor(Color.White);
+            Password.SetTextColor(Color.Black);
+
+
             button.Click += (sender1, e) =>
             {
                 //Requests an access token from powerschool that we use for getting data;
-                Token = (AccessObject)MainActivity.MakeRequest(string.Format(@"http://172.21.123.196/oauth/access_token?grant_type=client_credentials"), "application/x-www-form-urlencoded;charset=UTF-8", "POST", "Basic M2VmOGZlMWQtNmVhNC00N2ZlLTljMDItN2VmYWUzMGEwOGJkOjdmZWVmZGZkLTA1MzEtNGI1NC04NGQ5LTMzY2UwZDc3NTAxYw==", true);
+                Token = (AccessObject)MainActivity.MakeRequest(string.Format(@"http://172.21.123.196/oauth/access_token?grant_type=client_credentials"), "application/x-www-form-urlencoded;charset=UTF-8", "POST", "Basic ZThmMmViNjYtNDcwYy00YjZkLTlhYjItMDQ4OWM5NGJlNDEwOjJmY2U2MmY3LWVlZDMtNDAzYi04NWNhLWRjY2E5OTFjMGI2Nw==", true);
 
                 // Create an intent allowing the program to change to a different page;
                 var MainPage = new Intent(this, typeof(MainActivity));

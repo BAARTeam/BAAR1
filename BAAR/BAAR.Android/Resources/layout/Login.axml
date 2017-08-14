@@ -2,30 +2,44 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:id="@+id/Login">
     <TextView
         android:text="Username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/Username_Text"
-        android:textSize="50dp" />
+        android:textSize="60sp"
+        android:gravity="center_horizontal"
+        android:paddingTop="100px" />
     <EditText
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/Username_Textbox" />
+        android:id="@+id/Username_Textbox"
+        android:width="260sp"
+        android:layout_gravity="center"
+        android:shadowColor="#00000000" />
     <TextView
         android:text="Password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/Password_Text"
-        android:textSize="50dp" />
+        android:textSize="60sp"
+        android:gravity="center_horizontal" />
     <EditText
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/Password_Textbox" />
-    <ImageButton
-        android:src="@android:drawable/ic_menu_gallery"
-        android:layout_width="match_parent"
+        android:id="@+id/Password_Textbox"
+        android:width="260sp"
+        android:layout_gravity="center"
+        android:password="true"
+        android:autoText="false" />
+    <Button
+        android:text="Login"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/DebugButton" />
+        android:id="@+id/button1"
+        android:width="260sp"
+        android:gravity="center"
+        android:layout_gravity="center" />
 </LinearLayout>

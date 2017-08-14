@@ -24,6 +24,7 @@ namespace BAAR.Droid
         public Dictionary<int,Tuple<Spinner,Spinner>> LayoutSpinner = new Dictionary<int, Tuple<Spinner, Spinner>>();
         public List<string> EmailNames = new List<string>();
         public string studentname;
+        public string EmailAddress;
         private int NumberOfTickets;
         protected override async void OnCreate(Bundle savedInstanceState)
         {
@@ -51,7 +52,7 @@ namespace BAAR.Droid
                    string EmailBehaviour = LayoutSpinner[i + 1].Item1.SelectedItem.ToString();
                    string EmailLocation = LayoutSpinner[i + 1].Item2.SelectedItem.ToString();
                    string EmailName = EmailNames[i];
-                   BackgroundEmail(EmailName,EmailLocation,EmailBehaviour);
+                   BackgroundEmail(EmailAddress,EmailName,EmailLocation,EmailBehaviour);
                 }
 
                 Toast.MakeText(this, "Email Sent", ToastLength.Long).Show();
@@ -69,7 +70,7 @@ namespace BAAR.Droid
                     var scanner1 = new ZXing.Mobile.MobileBarcodeScanner();
                     var result1 = await scanner.Scan();
 
-                    HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create("http://172.21.123.196/ws/schema/query/pqtest?");
+                    HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create("http://172.21.123.196/ws/schema/query/name?");
                     request.Method = "POST";
                     request.ContentType = "application/json";
                     request.Headers.Add(HttpRequestHeader.Authorization, string.Format("Bearer {0}", Login.Token.AccessToken));
@@ -109,6 +110,45 @@ namespace BAAR.Droid
 
                     string[] SecondaryName = SplitName(studentname);
                     EmailNames.Add(SecondaryName[0]);
+
+                    HttpWebRequest request2 = (HttpWebRequest)HttpWebRequest.Create("http://172.21.123.196/ws/schema/query/guardemail");
+                    request.Method = "POST";
+                    request.ContentType = "application/json";
+                    request.Headers.Add(HttpRequestHeader.Authorization, string.Format("Bearer {0}", Login.Token.AccessToken));
+                    request.Accept = "application/json";
+
+
+                    using (var streamWriter = new StreamWriter(request.GetRequestStream()))
+                    {
+                        string json = "{\"scannedbarcode\": 12050}";
+
+                        streamWriter.Write(json);
+                        streamWriter.Flush();
+                        streamWriter.Close();
+                    }
+
+                    using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+                    {
+                        if (response.StatusCode != HttpStatusCode.OK)
+                            Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
+                        using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                        {
+                            var content = reader.ReadToEnd();
+                            if (string.IsNullOrWhiteSpace(content))
+                            {
+                                Console.Out.WriteLine("Response contained empty body...");
+                            }
+                            else
+                            {
+                                Console.WriteLine("Info Body: \r\n {0}", content);
+                            }
+
+                            content = content.GetStringOut("guardianemail");
+                            EmailAddress = content;
+                            Console.WriteLine("email here " + content);
+                        }
+
+                    }
 
                     CreateStudentTicket(SecondaryName[0] + " " + SecondaryName[1], result1.ToString());
                 }
@@ -187,10 +227,10 @@ ViewGroup.LayoutParams.WrapContent);
             LayoutSpinner.Add(NumberOfTickets,new Tuple<Spinner,Spinner>(BehaviourSpinner,LocationSpinner));
         }
 
-        public void BackgroundEmail(string Name, string Location, string Behaviours)
+        public void BackgroundEmail(string ToEmailAddress,string Name, string Location, string Behaviours)
         {
             var fromAddress = new MailAddress("GoingPro@kentisd.org", "Going Pro");
-            var toAddress = new MailAddress("dakotastickney@gmail.com", "Jacoby");
+            var toAddress = new MailAddress(ToEmailAddress, "");
             const string fromPassword = AccountPassword;
             string subject = " "+ Name+ " was positively recognized today at Kent ISD!";
             string body = "“A staff member at Kent ISD secondary campus schools recognized "+Name +" for "+Behaviours+" in the "+Location+" today!” \n “This recognition comes with our campus initiative, “Going Pro at Kent ISD”, which is preparing students to be college and career ready by focusing on positive behaviors.\n Be professional.Be Respectful.Be Responsible.Demonstrate Initiative.Be Safe.” \n “Please make sure to congratulate "+Name+" tonight!”" + "Sincerely <a href=\"mailto:dakotastickney@gmail.com?GoingPro\" target=\"_top\">LaurieFernandez</a>";

@@ -29,7 +29,7 @@ namespace BAAR.Droid
             
             ImageButton button = FindViewById<ImageButton>(Resource.Id.scanButton);
 
-            FindViewById<LinearLayout>(Resource.Id.main).SetBackgroundColor(Color.DarkSlateGray);
+            FindViewById<LinearLayout>(Resource.Id.main).SetBackgroundColor(Color.LightGreen);
 
        button.Click += (sender, e) =>
        {
@@ -38,7 +38,7 @@ namespace BAAR.Droid
        };
 
             //This really should be in the student ac class;
-            HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create("http://172.21.123.196/ws/schema/query/pqgemail");
+            HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create("http://172.21.123.196/ws/schema/query/guardemail");
             request.Method = "POST";
             request.ContentType = "application/json";
             request.Headers.Add(HttpRequestHeader.Authorization, string.Format("Bearer {0}", Login.Token.AccessToken));
@@ -111,7 +111,7 @@ namespace BAAR.Droid
         }
         public static object MakeRequest2(string Result)
         {
-            HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create("http://172.21.123.196/ws/schema/query/pqtest?");
+            HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create("http://172.21.123.196/ws/schema/query/name?");
             request.Method = "POST";
             request.ContentType = "application/json";
             request.Headers.Add(HttpRequestHeader.Authorization, string.Format("Bearer {0}", Login.Token.AccessToken));
