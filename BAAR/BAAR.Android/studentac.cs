@@ -15,6 +15,7 @@ using System.IO;
 using Newtonsoft.Json;
 using System.Net.Mail;
 using ZXing.Mobile;
+using Android.Graphics;
 
 namespace BAAR.Droid
 {
@@ -31,6 +32,9 @@ namespace BAAR.Droid
             base.OnCreate(savedInstanceState);
             Window.RequestFeature(WindowFeatures.NoTitle);
             SetContentView(Resource.Layout.student);
+
+            FindViewById<LinearLayout>(Resource.Id.Root).SetBackgroundColor(Color.Argb(255, 0, 9, 26));
+
             MobileBarcodeScanner.Initialize(Application);
 
             var scanner = new ZXing.Mobile.MobileBarcodeScanner();
@@ -200,11 +204,12 @@ namespace BAAR.Droid
             StudentName.Text = Number;
             LinearLayout MainLayout = FindViewById<LinearLayout>(Resource.Id.TicketHolder);
             RelativeLayout RelLayout = new RelativeLayout(this);
-            RelLayout.SetPadding(0, 5, 0, 0);
+            RelLayout.SetPadding(0, 10, 0, 0);
             MainLayout.AddView(RelLayout);
 
             var StudentImageParam = new RelativeLayout.LayoutParams(200, 200);
             StudentImageParam.AddRule(LayoutRules.AlignParentLeft);
+
             RelLayout.AddView(StudentImage, StudentImageParam);
 
             var StudentNameParam = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent,

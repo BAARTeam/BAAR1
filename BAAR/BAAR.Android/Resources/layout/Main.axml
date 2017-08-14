@@ -9,9 +9,9 @@
     android:alpha="1"
     android:id="@+id/main">
     <TextView
-        android:text="Start Scan"
+        android:text="Go Pro!"
         android:gravity="center"
-        android:textSize="60dp"
+        android:textSize="60sp"
         android:textAlignment="gravity"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:layout_width="match_parent"
@@ -26,9 +26,10 @@
         android:id="@+id/scanButton"
         android:clickable="true"
         android:layout_gravity="center"
-        android:layout_marginTop="-500px"
         android:backgroundTint="#00ffffff"
         android:backgroundTintMode="src_over"
         android:contextClickable="true"
-        android:scaleType="fitCenter" />
+        android:scaleType="fitCenter"
+        android:outlineProvider="none"
+        android:layout_marginTop="-220sp" />
 </LinearLayout>

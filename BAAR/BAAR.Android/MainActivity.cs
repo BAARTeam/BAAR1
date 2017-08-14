@@ -26,55 +26,17 @@ namespace BAAR.Droid
             Window.RequestFeature(WindowFeatures.NoTitle);
             // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.Main);
-            
+
             ImageButton button = FindViewById<ImageButton>(Resource.Id.scanButton);
 
-            FindViewById<LinearLayout>(Resource.Id.main).SetBackgroundColor(Color.LightGreen);
+            FindViewById<LinearLayout>(Resource.Id.main).SetBackgroundColor(Color.Argb(255,0,9,26));
 
-       button.Click += (sender, e) =>
-       {
-           var NewScreen = new Intent(this, typeof(studentac));
-           StartActivity(NewScreen);
-       };
-
-            //This really should be in the student ac class;
-            HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create("http://172.21.123.196/ws/schema/query/guardemail");
-            request.Method = "POST";
-            request.ContentType = "application/json";
-            request.Headers.Add(HttpRequestHeader.Authorization, string.Format("Bearer {0}", Login.Token.AccessToken));
-            request.Accept = "application/json";
-
-
-            using (var streamWriter = new StreamWriter(request.GetRequestStream()))
+            button.Click += (sender, e) =>
             {
-                string json = "{\"scannedbarcode\": 12050}";
+                var NewScreen = new Intent(this, typeof(studentac));
+                StartActivity(NewScreen);
+            };
 
-                streamWriter.Write(json);
-                streamWriter.Flush();
-                streamWriter.Close();
-            }
-
-            using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
-            {
-                if (response.StatusCode != HttpStatusCode.OK)
-                    Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
-                using (StreamReader reader = new StreamReader(response.GetResponseStream()))
-                {
-                    var content = reader.ReadToEnd();
-                    if (string.IsNullOrWhiteSpace(content))
-                    {
-                        Console.Out.WriteLine("Response contained empty body...");
-                    }
-                    else
-                    {
-                        Console.WriteLine("Info Body: \r\n {0}", content);
-                    }
-
-                    content = content.GetStringOut("guardianemail");
-                    Console.WriteLine("email here " + content);
-                }
-
-            }
         }
 
         public static object MakeRequest(string RequestURL, string ContentType, string Method, string AuthHeader, bool ReturnAccessToken = false)
