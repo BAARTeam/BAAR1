@@ -18,7 +18,7 @@ namespace MTSSWebService.Controllers
 
         public IHttpActionResult GetMTSSLogin(string loginID)
         {
-            var loginperson = logindata.FirstOrDefault((p) => p.logonname == loginID);
+            var loginperson = logindata.FirstOrDefault((p) => p.Login_Name == loginID);
             if (loginperson == null)
             {
                 return NotFound();
