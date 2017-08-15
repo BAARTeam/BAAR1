@@ -16,10 +16,14 @@ using Newtonsoft.Json;
 using System.Net.Mail;
 using ZXing.Mobile;
 using Android.Graphics;
+using System.Data.SqlClient;
 
 namespace BAAR.Droid
 {
     [Activity(Label = "student",ScreenOrientation = ScreenOrientation.Portrait)]
+
+    
+
     public class studentac : Activity
     {
         public Dictionary<int,Tuple<Spinner,Spinner>> LayoutSpinner = new Dictionary<int, Tuple<Spinner, Spinner>>();
@@ -47,6 +51,8 @@ namespace BAAR.Droid
             Console.WriteLine("CHECK " + Contra);
             CreateStudentTicket(Name[0] + " " + Name[1], result.ToString());
             MobileBarcodeScanner.Uninitialize(Application);
+
+            SqlCommand Insert= new SqlCommand("INSERT INTO MTSS_BadgePro VALUES (@DT, @SF, @SL, @SN, @StN, @ATi, @AT, @AL)", Login.conn);
 
             Button EmailButton = FindViewById<Button>(Resource.Id.EmailButton);
             EmailButton.Click += (sender, e) =>
@@ -152,6 +158,8 @@ namespace BAAR.Droid
                             content = content.GetStringOut("lastfirst");
                             studentname = content;
                         }
+                        log log = new log("TEST", "TEsT", studentname, Convert.ToDouble(result.ToString()), LayoutSpinner[0].Item1.SelectedItem.ToString(), LayoutSpinner[0].Item2.SelectedItem.ToString());
+                        log.exe(Insert);
                     }
 
                     string[] SecondaryName = SplitName(studentname);
@@ -269,5 +277,50 @@ ViewGroup.LayoutParams.WrapContent);
     {
       [JsonProperty("scannedbarcode")]
        public double Number;
+    }
+
+    public class log
+    {
+        public log(string SF, string SL, string SN, double Num, string AType, string ALocation)
+        {
+            this.StaffF = SF;
+            this.StaffL = SL;
+            this.Student_Name = SN;
+            this.Student_Number = Num;
+            this.Action_Type = AType;
+            this.Action_Location = ALocation;
+        }
+        private string StaffF { get; set; }
+
+        private string StaffL { get; set; }
+
+        private string Student_Name { get; set; }
+
+        private double Student_Number { get; set; }
+
+        private string Action_Type { get; set; }
+
+        private string Action_Location { get; set; }
+
+        public void exe(SqlCommand sql)
+        {
+            sql.Parameters.AddWithValue("@DT", DateTime.Now);
+
+            sql.Parameters.AddWithValue("@SF", StaffF);
+
+            sql.Parameters.AddWithValue("@SL", StaffL);
+
+            sql.Parameters.AddWithValue("@SN", Student_Name);
+
+            sql.Parameters.AddWithValue("@StN", Student_Number);
+
+            sql.Parameters.AddWithValue("@ATi", DateTime.Today);
+
+            sql.Parameters.AddWithValue("@AT", Action_Type);
+
+            sql.Parameters.AddWithValue("@AL", Action_Location);
+
+            sql.ExecuteNonQuery();
+        }
     }
 }

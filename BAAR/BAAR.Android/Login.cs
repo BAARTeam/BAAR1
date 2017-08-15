@@ -20,6 +20,7 @@ namespace BAAR.Droid
     public class Login : Activity
     {
         public static AccessObject Token;
+        public static SqlConnection conn = new SqlConnection(@"Data Source = webdb\webdb; Initial Catalog = MTSS_BadgePro; Integrated Security = False; User ID = mtss_admin; Password =KBhSIQXqZ8J^; Pooling = False");
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -29,7 +30,6 @@ namespace BAAR.Droid
 
             EditText Username = FindViewById<EditText>(Resource.Id.Username_Textbox);
             EditText Password = FindViewById<EditText>(Resource.Id.Password_Textbox);
-            SqlConnection conn = new SqlConnection(@"Data Source = webdb\webdb; Initial Catalog = MTSS_BadgePro; Integrated Security = False; User ID = mtss_admin; Password =KBhSIQXqZ8J^; Pooling = False");
             string pass;
             using (SqlConnection connection = new SqlConnection())
             {
