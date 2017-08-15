@@ -29,40 +29,39 @@ namespace BAAR.Droid
 
             EditText Username = FindViewById<EditText>(Resource.Id.Username_Textbox);
             EditText Password = FindViewById<EditText>(Resource.Id.Password_Textbox);
+
             SqlConnection conn = new SqlConnection(@"Data Source = webdb\webdb; Initial Catalog = MTSS_BadgePro; Integrated Security = False; User ID = mtss_admin; Password =KBhSIQXqZ8J^; Pooling = False");
-            string pass;
-            using (SqlConnection connection = new SqlConnection())
-            {
-                connection.ConnectionString = conn.ConnectionString;
-
-                connection.Open();
-                
-                SqlCommand getpassword = new SqlCommand("SELECT Login_PW FROM MTSS_LoginAccount WHERE Login_Name=@LN", connection);
-                getpassword.Parameters.AddWithValue("@LN", Username.Text);
-                pass = Convert.ToString(getpassword.ExecuteScalar());
-
-
-
-
-                
-                Console.WriteLine("State: {0}", connection.State);
-                Console.WriteLine("ConnectionString: {0}",
-                    connection.ConnectionString);
-            }
-
+           
 
             Button button = FindViewById<Button>(Resource.Id.button1);
-
+            button.SetTextColor(Color.White);
 
             Username.SetBackgroundColor(Color.White);
             Username.SetTextColor(Color.Black);
             Password.SetBackgroundColor(Color.White);
             Password.SetTextColor(Color.Black);
 
-
             button.Click += (sender1, e) =>
             {
-                if (pass == Password.Text && pass != null && pass != "")
+                string pass;
+                using (SqlConnection connection = new SqlConnection())
+                {
+                    connection.ConnectionString = conn.ConnectionString;
+
+                    connection.Open();
+
+                    SqlCommand getpassword = new SqlCommand("SELECT Login_PW FROM MTSS_LoginAccount WHERE Login_Name=@LN", connection);
+                    getpassword.Parameters.AddWithValue("@LN", Username.Text);
+                    pass = Convert.ToString(getpassword.ExecuteScalar());
+
+                    Console.WriteLine("wibble " + pass);
+
+                    Console.WriteLine("State: {0}", connection.State);
+                    Console.WriteLine("ConnectionString: {0}",
+                        connection.ConnectionString);
+                }
+
+                if (pass == Password.Text && !string.IsNullOrEmpty(Password.Text))
                 {
                     //Requests an access token from powerschool that we use for getting data;
                     Token = (AccessObject)MainActivity.MakeRequest(string.Format(@"http://172.21.123.196/oauth/access_token?grant_type=client_credentials"), "application/x-www-form-urlencoded;charset=UTF-8", "POST", "Basic ZThmMmViNjYtNDcwYy00YjZkLTlhYjItMDQ4OWM5NGJlNDEwOjJmY2U2MmY3LWVlZDMtNDAzYi04NWNhLWRjY2E5OTFjMGI2Nw==", true);
@@ -71,6 +70,10 @@ namespace BAAR.Droid
                     var MainPage = new Intent(this, typeof(MainActivity));
                     //Go to different page;
                     StartActivity(MainPage);
+                }
+                else
+                {
+                    Toast.MakeText(this,"Incorrect Password",ToastLength.Short).Show();
                 }
             };
         }
