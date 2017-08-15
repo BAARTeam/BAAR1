@@ -20,13 +20,13 @@ using System.Data.SqlClient;
 
 namespace BAAR.Droid
 {
-    [Activity(Label = "student",ScreenOrientation = ScreenOrientation.Portrait)]
+    [Activity(Label = "student", ScreenOrientation = ScreenOrientation.Portrait)]
 
-    
+
 
     public class studentac : Activity
     {
-        public Dictionary<int,Tuple<Spinner,Spinner>> LayoutSpinner = new Dictionary<int, Tuple<Spinner, Spinner>>();
+        public Dictionary<int, Tuple<Spinner, Spinner>> LayoutSpinner = new Dictionary<int, Tuple<Spinner, Spinner>>();
         public List<string> EmailNames = new List<string>();
         public string studentname;
         public string EmailAddress;
@@ -52,7 +52,7 @@ namespace BAAR.Droid
             CreateStudentTicket(Name[0] + " " + Name[1], result.ToString());
             MobileBarcodeScanner.Uninitialize(Application);
 
-            SqlCommand Insert= new SqlCommand("INSERT INTO MTSS_BadgePro VALUES (@DT, @SF, @SL, @SN, @StN, @ATi, @AT, @AL)", Login.conn);
+            SqlCommand Insert = new SqlCommand("INSERT INTO MTSS_ActionLog VALUES (@DT, @SF, @SL, @SN, @StN, @ATi, @AT, @AL)", Login.conn);
 
             Button EmailButton = FindViewById<Button>(Resource.Id.EmailButton);
             EmailButton.Click += (sender, e) =>
@@ -66,7 +66,7 @@ namespace BAAR.Droid
 
                 using (var streamWriter = new StreamWriter(request2.GetRequestStream()))
                 {
-                    double THing =Convert.ToDouble(result.ToString());
+                    double THing = Convert.ToDouble(result.ToString());
                     JsonPayload New = new JsonPayload();
                     New.Number = System.Math.Round(THing, 0);
                     string Tests = (string)JsonConvert.SerializeObject(New);
@@ -101,14 +101,22 @@ namespace BAAR.Droid
 
                 for (int i = 0; i < NumberOfTickets; i++)
                 {
-                   string EmailBehaviour = LayoutSpinner[i + 1].Item1.SelectedItem.ToString();
-                   string EmailLocation = LayoutSpinner[i + 1].Item2.SelectedItem.ToString();
-                   string EmailName = EmailNames[i];
-                   BackgroundEmail(EmailAddress,EmailName,EmailLocation,EmailBehaviour);
+                    string EmailBehaviour = LayoutSpinner[i + 1].Item1.SelectedItem.ToString();
+                    string EmailLocation = LayoutSpinner[i + 1].Item2.SelectedItem.ToString();
+                    string EmailName = EmailNames[i];
+                    BackgroundEmail(EmailAddress, EmailName, EmailLocation, EmailBehaviour);
                 }
 
+
+                string Content = (string)MainActivity.MakeRequest3("guardemail2", 65318.ToString());
+                BackgroundEmail(Content.GetStringOut("guardianemail_2"), "Test", "Commonss", "Responsible");
+
+                Login.conn.Open();
+                log log = new log("TEST", "TEsT", EmailNames[0], Convert.ToDouble(result.ToString()), LayoutSpinner[1].Item1.SelectedItem.ToString(), LayoutSpinner[1].Item2.SelectedItem.ToString());
+                log.exe(Insert);
+                Login.conn.Close();
                 Toast.MakeText(this, "Email Sent", ToastLength.Long).Show();
-                Intent MainPage = new Intent(this,typeof(MainActivity));
+                Intent MainPage = new Intent(this, typeof(MainActivity));
                 StartActivity(MainPage);
             };
 
@@ -158,14 +166,11 @@ namespace BAAR.Droid
                             content = content.GetStringOut("lastfirst");
                             studentname = content;
                         }
-                        log log = new log("TEST", "TEsT", studentname, Convert.ToDouble(result.ToString()), LayoutSpinner[0].Item1.SelectedItem.ToString(), LayoutSpinner[0].Item2.SelectedItem.ToString());
-                        log.exe(Insert);
                     }
-
                     string[] SecondaryName = SplitName(studentname);
                     EmailNames.Add(SecondaryName[0]);
 
-                   
+
                     CreateStudentTicket(SecondaryName[0] + " " + SecondaryName[1], result1.ToString());
                 }
                 catch
@@ -180,9 +185,9 @@ namespace BAAR.Droid
         {
             string[] SplitName = ToSplit.Split(',');
             string[] SpaceSplit = SplitName[1].Split(' ');
-            return new string[] { SpaceSplit[1],SplitName[0] };
+            return new string[] { SpaceSplit[1], SplitName[0] };
         }
-       const string AccountPassword = "Fopo7082";
+        const string AccountPassword = "Fopo7082";
         public void CreateStudentTicket(string Number, string Name)
         {
 
@@ -241,16 +246,17 @@ ViewGroup.LayoutParams.WrapContent);
             LocationParam.AddRule(LayoutRules.Below, BehaviourSpinner.Id);
             RelLayout.AddView(LocationSpinner, LocationParam);
             NumberOfTickets++;
-            LayoutSpinner.Add(NumberOfTickets,new Tuple<Spinner,Spinner>(BehaviourSpinner,LocationSpinner));
+            LayoutSpinner.Add(NumberOfTickets, new Tuple<Spinner, Spinner>(BehaviourSpinner, LocationSpinner));
         }
 
-        public void BackgroundEmail(string ToEmailAddress,string Name, string Location, string Behaviours)
+        public void BackgroundEmail(string ToEmailAddress, string Name, string Location, string Behaviours)
         {
+
             var fromAddress = new MailAddress("GoingPro@kentisd.org", "Going Pro");
             var toAddress = new MailAddress(ToEmailAddress, "Thing");
             const string fromPassword = AccountPassword;
-            string subject = " "+ Name+ " was positively recognized today at Kent ISD!";
-            string body = "“A staff member at Kent ISD secondary campus schools recognized "+Name +" for "+Behaviours+" in the "+Location+" today!” \n “This recognition comes with our campus initiative, “Going Pro at Kent ISD”, which is preparing students to be college and career ready by focusing on positive behaviors.\n Be professional.Be Respectful.Be Responsible.Demonstrate Initiative.Be Safe.” \n “Please make sure to congratulate "+Name+" tonight!”" + "Sincerely <a href=\"mailto:dakotastickney@gmail.com?GoingPro\" target=\"_top\">LaurieFernandez</a>";
+            string subject = " " + Name + " was positively recognized today at Kent ISD!";
+            string body = "“A staff member at Kent ISD secondary campus schools recognized " + Name + " for " + Behaviours + " in the " + Location + " today!” \n “This recognition comes with our campus initiative, “Going Pro at Kent ISD”, which is preparing students to be college and career ready by focusing on positive behaviors.\n Be professional.Be Respectful.Be Responsible.Demonstrate Initiative.Be Safe.” \n “Please make sure to congratulate " + Name + " tonight!”" + "Sincerely <a href=\"mailto:dakotastickney@gmail.com?GoingPro\" target=\"_top\">LaurieFernandez</a>";
 
             var smtp = new SmtpClient
             {
@@ -275,52 +281,9 @@ ViewGroup.LayoutParams.WrapContent);
 
     public class JsonPayload
     {
-      [JsonProperty("scannedbarcode")]
-       public double Number;
-    }
-
-    public class log
-    {
-        public log(string SF, string SL, string SN, double Num, string AType, string ALocation)
-        {
-            this.StaffF = SF;
-            this.StaffL = SL;
-            this.Student_Name = SN;
-            this.Student_Number = Num;
-            this.Action_Type = AType;
-            this.Action_Location = ALocation;
-        }
-        private string StaffF { get; set; }
-
-        private string StaffL { get; set; }
-
-        private string Student_Name { get; set; }
-
-        private double Student_Number { get; set; }
-
-        private string Action_Type { get; set; }
-
-        private string Action_Location { get; set; }
-
-        public void exe(SqlCommand sql)
-        {
-            sql.Parameters.AddWithValue("@DT", DateTime.Now);
-
-            sql.Parameters.AddWithValue("@SF", StaffF);
-
-            sql.Parameters.AddWithValue("@SL", StaffL);
-
-            sql.Parameters.AddWithValue("@SN", Student_Name);
-
-            sql.Parameters.AddWithValue("@StN", Student_Number);
-
-            sql.Parameters.AddWithValue("@ATi", DateTime.Today);
-
-            sql.Parameters.AddWithValue("@AT", Action_Type);
-
-            sql.Parameters.AddWithValue("@AL", Action_Location);
-
-            sql.ExecuteNonQuery();
-        }
+        [JsonProperty("scannedbarcode")]
+        public double Number;
     }
 }
+
+ 

@@ -113,6 +113,52 @@ namespace BAAR.Droid
                 }
             }
         }
+        public static object MakeRequest3(string QueryName,string StudentNumber)
+        {
+            HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(@"http://172.21.123.196/ws/schema/query/" +QueryName +"?");
+            request.Method = "POST";
+            request.ContentType = "application/json";
+            request.Headers.Add(HttpRequestHeader.Authorization, string.Format("Bearer {0}", Login.Token.AccessToken));
+            request.Accept = "application/json";
+
+
+            using (var streamWriter = new StreamWriter(request.GetRequestStream()))
+            {
+                //FIx this mess
+                Console.WriteLine("Input String " + StudentNumber);
+                double THing = Convert.ToDouble(StudentNumber);
+                JsonPayload New = new JsonPayload();
+                New.Number = THing;
+                string Tests = (string)JsonConvert.SerializeObject(New);
+
+                streamWriter.Write(Tests);
+                streamWriter.Flush();
+                streamWriter.Close();
+            }
+
+            using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+            {
+                if (response.StatusCode != HttpStatusCode.OK)
+                    Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
+                using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                {
+                    var content = reader.ReadToEnd();
+                    if (string.IsNullOrWhiteSpace(content))
+                    {
+                        Console.Out.WriteLine("Response contained empty body...");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Info Body: \r\n {0}", content);
+                    }
+                    return content;
+                }
+            }
+        }
+
+
+
+
     }
 }
 
