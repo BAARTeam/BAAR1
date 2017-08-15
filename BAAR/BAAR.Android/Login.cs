@@ -30,11 +30,22 @@ namespace BAAR.Droid
 
             EditText Username = FindViewById<EditText>(Resource.Id.Username_Textbox);
             EditText Password = FindViewById<EditText>(Resource.Id.Password_Textbox);
-            SqlConnection conn = new SqlConnection(@"Data Source = webdb\webdb; Initial Catalog = MTSS_BadgePro; Integrated Security = False; User ID = mtss_admin; Password =KBhSIQXqZ8J^; Pooling = False");
-            string pass;
-            using (SqlConnection connection = new SqlConnection())
+
+
+            Button button = FindViewById<Button>(Resource.Id.button1);
+            button.SetTextColor(Color.White);
+
+            Username.SetBackgroundColor(Color.White);
+            Username.SetTextColor(Color.Black);
+            Password.SetBackgroundColor(Color.White);
+            Password.SetTextColor(Color.Black);
+
+            button.Click += (sender1, e) =>
             {
-                connection.ConnectionString = conn.ConnectionString;
+                string pass;
+                using (SqlConnection connection = new SqlConnection())
+                {
+                    connection.ConnectionString = conn.ConnectionString;
 
                     connection.Open();
 
@@ -61,7 +72,7 @@ namespace BAAR.Droid
                 }
                 else
                 {
-                    Toast.MakeText(this,"Incorrect Password",ToastLength.Short).Show();
+                    Toast.MakeText(this, "Incorrect Password", ToastLength.Short).Show();
                 }
             };
         }

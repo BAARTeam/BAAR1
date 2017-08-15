@@ -43,5 +43,6 @@
         android:id="@+id/button1"
         android:width="260sp"
         android:gravity="center"
-        android:layout_gravity="center" />
+        android:layout_gravity="center"
+        android:inputType="none" />
 </LinearLayout>
