@@ -83,7 +83,7 @@ namespace BAAR.Droid
                 {
                     BarcodeScanReturn Thing = await StartBarcodeScanner();
 
-                    string content = (string)MainActivity.MakeRequest3("name", Thing.StudentNumber.ToString());
+                    string content = (string)MainActivity.MakeRequest3("data", Thing.StudentNumber.ToString());
                     content = content.GetStringOut("lastfirst");
                     studentname = content;
                     string[] SecondaryName = SplitName(studentname);

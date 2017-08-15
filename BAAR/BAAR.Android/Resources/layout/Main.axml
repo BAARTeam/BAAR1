@@ -9,7 +9,7 @@
     android:alpha="1"
     android:id="@+id/main">
     <TextView
-        android:text="Go Pro!"
+        android:text="Go!"
         android:gravity="center"
         android:textSize="60sp"
         android:textAlignment="gravity"
