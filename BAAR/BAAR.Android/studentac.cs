@@ -17,6 +17,7 @@ using System.Net.Mail;
 using ZXing.Mobile;
 using Android.Graphics;
 using System.Data.SqlClient;
+using System.Threading.Tasks;
 
 namespace BAAR.Droid
 {
@@ -39,65 +40,21 @@ namespace BAAR.Droid
 
             FindViewById<LinearLayout>(Resource.Id.Root).SetBackgroundColor(Color.Argb(255, 0, 9, 26));
 
-            MobileBarcodeScanner.Initialize(Application);
-
-            var scanner = new ZXing.Mobile.MobileBarcodeScanner();
-            var result = await scanner.Scan();
-            string Contra = (string)MainActivity.MakeRequest2(result.ToString());
-            Contra = Contra.GetStringOut("lastfirst");
-            string[] Name = SplitName(Contra);
+            BarcodeScanReturn Returned = await StartBarcodeScanner();
+            string[] Name = SplitName(Returned.StudentName);
 
             EmailNames.Add(Name[0]);
-            Console.WriteLine("CHECK " + Contra);
-            CreateStudentTicket(Name[0] + " " + Name[1], result.ToString());
-            MobileBarcodeScanner.Uninitialize(Application);
+            Console.WriteLine("CHECK " + Returned.StudentName);
+            CreateStudentTicket(Name[0] + " " + Name[1], Returned.StudentNumber.ToString());
 
             SqlCommand Insert = new SqlCommand("INSERT INTO MTSS_ActionLog VALUES (@DT, @SF, @SL, @SN, @StN, @ATi, @AT, @AL)", Login.conn);
 
             Button EmailButton = FindViewById<Button>(Resource.Id.EmailButton);
             EmailButton.Click += (sender, e) =>
             {
-                HttpWebRequest request2 = (HttpWebRequest)HttpWebRequest.Create("http://172.21.123.196/ws/schema/query/guardemail?");
-                request2.Method = "POST";
-                request2.ContentType = "application/json";
-                request2.Headers.Add(HttpRequestHeader.Authorization, string.Format("Bearer {0}", Login.Token.AccessToken));
-                request2.Accept = "application/json";
-
-
-                using (var streamWriter = new StreamWriter(request2.GetRequestStream()))
-                {
-                    double THing = Convert.ToDouble(result.ToString());
-                    JsonPayload New = new JsonPayload();
-                    New.Number = System.Math.Round(THing, 0);
-                    string Tests = (string)JsonConvert.SerializeObject(New);
-                    Console.WriteLine("Tests " + Tests);
-                    streamWriter.Write(Tests);
-                    streamWriter.Flush();
-                    streamWriter.Close();
-                }
-
-                using (HttpWebResponse response2 = request2.GetResponse() as HttpWebResponse)
-                {
-                    if (response2.StatusCode != HttpStatusCode.OK)
-                        Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response2.StatusCode);
-                    using (StreamReader reader = new StreamReader(response2.GetResponseStream()))
-                    {
-                        var content = reader.ReadToEnd();
-                        if (string.IsNullOrWhiteSpace(content))
-                        {
-                            Console.Out.WriteLine("Response contained empty body...");
-                        }
-                        else
-                        {
-                            Console.WriteLine("Info Body: \r\n {0}", content);
-                        }
-
-                        content = content.GetStringOut("guardianemail");
-                        EmailAddress = content;
-                        Console.WriteLine("email here " + content);
-                    }
-
-                }
+                string content = (string) MainActivity.MakeRequest3("guardemail",Returned.StudentNumber);
+                content = content.GetStringOut("guardianemail");
+                EmailAddress = content;
 
                 for (int i = 0; i < NumberOfTickets; i++)
                 {
@@ -109,10 +66,10 @@ namespace BAAR.Droid
 
 
                 string Content = (string)MainActivity.MakeRequest3("guardemail2", 65318.ToString());
-                BackgroundEmail(Content.GetStringOut("guardianemail_2"), "Test", "Commonss", "Responsible");
+                BackgroundEmail(Content.GetStringOut("guardianemail_2"), "Jacob's Dad", "Commonss", "Responsible");
 
                 Login.conn.Open();
-                log log = new log("TEST", "TEsT", EmailNames[0], Convert.ToDouble(result.ToString()), LayoutSpinner[1].Item1.SelectedItem.ToString(), LayoutSpinner[1].Item2.SelectedItem.ToString());
+                log log = new log("TEST", "TEsT", EmailNames[0], Convert.ToDouble(Returned.StudentNumber.ToString()), LayoutSpinner[1].Item1.SelectedItem.ToString(), LayoutSpinner[1].Item2.SelectedItem.ToString());
                 log.exe(Insert);
                 Login.conn.Close();
                 Toast.MakeText(this, "Email Sent", ToastLength.Long).Show();
@@ -126,52 +83,16 @@ namespace BAAR.Droid
             {
                 try
                 {
-                    MobileBarcodeScanner.Initialize(Application);
-                    var scanner1 = new ZXing.Mobile.MobileBarcodeScanner();
-                    var result1 = await scanner.Scan();
+                    BarcodeScanReturn Thing = await StartBarcodeScanner();
 
-                    HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create("http://172.21.123.196/ws/schema/query/name?");
-                    request.Method = "POST";
-                    request.ContentType = "application/json";
-                    request.Headers.Add(HttpRequestHeader.Authorization, string.Format("Bearer {0}", Login.Token.AccessToken));
-                    request.Accept = "application/json";
-
-                    using (var streamWriter = new StreamWriter(request.GetRequestStream()))
-                    {
-                        int ScannerResult = Convert.ToInt16(result1.ToString());
-                        JsonPayload Payload = new JsonPayload();
-                        Payload.Number = ScannerResult;
-                        string JsonString = (string)JsonConvert.SerializeObject(Payload);
-
-                        streamWriter.Write(JsonString);
-                        streamWriter.Flush();
-                        streamWriter.Close();
-                    }
-
-                    using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
-                    {
-                        if (response.StatusCode != HttpStatusCode.OK)
-                            Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
-                        using (StreamReader reader = new StreamReader(response.GetResponseStream()))
-                        {
-                            var content = reader.ReadToEnd();
-                            if (string.IsNullOrWhiteSpace(content))
-                            {
-                                Console.Out.WriteLine("Response contained empty body...");
-                            }
-                            else
-                            {
-                                Console.WriteLine("Info Body: \r\n {0}", content);
-                            }
-                            content = content.GetStringOut("lastfirst");
-                            studentname = content;
-                        }
-                    }
+                    string content = (string)MainActivity.MakeRequest3("name", Thing.StudentNumber.ToString());
+                    content = content.GetStringOut("lastfirst");
+                    studentname = content;
                     string[] SecondaryName = SplitName(studentname);
                     EmailNames.Add(SecondaryName[0]);
+                    CreateStudentTicket(SecondaryName[0] + " " + SecondaryName[1], Thing.StudentNumber.ToString());
 
 
-                    CreateStudentTicket(SecondaryName[0] + " " + SecondaryName[1], result1.ToString());
                 }
                 catch
                 {
@@ -251,7 +172,6 @@ ViewGroup.LayoutParams.WrapContent);
 
         public void BackgroundEmail(string ToEmailAddress, string Name, string Location, string Behaviours)
         {
-
             var fromAddress = new MailAddress("GoingPro@kentisd.org", "Going Pro");
             var toAddress = new MailAddress(ToEmailAddress, "Thing");
             const string fromPassword = AccountPassword;
@@ -277,12 +197,33 @@ ViewGroup.LayoutParams.WrapContent);
                 smtp.Send(message);
             }
         }
-    }
+        public async Task<BarcodeScanReturn> StartBarcodeScanner()
+        {
+            MobileBarcodeScanner.Initialize(Application);
+
+            var scanner = new ZXing.Mobile.MobileBarcodeScanner();
+            var result = await scanner.Scan();
+            string Contra = (string)MainActivity.MakeRequest2(result.ToString());
+            return new BarcodeScanReturn(Contra.GetStringOut("lastfirst"),result.ToString());
+        }
+    } 
 
     public class JsonPayload
     {
         [JsonProperty("scannedbarcode")]
         public double Number;
+    }
+
+    public class BarcodeScanReturn
+    {
+        public string StudentName;
+        public string StudentNumber;
+
+        public BarcodeScanReturn(string StuName, string StuNumber)
+        {
+            this.StudentName = StuName;
+            this.StudentNumber = StuNumber;
+        }
     }
 }
 
