@@ -21,6 +21,9 @@ namespace BAAR.Droid
     {
         public static AccessObject Token;
         public static SqlConnection conn = new SqlConnection(@"Data Source = webdb\webdb; Initial Catalog = MTSS_BadgePro; Integrated Security = False; User ID = mtss_admin; Password =KBhSIQXqZ8J^; Pooling = False");
+        public static string StaffFirst;
+        public static string StaffLast;
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -65,6 +68,17 @@ namespace BAAR.Droid
                     //Requests an access token from powerschool that we use for getting data;
                     Token = (AccessObject)MainActivity.MakeRequest(string.Format(@"http://172.21.123.196/oauth/access_token?grant_type=client_credentials"), "application/x-www-form-urlencoded;charset=UTF-8", "POST", "Basic ZThmMmViNjYtNDcwYy00YjZkLTlhYjItMDQ4OWM5NGJlNDEwOjJmY2U2MmY3LWVlZDMtNDAzYi04NWNhLWRjY2E5OTFjMGI2Nw==", true);
 
+                    conn.Open();
+                    SqlCommand SF = new SqlCommand("SELECT First_Name FROM MTSS_LoginAccount WHERE Login_Name=@ln",conn);
+                    SF.Parameters.AddWithValue("@ln", Username.Text);
+                    StaffFirst = SF.ExecuteScalar().ToString();
+
+                    SqlCommand SL = new SqlCommand("SELECT Last_Name FROM MTSS_LoginAccount WHERE Login_Name=@ln",conn);
+                    SL.Parameters.AddWithValue("@ln", Username.Text);
+                    StaffLast = SL.ExecuteScalar().ToString();
+                    conn.Close();
+
+                    
                     // Create an intent allowing the program to change to a different page;
                     var MainPage = new Intent(this, typeof(MainActivity));
                     //Go to different page;
