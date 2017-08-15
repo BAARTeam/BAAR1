@@ -41,33 +41,31 @@ namespace BAAR.Droid
             FindViewById<LinearLayout>(Resource.Id.Root).SetBackgroundColor(Color.Argb(255, 0, 9, 26));
 
             BarcodeScanReturn Returned = await StartBarcodeScanner();
+            Console.WriteLine("Yellow Submarine " + Returned.StudentName);
             string[] Name = SplitName(Returned.StudentName);
 
+            Console.WriteLine(Name);
             EmailNames.Add(Name[0]);
-            Console.WriteLine("CHECK " + Returned.StudentName);
             CreateStudentTicket(Name[0] + " " + Name[1], Returned.StudentNumber.ToString());
 
-            SqlCommand Insert = new SqlCommand("INSERT INTO MTSS_ActionLog VALUES (@DT, @SF, @SL, @SN, @StN, @ATi, @AT, @AL)", Login.conn);
 
             Button EmailButton = FindViewById<Button>(Resource.Id.EmailButton);
             EmailButton.Click += (sender, e) =>
             {
-                string content = (string) MainActivity.MakeRequest3("guardemail",Returned.StudentNumber);
-                content = content.GetStringOut("guardianemail");
-                EmailAddress = content;
+               
 
                 for (int i = 0; i < NumberOfTickets; i++)
                 {
                     string EmailBehaviour = LayoutSpinner[i + 1].Item1.SelectedItem.ToString();
                     string EmailLocation = LayoutSpinner[i + 1].Item2.SelectedItem.ToString();
                     string EmailName = EmailNames[i];
-                    BackgroundEmail(EmailAddress, EmailName, EmailLocation, EmailBehaviour);
+                    EmailInfo NewEmail = new EmailInfo(EmailName,Returned.PrimaryEmailAddress,Returned.SecondaryAddress,Returned.StudentAddress,"Commons","Safety");
+                    BackgroundEmail(NewEmail);
                 }
 
 
-                string Content = (string)MainActivity.MakeRequest3("guardemail2", 65318.ToString());
-                BackgroundEmail(Content.GetStringOut("guardianemail_2"), "Jacob's Dad", "Commonss", "Responsible");
 
+                SqlCommand Insert = new SqlCommand("INSERT INTO MTSS_ActionLog VALUES (@DT, @SF, @SL, @SN, @StN, @ATi, @AT, @AL)", Login.conn);
                 Login.conn.Open();
                 log log = new log("TEST", "TEsT", EmailNames[0], Convert.ToDouble(Returned.StudentNumber.ToString()), LayoutSpinner[1].Item1.SelectedItem.ToString(), LayoutSpinner[1].Item2.SelectedItem.ToString());
                 log.exe(Insert);
@@ -170,13 +168,13 @@ ViewGroup.LayoutParams.WrapContent);
             LayoutSpinner.Add(NumberOfTickets, new Tuple<Spinner, Spinner>(BehaviourSpinner, LocationSpinner));
         }
 
-        public void BackgroundEmail(string ToEmailAddress, string Name, string Location, string Behaviours)
+        public void BackgroundEmail(EmailInfo Email)
         {
             var fromAddress = new MailAddress("GoingPro@kentisd.org", "Going Pro");
-            var toAddress = new MailAddress(ToEmailAddress, "Thing");
+            var toAddress = new MailAddress(Email.PrimaryAddress, "Thing");
             const string fromPassword = AccountPassword;
-            string subject = " " + Name + " was positively recognized today at Kent ISD!";
-            string body = "“A staff member at Kent ISD secondary campus schools recognized " + Name + " for " + Behaviours + " in the " + Location + " today!” \n “This recognition comes with our campus initiative, “Going Pro at Kent ISD”, which is preparing students to be college and career ready by focusing on positive behaviors.\n Be professional.Be Respectful.Be Responsible.Demonstrate Initiative.Be Safe.” \n “Please make sure to congratulate " + Name + " tonight!”" + "Sincerely <a href=\"mailto:dakotastickney@gmail.com?GoingPro\" target=\"_top\">LaurieFernandez</a>";
+            string subject = " " + Email.Name + " was positively recognized today at Kent ISD!";
+            string body = "“A staff member at Kent ISD secondary campus schools recognized " + Email.Name + " for " + Email.Action + " in the " + Email.Location + " today!” \n “This recognition comes with our campus initiative, “Going Pro at Kent ISD”, which is preparing students to be college and career ready by focusing on positive behaviors.\n Be professional.Be Respectful.Be Responsible.Demonstrate Initiative.Be Safe.” \n “Please make sure to congratulate " + Email.Name + " tonight!”" + "Sincerely <a href=\"mailto:dakotastickney@gmail.com?GoingPro\" target=\"_top\">LaurieFernandez</a>";
 
             var smtp = new SmtpClient
             {
@@ -203,8 +201,15 @@ ViewGroup.LayoutParams.WrapContent);
 
             var scanner = new ZXing.Mobile.MobileBarcodeScanner();
             var result = await scanner.Scan();
-            string Contra = (string)MainActivity.MakeRequest2(result.ToString());
-            return new BarcodeScanReturn(Contra.GetStringOut("lastfirst"),result.ToString());
+            string Contra = (string)MainActivity.MakeRequest3("data",result.ToString());
+
+            Console.WriteLine("Returned Data " + Contra);
+            string Name = Contra.GetStringOut("lastfirst");
+            Console.WriteLine("Name " + Name);
+            string Email1 = Contra.GetStringOut("guardianemail");
+            string Email2 = Contra.GetStringOut("guardianemail_2");
+            string Email3 = Contra.GetStringOut("stud_email");
+            return new BarcodeScanReturn(Name,result.ToString(),Email1,Email2,Email3);
         }
     } 
 
@@ -218,11 +223,37 @@ ViewGroup.LayoutParams.WrapContent);
     {
         public string StudentName;
         public string StudentNumber;
+        public string PrimaryEmailAddress;
+        public string SecondaryAddress;
+        public string StudentAddress;
 
-        public BarcodeScanReturn(string StuName, string StuNumber)
+        public BarcodeScanReturn(string StuName, string StuNumber,string PrimEAdd,string SecEAdd,string StuAdd)
         {
             this.StudentName = StuName;
             this.StudentNumber = StuNumber;
+            this.PrimaryEmailAddress = PrimEAdd;
+            this.SecondaryAddress = SecEAdd;
+            this.StudentAddress = StuAdd;
+        }
+    }
+
+    public class EmailInfo
+    {
+        public string PrimaryAddress;
+        public string SecondaryAddress;
+        public string StudentAddress;
+        public string Location;
+        public string Action;
+        public string Name;
+
+        public EmailInfo(string StuName, string PrimAdd,string SecAdd,string StuAdd,string Loc,string Act)
+        {
+            this.Name = StuName;
+            this.PrimaryAddress = PrimAdd;
+            this.SecondaryAddress = SecAdd;
+            this.StudentAddress = StuAdd;
+            this.Location = Loc;
+            this.Action = Act;
         }
     }
 }
