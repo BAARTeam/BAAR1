@@ -17,7 +17,7 @@ using Android.Graphics;
 
 namespace BAAR.Droid
 {
-    [Activity(Label = "BarcodeScanner", ScreenOrientation = ScreenOrientation.Portrait)]
+    [Activity(Label = "BarcodeScanner",MainLauncher =false,ScreenOrientation = ScreenOrientation.Portrait)]
     public class MainActivity : Activity
     {
         protected override void OnCreate(Bundle bundle)

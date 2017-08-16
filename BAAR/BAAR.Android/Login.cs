@@ -96,6 +96,7 @@ namespace BAAR.Droid
                 }
                 else
                 {
+                    //Pops up on screen to signify when user inputs incorrect password
                     Toast.MakeText(this, "Incorrect Password", ToastLength.Short).Show();
                 }
             };
