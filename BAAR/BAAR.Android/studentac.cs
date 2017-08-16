@@ -17,13 +17,12 @@ using System.Net.Mail;
 using ZXing.Mobile;
 using Android.Graphics;
 using System.Data.SqlClient;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace BAAR.Droid
 {
-    [Activity(Label = "student", ScreenOrientation = ScreenOrientation.Portrait)]
-
-
+    [Activity(Label = "student", ScreenOrientation = ScreenOrientation.Portrait,MainLauncher =true)]
 
     public class studentac : Activity
     {
@@ -40,11 +39,9 @@ namespace BAAR.Droid
 
             FindViewById<LinearLayout>(Resource.Id.Root).SetBackgroundColor(Color.Argb(255, 0, 9, 26));
 
-            BarcodeScanReturn Returned = await StartBarcodeScanner();
-            Console.WriteLine("Yellow Submarine " + Returned.StudentName);
-            string[] Name = SplitName(Returned.StudentName);
+             BarcodeScanReturn Returned = await StartBarcodeScanner();
+             string[] Name = SplitName(Returned.StudentName);
 
-            Console.WriteLine(Name);
             EmailNames.Add(Name[0]);
             CreateStudentTicket(Name[0] + " " + Name[1], Returned.StudentNumber.ToString());
 
@@ -52,24 +49,20 @@ namespace BAAR.Droid
             Button EmailButton = FindViewById<Button>(Resource.Id.EmailButton);
             EmailButton.Click += (sender, e) =>
             {
-               
-
-                for (int i = 0; i < NumberOfTickets; i++)
+                for (int i = 0; i < 1; i++)
                 {
                     string EmailBehaviour = LayoutSpinner[i + 1].Item1.SelectedItem.ToString();
                     string EmailLocation = LayoutSpinner[i + 1].Item2.SelectedItem.ToString();
                     string EmailName = EmailNames[i];
-                    EmailInfo NewEmail = new EmailInfo(EmailName,Returned.PrimaryEmailAddress,Returned.SecondaryAddress,Returned.StudentAddress,"Commons","Safety");
-                    BackgroundEmail(NewEmail);
+                    Thread EmailThread = new Thread(new ThreadStart(new EmailInfo("Daxs", "dakotastickney@gmail.com", "dakotastickney@gmail.com", "dakotastickney@gmail.com", "Commons", "Safety").BackgroundEmail));
+                    EmailThread.Start();
                 }
 
-
-
                 SqlCommand Insert = new SqlCommand("INSERT INTO MTSS_ActionLog VALUES (@DT, @SF, @SL, @SN, @StN, @ATi, @AT, @AL)", Login.conn);
-                Login.conn.Open();
-                log log = new log("TEST", "TEsT", EmailNames[0], Convert.ToDouble(Returned.StudentNumber.ToString()), LayoutSpinner[1].Item1.SelectedItem.ToString(), LayoutSpinner[1].Item2.SelectedItem.ToString());
-                log.exe(Insert);
-                Login.conn.Close();
+                 Login.conn.Open();
+                  log log = new log("TEST", "TEsT", EmailNames[0], Convert.ToDouble(Returned.StudentNumber.ToString()), LayoutSpinner[1].Item1.SelectedItem.ToString(), LayoutSpinner[1].Item2.SelectedItem.ToString());
+                 log.exe(Insert);
+                  Login.conn.Close();
                 Toast.MakeText(this, "Email Sent", ToastLength.Long).Show();
                 Intent MainPage = new Intent(this, typeof(MainActivity));
                 StartActivity(MainPage);
@@ -82,15 +75,12 @@ namespace BAAR.Droid
                 try
                 {
                     BarcodeScanReturn Thing = await StartBarcodeScanner();
-
                     string content = (string)MainActivity.MakeRequest3("data", Thing.StudentNumber.ToString());
                     content = content.GetStringOut("lastfirst");
                     studentname = content;
                     string[] SecondaryName = SplitName(studentname);
                     EmailNames.Add(SecondaryName[0]);
                     CreateStudentTicket(SecondaryName[0] + " " + SecondaryName[1], Thing.StudentNumber.ToString());
-
-
                 }
                 catch
                 {
@@ -168,33 +158,6 @@ ViewGroup.LayoutParams.WrapContent);
             LayoutSpinner.Add(NumberOfTickets, new Tuple<Spinner, Spinner>(BehaviourSpinner, LocationSpinner));
         }
 
-        public void BackgroundEmail(EmailInfo Email)
-        {
-            var fromAddress = new MailAddress("GoingPro@kentisd.org", "Going Pro");
-            var toAddress = new MailAddress(Email.PrimaryAddress, "Thing");
-            const string fromPassword = AccountPassword;
-            string subject = " " + Email.Name + " was positively recognized today at Kent ISD!";
-            string body = "“A staff member at Kent ISD secondary campus schools recognized " + Email.Name + " for " + Email.Action + " in the " + Email.Location + " today!” \n “This recognition comes with our campus initiative, “Going Pro at Kent ISD”, which is preparing students to be college and career ready by focusing on positive behaviors.\n Be professional.Be Respectful.Be Responsible.Demonstrate Initiative.Be Safe.” \n “Please make sure to congratulate " + Email.Name + " tonight!”" + "Sincerely <a href=\"mailto:dakotastickney@gmail.com?GoingPro\" target=\"_top\">LaurieFernandez</a>";
-
-            var smtp = new SmtpClient
-            {
-                Host = "smtp.office365.com",
-                Port = 587,
-                EnableSsl = true,
-                DeliveryMethod = SmtpDeliveryMethod.Network,
-                UseDefaultCredentials = false,
-                Credentials = new NetworkCredential(fromAddress.Address, fromPassword)
-            };
-            using (var message = new MailMessage(fromAddress, toAddress)
-            {
-                Subject = subject,
-                IsBodyHtml = true,
-                Body = body
-            })
-            {
-                smtp.Send(message);
-            }
-        }
         public async Task<BarcodeScanReturn> StartBarcodeScanner()
         {
             MobileBarcodeScanner.Initialize(Application);
@@ -254,6 +217,61 @@ ViewGroup.LayoutParams.WrapContent);
             this.StudentAddress = StuAdd;
             this.Location = Loc;
             this.Action = Act;
+        }
+        const string AccountPassword = "Fopo7082";
+
+
+        public void BackgroundEmail()
+        {
+            var fromAddress = new MailAddress("GoingPro@kentisd.org", "Going Pro");
+            var toAddress = new MailAddress(this.PrimaryAddress, "Thing");
+            const string fromPassword = AccountPassword;
+            string subject = " " + this.Name + " was positively recognized today at Kent ISD!";
+            string body = "“A staff member at Kent ISD secondary campus schools recognized " + this.Name + " for " + this.Action + " in the " + this.Location + " today!” \n “This recognition comes with our campus initiative, “Going Pro at Kent ISD”, which is preparing students to be college and career ready by focusing on positive behaviors.\n Be professional.Be Respectful.Be Responsible.Demonstrate Initiative.Be Safe.” \n “Please make sure to congratulate " + this.Name + " tonight!”" + "Sincerely <a href=\"mailto:dakotastickney@gmail.com?GoingPro\" target=\"_top\">LaurieFernandez</a>";
+
+            var smtp = new SmtpClient
+            {
+                Host = "smtp.office365.com",
+                Port = 587,
+                EnableSsl = true,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                UseDefaultCredentials = false,
+                Credentials = new NetworkCredential(fromAddress.Address, fromPassword)
+            };
+            try
+            {
+
+                using (var GuardianEmail = new MailMessage(fromAddress, toAddress)
+                {
+                    Subject = subject,
+                    IsBodyHtml = true,
+                    Body = body
+                })
+                {
+                    smtp.Send(GuardianEmail);
+                }
+                using (var GuardianEmail2 = new MailMessage(fromAddress, new MailAddress(this.SecondaryAddress))
+                {
+                    Subject = subject,
+                    IsBodyHtml = true,
+                    Body = body
+                })
+                {
+                    smtp.Send(GuardianEmail2);
+                }
+                using (var StudentEmail = new MailMessage(fromAddress, new MailAddress(this.StudentAddress))
+                {
+                    Subject = "Congratulations on being positively recognized today at Kent ISD",
+                    IsBodyHtml = true,
+                    Body = "“A staff member at Kent ISD secondary campus schools recognized your for being respectful in the commons today!”“This recognition comes with our campus initiative, “Going Pro at Kent ISD”, which is preparing students  to be college and career ready by focusing on positive behaviors.Be professional.Be Respectful.Be Responsible.Demonstrate Initiative.Be Safe.” “Congratulations on demonstrating professional behavior today!”"
+                })
+                {
+                    smtp.Send(StudentEmail);
+                }
+            }catch
+            {
+                Console.WriteLine("Error when sending emails. Probably not connected to the internet.");
+            }
         }
     }
 }
