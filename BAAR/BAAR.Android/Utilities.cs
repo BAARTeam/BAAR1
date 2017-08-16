@@ -14,6 +14,7 @@ namespace BAAR.Droid
 {
     static class Utilities
     {
+        //parses the json content for the strings needed
         public static string GetStringOut(this string StringToGet,string Find)
         {
 
@@ -24,13 +25,6 @@ namespace BAAR.Droid
                 string Testing = StringToGet.Substring(Test,Third - Test);
                 return Testing;
             }
-
-           // StringToGet = StringToGet.Substring(StringToGet.IndexOf(Find));
-           // StringToGet = StringToGet.Substring(StringToGet.IndexOf(":") + 2);
-
-           // StringToGet = StringToGet.Remove(StringToGet.IndexOf('"'));
-           // StringToGet = StringToGet.Remove(StringToGet.IndexOf('}'));
-
             return StringToGet;
         }
     }

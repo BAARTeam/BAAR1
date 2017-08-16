@@ -14,6 +14,7 @@ namespace BAAR.Droid
 {
     public class log
     {
+        //this class collects all the necessary information for the log then sends it to the DB
         public log(string SF, string SL, string SN, double Num, string AType, string ALocation)
         {
             this.StaffF = SF;
