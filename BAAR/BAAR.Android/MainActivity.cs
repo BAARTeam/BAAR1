@@ -23,44 +23,49 @@ namespace BAAR.Droid
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
+            //removes title
             Window.RequestFeature(WindowFeatures.NoTitle);
             // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.Main);
 
+            //assigns button to the scan image button
             ImageButton button = FindViewById<ImageButton>(Resource.Id.scanButton);
 
+            //sets main activity color
             FindViewById<LinearLayout>(Resource.Id.main).SetBackgroundColor(Color.Argb(255,0,9,26));
 
+            //scan button click
             button.Click += (sender, e) =>
             {
+                //button animation for click
+                button.ScaleX = ((float)(.9));
+                button.ScaleY = ((float)(.9));
+
+                //opens the studentac page with tickets
                 var NewScreen = new Intent(this, typeof(studentac));
                 StartActivity(NewScreen);
             };
 
         }
 
+        //function for the REST API Calls (Access Token)
         public static object MakeRequest(string RequestURL, string ContentType, string Method, string AuthHeader, bool ReturnAccessToken = false)
         {
+            //builds request
             HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(RequestURL);
             request.ContentType = ContentType;
             request.Method = Method;
+            //passes in clientid+secret
             request.Headers.Add(HttpRequestHeader.Authorization, AuthHeader);
 
             using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
             {
                 if (response.StatusCode != HttpStatusCode.OK)
                     Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
+                //reads response
                 using (StreamReader reader = new StreamReader(response.GetResponseStream()))
                 {
                     var content = reader.ReadToEnd();
-                    if (string.IsNullOrWhiteSpace(content))
-                    {
-                        Console.Out.WriteLine("Response contained empty body...");
-                    }
-                    else
-                    {
-                        Console.Out.WriteLine("Response Body: \r\n {0}", content);
-                    }
 
                     if (ReturnAccessToken)
                     {
@@ -71,48 +76,7 @@ namespace BAAR.Droid
                 }
             }
         }
-        public static object MakeRequest2(string Result)
-        {
-            HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create("http://172.21.123.196/ws/schema/query/name?");
-            request.Method = "POST";
-            request.ContentType = "application/json";
-            request.Headers.Add(HttpRequestHeader.Authorization, string.Format("Bearer {0}", Login.Token.AccessToken));
-            request.Accept = "application/json";
-
-
-            using (var streamWriter = new StreamWriter(request.GetRequestStream()))
-            {
-                //FIx this mess
-                Console.WriteLine("Input String " + Result);
-                double THing = Convert.ToDouble(Result);
-                JsonPayload New = new JsonPayload();
-                New.Number = THing;
-                string Tests = (string)JsonConvert.SerializeObject(New);
-
-                streamWriter.Write(Tests);
-                streamWriter.Flush();
-                streamWriter.Close();
-            }
-
-            using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
-            {
-                if (response.StatusCode != HttpStatusCode.OK)
-                    Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
-                using (StreamReader reader = new StreamReader(response.GetResponseStream()))
-                {
-                    var content = reader.ReadToEnd();
-                    if (string.IsNullOrWhiteSpace(content))
-                    {
-                        Console.Out.WriteLine("Response contained empty body...");
-                    }
-                    else
-                    {
-                        Console.WriteLine("Info Body: \r\n {0}", content);
-                    }
-                    return content;
-                }
-            }
-        }
+        //REST API Calls for PowerQuery
         public static object MakeRequest3(string QueryName,string StudentNumber)
         {
             HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(@"http://172.21.123.196/ws/schema/query/" +QueryName +"?");
@@ -124,12 +88,10 @@ namespace BAAR.Droid
 
             using (var streamWriter = new StreamWriter(request.GetRequestStream()))
             {
-                //FIx this mess
-                Console.WriteLine("Input String " + StudentNumber);
-                double THing = Convert.ToDouble(StudentNumber);
-                JsonPayload New = new JsonPayload();
-                New.Number = THing;
-                string Tests = (string)JsonConvert.SerializeObject(New);
+                double StudNum = Convert.ToDouble(StudentNumber);
+                JsonPayload StudentNum = new JsonPayload();
+                StudentNum.Number = StudNum;
+                string Tests = (string)JsonConvert.SerializeObject(StudentNum);
 
                 streamWriter.Write(Tests);
                 streamWriter.Flush();
@@ -143,14 +105,7 @@ namespace BAAR.Droid
                 using (StreamReader reader = new StreamReader(response.GetResponseStream()))
                 {
                     var content = reader.ReadToEnd();
-                    if (string.IsNullOrWhiteSpace(content))
-                    {
-                        Console.Out.WriteLine("Response contained empty body...");
-                    }
-                    else
-                    {
-                        Console.WriteLine("Info Body: \r\n {0}", content);
-                    }
+                    
                     return content;
                 }
             }
