@@ -23,6 +23,7 @@ namespace BAAR.Droid
                 int Test = StringToGet.IndexOf(Find) + Find.Length + 3;
                 int Third = StringToGet.IndexOf('"',Test);
                 string Testing = StringToGet.Substring(Test,Third - Test);
+                
                 return Testing;
             }
             return StringToGet;
