@@ -41,11 +41,12 @@ namespace BAAR.Droid
                 button.ScaleX = ((float)(.9));
                 button.ScaleY = ((float)(.9));
 
+                button.ScaleX = ((float)(10/9));
+                button.ScaleY = ((float)(10/9));
+
                 //opens the studentac page with tickets
                 var NewScreen = new Intent(this, typeof(studentac));
                 StartActivity(NewScreen);
-                button.ScaleX = ((float)(10/9));
-                button.ScaleY = ((float)(10/9));
             };
 
         }
