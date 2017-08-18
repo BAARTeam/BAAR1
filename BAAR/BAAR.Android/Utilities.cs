@@ -25,7 +25,7 @@ namespace BAAR.Droid
                 {
                     int Third = StringToGet.IndexOf('"', Quote+1);
                     string Testing = StringToGet.Substring(Quote+1, Third - Quote-1);
-                    Console.WriteLine(Testing);
+                    
                     return Testing;
                 }
                 else

@@ -207,10 +207,6 @@ ViewGroup.LayoutParams.WrapContent);
 
             string[] Results = result.ToString().Split('|');
 
-            Console.WriteLine("Yellow" + Results[0]);
-            Console.WriteLine("Yellow" + Results[1]);
-            Console.WriteLine("Yellow" + Results[2]);
-            Console.WriteLine("Yellow" + Results[3]);
 
             if (Results[0]=="0")
             {
@@ -218,7 +214,7 @@ ViewGroup.LayoutParams.WrapContent);
 
                 Console.WriteLine("Returned Data " + Contra);
                 string Name = Contra.GetStringOut("lastfirst");
-                Console.WriteLine("Name " + Name);
+                
                 string Email1 = Contra.GetStringOut("guardianemail");
                 string Email2 = Contra.GetStringOut("guardianemail_2");
                 string Email3 = Contra.GetStringOut("stud_email");
