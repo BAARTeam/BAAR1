@@ -20,11 +20,18 @@ namespace BAAR.Droid
 
             if (StringToGet.Contains(Find))
             {
-                int Test = StringToGet.IndexOf(Find) + Find.Length + 3;
-                int Third = StringToGet.IndexOf('"',Test);
-                string Testing = StringToGet.Substring(Test,Third - Test);
-                
-                return Testing;
+                int Quote = StringToGet.IndexOf(Find) + Find.Length + 2;
+                if (StringToGet[Quote]=='"')
+                {
+                    int Third = StringToGet.IndexOf('"', Quote);
+                    string Testing = StringToGet.Substring(Quote, Third - Quote);
+
+                    return Testing;
+                }
+                else
+                {
+                    return null;
+                }
             }
             return StringToGet;
         }

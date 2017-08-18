@@ -76,7 +76,7 @@ namespace BAAR.Droid
                 {
                     BarcodeScanReturn Thing = await StartBarcodeScanner();
                     string content = (string)MainActivity.MakeRequest3("data", Thing.StudentNumber.ToString());
-                    content = content.GetStringOut("lastfirst");
+                    content = content.GetStringOut("\"lastfirst\"");
                     studentname = content;
                     string[] SecondaryName = SplitName(studentname);
                     EmailNames.Add(SecondaryName[0]);
@@ -164,15 +164,26 @@ ViewGroup.LayoutParams.WrapContent);
 
             var scanner = new ZXing.Mobile.MobileBarcodeScanner();
             var result = await scanner.Scan();
-            string Contra = (string)MainActivity.MakeRequest3("data", result.ToString());
 
-            Console.WriteLine("Returned Data " + Contra);
-            string Name = Contra.GetStringOut("lastfirst");
-            Console.WriteLine("Name " + Name);
-            string Email1 = Contra.GetStringOut("guardianemail");
-            string Email2 = Contra.GetStringOut("guardianemail_2");
-            string Email3 = Contra.GetStringOut("stud_email");
-            return new BarcodeScanReturn(Name, result.ToString(), Email1, Email2, Email3);
+            string[] Results = result.ToString().Split('|');
+
+            if (Results[0]=="0")
+            {
+                string Contra = (string)MainActivity.MakeRequest3("data", Results[1]);
+
+                Console.WriteLine("Returned Data " + Contra);
+                string Name = Contra.GetStringOut("\"lastfirst\"");
+                Console.WriteLine("Name " + Name);
+                string Email1 = Contra.GetStringOut("\"guardianemail\"");
+                string Email2 = Contra.GetStringOut("\"guardianemail_2\"");
+                string Email3 = Contra.GetStringOut("\"stud_email\"");
+                return new BarcodeScanReturn(Name, result.ToString(), Email1, Email2, Email3);
+            }
+            else
+            {
+                return new BarcodeScanReturn((Results[3]+","+Results[2]),Results[1],null,null,null);
+            }
+            
         }
     } 
 
@@ -248,7 +259,10 @@ ViewGroup.LayoutParams.WrapContent);
                     Body = body
                 })
                 {
-                    smtp.Send(GuardianEmail);
+                    if (GuardianEmail != null)
+                    { 
+                        smtp.Send(GuardianEmail);
+                    }
                 }
                 using (var GuardianEmail2 = new MailMessage(fromAddress, new MailAddress(this.SecondaryAddress))
                 {
@@ -257,7 +271,10 @@ ViewGroup.LayoutParams.WrapContent);
                     Body = body
                 })
                 {
-                    smtp.Send(GuardianEmail2);
+                    if (GuardianEmail2 != null)
+                    {
+                        smtp.Send(GuardianEmail2);
+                    }
                 }
                 using (var StudentEmail = new MailMessage(fromAddress, new MailAddress(this.StudentAddress))
                 {
@@ -266,7 +283,10 @@ ViewGroup.LayoutParams.WrapContent);
                     Body = "“A staff member at Kent ISD secondary campus schools recognized your for being respectful in the commons today!”“This recognition comes with our campus initiative, “Going Pro at Kent ISD”, which is preparing students  to be college and career ready by focusing on positive behaviors.Be professional.Be Respectful.Be Responsible.Demonstrate Initiative.Be Safe.” “Congratulations on demonstrating professional behavior today!”"
                 })
                 {
-                    smtp.Send(StudentEmail);
+                    if (StudentEmail != null)
+                    {
+                        smtp.Send(StudentEmail);
+                    }
                 }
             }catch
             {

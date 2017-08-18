@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  <plugin version="2.0" name="GoingProInfo" description="Queries for the Going Pro App at the Technical Center." xsi:schemaLocation="http://plugin.powerschool.pearson.com plugin.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://plugin.powerschool.pearson.com">
+    
+    <access_request>
+      <field table="STUDENTS" field="STUDENT_NUMBER" access="ViewOnly"/>
+      <field table="STUDENTS" field="LastFirst" access="ViewOnly"/>
+      <field table="STUDENTS" field="GuardianEmail" access="ViewOnly"/>
+      <field table="STUDENTS" field="DCID" access="ViewOnly"/>
+      <field table="U_STUDENTSUSERFIELDS" field="Stud_Email" access="ViewOnly"/>
+      <field table="U_STUDENTSUSERFIELDS" field="studentsdcid" access="ViewOnly"/>
+      <field table="U_STUDENTSUSERFIELDS" field="guardianemail_2" access="ViewOnly"/>
+    </access_request>
+    <oauth/>
+     <publisher name="Kent ISD">
+         <contact email="lauriefernandez@kentisd.org"/>
+     </publisher>
+  </plugin>

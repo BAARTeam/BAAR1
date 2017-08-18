@@ -1,0 +1,24 @@
+<queries>
+  <query name="data" coreTable="students" flattened="false">
+    <args>
+	<arg name="scannedbarcode" type="primitive" required="true"/>
+    </args>
+    <columns>
+      <column column="U_STUDENTSUSERFIELDS.guardianemail_2">guardianemail_2</column>
+      <column column="guardianemail">GuardianEmail</column>
+      <column column="lastfirst">LastFirst</column>
+      <column column="U_STUDENTSUSERFIELDS.stud_email">stud_email</column>
+    </columns>
+    <sql><![CDATA[
+       SELECT
+       s2.guardianemail_2, s.GuardianEmail, s.LastFirst, s2.stud_email
+       FROM
+       students s
+       LEFT JOIN U_studentsuserfields s2 ON s.dcid = s2.studentsdcid
+
+       WHERE
+       s.student_number = :scannedbarcode
+    ]]></sql>
+  </query>
+  <!-- Define more queries here -->
+</queries>
