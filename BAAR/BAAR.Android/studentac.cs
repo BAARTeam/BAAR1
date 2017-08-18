@@ -49,10 +49,11 @@ namespace BAAR.Droid
             FindViewById<LinearLayout>(Resource.Id.Root).SetBackgroundColor(Color.Argb(255, 0, 9, 26));
 
             BarcodeScanReturn Returned = await StartBarcodeScanner();
+            Console.WriteLine("HERE IT IS "+Returned.StudentNumber);
             string[] Name = SplitName(Returned.StudentName);
 
             EmailNames.Add(Name[0]);
-            CreateStudentTicket(Name[0] + " " + Name[1], Returned.StudentNumber.ToString());
+            CreateStudentTicket((Name[0] + " " + Name[1]), Returned.StudentNumber.ToString());
 
             Button EmailButton = FindViewById<Button>(Resource.Id.EmailButton);
             EmailButton.Click += (sender, e) =>
@@ -83,12 +84,9 @@ namespace BAAR.Droid
                 try
                 {
                     BarcodeScanReturn Thing = await StartBarcodeScanner();
-                    string content = (string)MainActivity.MakeRequest3("data", Thing.StudentNumber.ToString());
-                    content = content.GetStringOut("\"lastfirst\"");
-                    studentname = content;
-                    string[] SecondaryName = SplitName(studentname);
+                    string[] SecondaryName = SplitName(Thing.StudentName);
                     EmailNames.Add(SecondaryName[0]);
-                    CreateStudentTicket(SecondaryName[0] + " " + SecondaryName[1], Thing.StudentNumber.ToString());
+                    CreateStudentTicket(SecondaryName[0] + " " + SecondaryName[1], Thing.StudentNumber);
                 }
                 catch
                 {
@@ -105,7 +103,7 @@ namespace BAAR.Droid
             return new string[] { SpaceSplit[1], SplitName[0] };
         }
         const string AccountPassword = "Fopo7082";
-        public void CreateStudentTicket(string Number, string Name)
+        public void CreateStudentTicket(string Name, string Number)
         {
 
 
@@ -137,11 +135,11 @@ namespace BAAR.Droid
             BehaviourSpinner.Id = 6;
             LocationSpinner.Id = 8;
 
-            StudentIdNumber.Text = Name;
-            StudentName.Text = Number;
+            StudentIdNumber.Text = Number;
+            StudentName.Text = Name;
             LinearLayout MainLayout = FindViewById<LinearLayout>(Resource.Id.TicketHolder);
             RelativeLayout RelLayout = new RelativeLayout(this);
-            RelLayout.SetPadding(0, 20, 0, 0);
+            RelLayout.SetPadding(10, 20, 0, 0);
 
             var StudentImageParam = new RelativeLayout.LayoutParams(200, 200);
             StudentImageParam.AddRule(LayoutRules.AlignParentLeft);
@@ -181,7 +179,7 @@ ViewGroup.LayoutParams.WrapContent);
 
             RelLayout.SetBackgroundColor(Color.Argb(255, 31, 46, 46));
             LinearLayout.LayoutParams Test = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MatchParent,LinearLayout.LayoutParams.WrapContent);
-            Test.SetMargins(10,10,10,25);
+            Test.SetMargins(25,25,25,25);
             RelLayout.LayoutParameters = Test;
             MainLayout.AddView(RelLayout);
             NumberOfTickets++;
@@ -204,21 +202,26 @@ ViewGroup.LayoutParams.WrapContent);
 
             string[] Results = result.ToString().Split('|');
 
+            Console.WriteLine("Yellow" + Results[0]);
+            Console.WriteLine("Yellow" + Results[1]);
+            Console.WriteLine("Yellow" + Results[2]);
+            Console.WriteLine("Yellow" + Results[3]);
+
             if (Results[0]=="0")
             {
                 string Contra = (string)MainActivity.MakeRequest3("data", Results[1]);
 
                 Console.WriteLine("Returned Data " + Contra);
-                string Name = Contra.GetStringOut("\"lastfirst\"");
+                string Name = Contra.GetStringOut("lastfirst");
                 Console.WriteLine("Name " + Name);
-                string Email1 = Contra.GetStringOut("\"guardianemail\"");
-                string Email2 = Contra.GetStringOut("\"guardianemail_2\"");
-                string Email3 = Contra.GetStringOut("\"stud_email\"");
-                return new BarcodeScanReturn(Name, result.ToString(), Email1, Email2, Email3);
+                string Email1 = Contra.GetStringOut("guardianemail");
+                string Email2 = Contra.GetStringOut("guardianemail_2");
+                string Email3 = Contra.GetStringOut("stud_email");
+                return new BarcodeScanReturn(Name, Results[1], Email1, Email2, Email3);
             }
             else
             {
-                return new BarcodeScanReturn((Results[3]+","+Results[2]),Results[1],null,null,null);
+                return new BarcodeScanReturn((Results[3]+", "+Results[2]),Results[1],null,null,null);
             }
             
         }

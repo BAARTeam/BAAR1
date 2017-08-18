@@ -23,14 +23,14 @@ namespace BAAR.Droid
                 int Quote = StringToGet.IndexOf(Find) + Find.Length + 2;
                 if (StringToGet[Quote]=='"')
                 {
-                    int Third = StringToGet.IndexOf('"', Quote);
-                    string Testing = StringToGet.Substring(Quote, Third - Quote);
-
+                    int Third = StringToGet.IndexOf('"', Quote+1);
+                    string Testing = StringToGet.Substring(Quote+1, Third - Quote-1);
+                    Console.WriteLine(Testing);
                     return Testing;
                 }
                 else
                 {
-                    return null;
+                    return "WHOPS";
                 }
             }
             return StringToGet;
