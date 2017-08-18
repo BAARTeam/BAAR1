@@ -279,7 +279,7 @@ ViewGroup.LayoutParams.WrapContent);
             var toAddress = new MailAddress(this.PrimaryAddress, "Thing");
             const string fromPassword = AccountPassword;
             string subject = " " + this.Name + " was positively recognized today at Kent ISD!";
-            string body = "“A staff member at Kent ISD secondary campus schools recognized " + this.Name + " for " + this.Action + " in the " + this.Location + " today!” \n “This recognition comes with our campus initiative, “Going Pro at Kent ISD”, which is preparing students to be college and career ready by focusing on positive behaviors.\n Be professional.Be Respectful.Be Responsible.Demonstrate Initiative.Be Safe.” \n “Please make sure to congratulate " + this.Name + " tonight!”" + "Sincerely <a href=\"mailto:dakotastickney@gmail.com?GoingPro\" target=\"_top\">LaurieFernandez</a>";
+            string body = String.Format("A staff member at Kent ISD secondary campus schools recognized " + this.Name + " for " + this.Action + " in the " + this.Location + " today! \n This recognition comes with our campus initiative, “Going Pro at Kent ISD”, which is preparing students to be college and career ready by focusing on positive behaviors.\n Be Professional. Be Respectful. Be Responsible. Demonstrate Initiative. Be Safe. \n Please make sure to congratulate " + this.Name + " tonight!" + "Sincerely <a href=\"mailto:{1}?GoingPro\" target=\"_top\">{0}</a>", Login.StaffFirst + " " + Login.StaffLast,Login.StaffEmail);
 
             var smtp = new SmtpClient
             {
@@ -321,7 +321,7 @@ ViewGroup.LayoutParams.WrapContent);
                 {
                     Subject = "Congratulations on being positively recognized today at Kent ISD",
                     IsBodyHtml = true,
-                    Body = "“A staff member at Kent ISD secondary campus schools recognized your for being respectful in the commons today!”“This recognition comes with our campus initiative, “Going Pro at Kent ISD”, which is preparing students  to be career and college ready by focusing on positive behaviors. Be professional. Be Respectful. Be Responsible. Demonstrate Initiative. Be Safe.” “Congratulations on demonstrating professional behavior today!”"
+                    Body = "A staff member at Kent ISD secondary campus schools recognized you for being respectful in the commons today! This recognition comes with our campus initiative, “Going Pro at Kent ISD”, which is preparing students to be college and career ready by focusing on positive behaviors. Be Professional. Be Respectful. Be Responsible. Demonstrate Initiative. Be Safe. Congratulations on demonstrating professional behavior today!"
                 })
                 {
                     if (StudentEmail != null)

@@ -27,6 +27,7 @@ namespace BAAR.Droid
         //used to send the signed in users names to the log in the studentac form
         public static string StaffFirst;
         public static string StaffLast;
+        public static string StaffEmail;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -86,6 +87,10 @@ namespace BAAR.Droid
                     SqlCommand SL = new SqlCommand("SELECT Last_Name FROM MTSS_LoginAccount WHERE Login_Name=@ln",conn);
                     SL.Parameters.AddWithValue("@ln", Username.Text);
                     StaffLast = SL.ExecuteScalar().ToString();
+
+                    SqlCommand SE = new SqlCommand("SELECT Allow_Email FROM MTSS_LoginAccount WHERE Login_Name=@ln", conn);
+                    SE.Parameters.AddWithValue("@ln", Username.Text);
+                    StaffEmail = SE.ExecuteScalar().ToString();
                     conn.Close();
 
                     
