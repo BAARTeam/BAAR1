@@ -182,7 +182,7 @@ ViewGroup.LayoutParams.WrapContent);
             LocationSpinner.LayoutParameters.Width = 900;
 
 
-            RelLayout.SetBackgroundColor(Color.Argb(255, 31, 46, 46));
+            RelLayout.SetBackgroundColor(Color.Argb(255, 21, 21, 30));
             LinearLayout.LayoutParams Test = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MatchParent,LinearLayout.LayoutParams.WrapContent);
             Test.SetMargins(25,25,25,25);
             RelLayout.LayoutParameters = Test;
