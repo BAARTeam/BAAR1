@@ -19,6 +19,7 @@ using Android.Graphics;
 using System.Data.SqlClient;
 using System.Threading;
 using System.Threading.Tasks;
+using static Android.Widget.AdapterView;
 
 namespace BAAR.Droid
 {
@@ -27,6 +28,14 @@ namespace BAAR.Droid
     public class studentac : Activity
     {
         public Dictionary<int, Tuple<Spinner, Spinner>> LayoutSpinner = new Dictionary<int, Tuple<Spinner, Spinner>>();
+
+        public Dictionary<int, string[]> BLL = new Dictionary<int, string[]>()
+        {
+            {0, new string[] { "Front Entry", "Hallways", "Office", "Classrooms", "Breakroom", "Bus/Parking Lot" } },
+            {1, new string[] { "Testing Center", "Hallways", "Office / Counselor", "Working Classroom", "Parking Lot" } },
+            {2, new string[] {"Parking Lot", "Hallways","Office", "Classrooms","Commons","Parking Lot" } },
+            {3, new string[] { "Hallways", "Classrooms", "IT Help", "Main Office", "Vending Machines", "Collaboration Areas / Learning Pods", "Parking Lot" } },
+        };
         public List<string> EmailNames = new List<string>();
         public string studentname;
         public string EmailAddress;
@@ -39,12 +48,11 @@ namespace BAAR.Droid
 
             FindViewById<LinearLayout>(Resource.Id.Root).SetBackgroundColor(Color.Argb(255, 0, 9, 26));
 
-             BarcodeScanReturn Returned = await StartBarcodeScanner();
-             string[] Name = SplitName(Returned.StudentName);
+            BarcodeScanReturn Returned = await StartBarcodeScanner();
+            string[] Name = SplitName(Returned.StudentName);
 
             EmailNames.Add(Name[0]);
             CreateStudentTicket(Name[0] + " " + Name[1], Returned.StudentNumber.ToString());
-
 
             Button EmailButton = FindViewById<Button>(Resource.Id.EmailButton);
             EmailButton.Click += (sender, e) =>
@@ -100,13 +108,19 @@ namespace BAAR.Droid
         public void CreateStudentTicket(string Number, string Name)
         {
 
+
+            Spinner BuildingLocationSpinner = new Spinner(this);
+            var Buildings = new List<string>() { "KTC", "MySchool", "KCTC", "KIH" };
+            var BuildingsAdapter = new ArrayAdapter(this, Android.Resource.Layout.SimpleSpinnerDropDownItem, Buildings);
+            BuildingLocationSpinner.Adapter = BuildingsAdapter;
+
             Spinner BehaviourSpinner = new Spinner(this);
             var Behaviours = new List<string>() { "Showed Responsibility", "Showed Respect", "Demonstrated Initiative", "Was Safe", "Demonstrated Professionalism" };
             var Adapter = new ArrayAdapter(this, Android.Resource.Layout.SimpleSpinnerDropDownItem, Behaviours);
             BehaviourSpinner.Adapter = Adapter;
 
             Spinner LocationSpinner = new Spinner(this);
-            var Locations = new List<string>() { "E-Wing", "Commons", "Main Office" };
+            var Locations = BLL[0];
             var LocationAdapter = new ArrayAdapter(this, Android.Resource.Layout.SimpleSpinnerDropDownItem, Locations);
             LocationSpinner.Adapter = LocationAdapter;
 
@@ -119,6 +133,7 @@ namespace BAAR.Droid
             StudentIdNumber.TextSize = 25;
             StudentIdNumber.Id = 4;
             StudentImage.Id = 10;
+            BuildingLocationSpinner.Id = 15;
             BehaviourSpinner.Id = 6;
             LocationSpinner.Id = 8;
 
@@ -126,8 +141,7 @@ namespace BAAR.Droid
             StudentName.Text = Number;
             LinearLayout MainLayout = FindViewById<LinearLayout>(Resource.Id.TicketHolder);
             RelativeLayout RelLayout = new RelativeLayout(this);
-            RelLayout.SetPadding(0, 10, 0, 0);
-            MainLayout.AddView(RelLayout);
+            RelLayout.SetPadding(0, 20, 0, 0);
 
             var StudentImageParam = new RelativeLayout.LayoutParams(200, 200);
             StudentImageParam.AddRule(LayoutRules.AlignParentLeft);
@@ -144,18 +158,41 @@ namespace BAAR.Droid
             StudentIDNumber.AddRule(LayoutRules.RightOf, StudentImage.Id);
             StudentIDNumber.AddRule(LayoutRules.Below, StudentName.Id);
             RelLayout.AddView(StudentIdNumber, StudentIDNumber);
+            
 
             var BehaviourParam = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent,
 ViewGroup.LayoutParams.WrapContent);
             BehaviourParam.AddRule(LayoutRules.Below, StudentIdNumber.Id);
             RelLayout.AddView(BehaviourSpinner, BehaviourParam);
 
-            var LocationParam = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent,
+            var BuildingLocation = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent,
+    ViewGroup.LayoutParams.WrapContent);
+            BuildingLocation.AddRule(LayoutRules.Below, BehaviourSpinner.Id);
+            RelLayout.AddView(BuildingLocationSpinner, BuildingLocation);
+            BuildingLocationSpinner.LayoutParameters.Width = 550;
+
+            var LocationParam = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent/2,
 ViewGroup.LayoutParams.WrapContent);
+            LocationParam.AddRule(LayoutRules.RightOf, BuildingLocationSpinner.Id);
             LocationParam.AddRule(LayoutRules.Below, BehaviourSpinner.Id);
             RelLayout.AddView(LocationSpinner, LocationParam);
+            LocationSpinner.LayoutParameters.Width = 900;
+
+
+            RelLayout.SetBackgroundColor(Color.Argb(255, 31, 46, 46));
+            LinearLayout.LayoutParams Test = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MatchParent,LinearLayout.LayoutParams.WrapContent);
+            Test.SetMargins(10,10,10,25);
+            RelLayout.LayoutParameters = Test;
+            MainLayout.AddView(RelLayout);
             NumberOfTickets++;
             LayoutSpinner.Add(NumberOfTickets, new Tuple<Spinner, Spinner>(BehaviourSpinner, LocationSpinner));
+            BuildingLocationSpinner.ItemSelected += ItemSelected;
+        }
+
+        private void ItemSelected(object sender, ItemSelectedEventArgs e)
+        {
+            FindViewById<Spinner>(8).Adapter = new ArrayAdapter(this,Android.Resource.Layout.SimpleSpinnerDropDownItem, BLL[(int)e.Id]);
+                
         }
 
         public async Task<BarcodeScanReturn> StartBarcodeScanner()
