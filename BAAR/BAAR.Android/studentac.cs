@@ -46,10 +46,13 @@ namespace BAAR.Droid
             Window.RequestFeature(WindowFeatures.NoTitle);
             SetContentView(Resource.Layout.student);
 
+
             FindViewById<LinearLayout>(Resource.Id.Root).SetBackgroundColor(Color.Argb(255, 0, 9, 26));
 
+            FindViewById<Button>(Resource.Id.AddTicket).SetTextColor(Color.White);
+            FindViewById<Button>(Resource.Id.EmailButton).SetTextColor(Color.White);
+
             BarcodeScanReturn Returned = await StartBarcodeScanner();
-            Console.WriteLine("HERE IT IS "+Returned.StudentNumber);
             string[] Name = SplitName(Returned.StudentName);
 
             EmailNames.Add(Name[0]);
@@ -139,9 +142,9 @@ namespace BAAR.Droid
             StudentName.Text = Name;
             LinearLayout MainLayout = FindViewById<LinearLayout>(Resource.Id.TicketHolder);
             RelativeLayout RelLayout = new RelativeLayout(this);
-            RelLayout.SetPadding(10, 20, 0, 0);
+            RelLayout.SetPadding(20, 20, 0, 0);
 
-            var StudentImageParam = new RelativeLayout.LayoutParams(200, 200);
+            var StudentImageParam = new RelativeLayout.LayoutParams(250,250);
             StudentImageParam.AddRule(LayoutRules.AlignParentLeft);
 
             RelLayout.AddView(StudentImage, StudentImageParam);
@@ -149,12 +152,14 @@ namespace BAAR.Droid
             var StudentNameParam = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent,
     ViewGroup.LayoutParams.WrapContent);
             StudentNameParam.AddRule(LayoutRules.RightOf, StudentImage.Id);
+            StudentName.SetPadding(30,0,0,0);
             RelLayout.AddView(StudentName, StudentNameParam);
 
             var StudentIDNumber = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent,
     ViewGroup.LayoutParams.WrapContent);
             StudentIDNumber.AddRule(LayoutRules.RightOf, StudentImage.Id);
             StudentIDNumber.AddRule(LayoutRules.Below, StudentName.Id);
+            StudentIdNumber.SetPadding(30, 0, 0, 0);
             RelLayout.AddView(StudentIdNumber, StudentIDNumber);
             
 
@@ -320,7 +325,7 @@ ViewGroup.LayoutParams.WrapContent);
                 {
                     Subject = "Congratulations on being positively recognized today at Kent ISD",
                     IsBodyHtml = true,
-                    Body = "“A staff member at Kent ISD secondary campus schools recognized your for being respectful in the commons today!”“This recognition comes with our campus initiative, “Going Pro at Kent ISD”, which is preparing students  to be college and career ready by focusing on positive behaviors.Be professional.Be Respectful.Be Responsible.Demonstrate Initiative.Be Safe.” “Congratulations on demonstrating professional behavior today!”"
+                    Body = "“A staff member at Kent ISD secondary campus schools recognized your for being respectful in the commons today!”“This recognition comes with our campus initiative, “Going Pro at Kent ISD”, which is preparing students  to be career and college ready by focusing on positive behaviors. Be professional. Be Respectful. Be Responsible. Demonstrate Initiative. Be Safe.” “Congratulations on demonstrating professional behavior today!”"
                 })
                 {
                     if (StudentEmail != null)
