@@ -16,7 +16,7 @@ using Android.Graphics;
 
 namespace BAAR.Droid
 {
-    [Activity(Label = "Going Pro", MainLauncher = true, Icon = "@drawable/GoingPro_Icon", ScreenOrientation = ScreenOrientation.Portrait)]
+    [Activity(Label = "Going Pro", MainLauncher = false, Icon = "@drawable/GoingPro_Icon", ScreenOrientation = ScreenOrientation.Portrait)]
     public class Login : Activity
     {
 

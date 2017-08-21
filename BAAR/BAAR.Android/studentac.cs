@@ -23,7 +23,7 @@ using static Android.Widget.AdapterView;
 
 namespace BAAR.Droid
 {
-    [Activity(Label = "student", ScreenOrientation = ScreenOrientation.Portrait,MainLauncher =false)]
+    [Activity(Label = "student", ScreenOrientation = ScreenOrientation.Portrait,MainLauncher =true)]
 
     public class studentac : Activity
     {
@@ -33,10 +33,11 @@ namespace BAAR.Droid
         {
             {0, new string[] { "Front Entry", "Hallways", "Office", "Classrooms", "Breakroom", "Bus/Parking Lot" } },
             {1, new string[] { "Testing Center", "Hallways", "Office / Counselor", "Working Classroom", "Parking Lot" } },
-            {2, new string[] {"Parking Lot", "Hallways","Office", "Classrooms","Commons","Parking Lot" } },
+            {2, new string[] { "Parking Lot", "Hallways","Office", "Classrooms","Commons"} },
             {3, new string[] { "Hallways", "Classrooms", "IT Help", "Main Office", "Vending Machines", "Collaboration Areas / Learning Pods", "Parking Lot" } },
         };
         public List<string> EmailNames = new List<string>();
+        public List<BarcodeScanReturn> AllReturned = new List<BarcodeScanReturn>();
         public string studentname;
         public string EmailAddress;
         private int NumberOfTickets;
@@ -52,11 +53,15 @@ namespace BAAR.Droid
             FindViewById<Button>(Resource.Id.AddTicket).SetTextColor(Color.White);
             FindViewById<Button>(Resource.Id.EmailButton).SetTextColor(Color.White);
 
-            BarcodeScanReturn Returned = await StartBarcodeScanner();
-            string[] Name = SplitName(Returned.StudentName);
+            // BarcodeScanReturn Returned = await StartBarcodeScanner();
+            //string[] Name = SplitName(Returned.StudentName);
 
-            EmailNames.Add(Name[0]);
-            CreateStudentTicket((Name[0] + " " + Name[1]), Returned.StudentNumber.ToString());
+            // EmailNames.Add(Name[0]);
+            // CreateStudentTicket((Name[0] + " " + Name[1]), Returned.StudentNumber.ToString());
+
+            CreateStudentTicket("Dakota","9203847");
+            CreateStudentTicket("Jacob", "9203847");
+
 
             Button EmailButton = FindViewById<Button>(Resource.Id.EmailButton);
             EmailButton.Click += (sender, e) =>
@@ -67,14 +72,14 @@ namespace BAAR.Droid
                     string EmailLocation = LayoutSpinner[i + 1].Item2.SelectedItem.ToString();
                     string EmailName = EmailNames[i];
                     Thread EmailThread = new Thread(new ThreadStart(new EmailInfo("Daxs", "dakotastickney@gmail.com", "dakotastickney@gmail.com", "dakotastickney@gmail.com", "Commons", "Safety").BackgroundEmail));
+                    SqlCommand Insert = new SqlCommand("INSERT INTO MTSS_ActionLog VALUES (@DT, @SF, @SL, @SN, @StN, @ATi, @AT, @AL)", Login.conn);
+                    Login.conn.Open();
+                    log log = new log(Login.StaffFirst, Login.StaffLast, AllReturned[i].StudentName.ToString(), Convert.ToDouble(AllReturned[i].StudentNumber.ToString()), LayoutSpinner[i + 1].Item1.SelectedItem.ToString(), LayoutSpinner[i +1].Item2.SelectedItem.ToString());
+                    log.exe(Insert);
+                    Login.conn.Close();
                     EmailThread.Start();
                 }
 
-                SqlCommand Insert = new SqlCommand("INSERT INTO MTSS_ActionLog VALUES (@DT, @SF, @SL, @SN, @StN, @ATi, @AT, @AL)", Login.conn);
-                Login.conn.Open();
-                log log = new log(Login.StaffFirst, Login.StaffLast, EmailNames[0], Convert.ToDouble(Returned.StudentNumber.ToString()), LayoutSpinner[1].Item1.SelectedItem.ToString(), LayoutSpinner[1].Item2.SelectedItem.ToString());
-                log.exe(Insert);
-                Login.conn.Close();
                 Toast.MakeText(this, "Email Sent", ToastLength.Long).Show();
                 Intent MainPage = new Intent(this, typeof(MainActivity));
                 StartActivity(MainPage);
@@ -194,8 +199,13 @@ ViewGroup.LayoutParams.WrapContent);
 
         private void ItemSelected(object sender, ItemSelectedEventArgs e)
         {
-            FindViewById<Spinner>(8).Adapter = new ArrayAdapter(this,Android.Resource.Layout.SimpleSpinnerDropDownItem, BLL[(int)e.Id]);
-                
+            Spinner Thing = sender as Spinner;
+
+            RelativeLayout Layout = (RelativeLayout)(Thing.Parent);
+
+            Spinner Test = (Spinner)Layout.GetChildAt(5);
+            Test.Adapter = new ArrayAdapter(this,Android.Resource.Layout.SimpleSpinnerDropDownItem, BLL[(int)e.Id]);
+            
         }
 
         public async Task<BarcodeScanReturn> StartBarcodeScanner()
@@ -218,11 +228,15 @@ ViewGroup.LayoutParams.WrapContent);
                 string Email1 = Contra.GetStringOut("guardianemail");
                 string Email2 = Contra.GetStringOut("guardianemail_2");
                 string Email3 = Contra.GetStringOut("stud_email");
-                return new BarcodeScanReturn(Name, Results[1], Email1, Email2, Email3);
+                BarcodeScanReturn Student = new BarcodeScanReturn(Name, Results[1], Email1, Email2, Email3);
+                AllReturned.Add(Student);
+                return Student;
             }
             else
             {
-                return new BarcodeScanReturn((Results[3]+", "+Results[2]),Results[1],null,null,null);
+                BarcodeScanReturn Staff = new BarcodeScanReturn((Results[3] + ", " + Results[2]), Results[1], null, null, null);
+                AllReturned.Add(Staff);
+                return Staff;
             }
             
         }
