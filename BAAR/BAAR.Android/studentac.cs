@@ -36,10 +36,7 @@ namespace BAAR.Droid
             {2, new string[] { "Parking Lot", "Hallways","Office", "Classrooms","Commons"} },
             {3, new string[] { "Hallways", "Classrooms", "IT Help", "Main Office", "Vending Machines", "Collaboration Areas / Learning Pods", "Parking Lot" } },
         };
-        public List<string> EmailNames = new List<string>();
         public List<BarcodeScanReturn> AllReturned = new List<BarcodeScanReturn>();
-        public string studentname;
-        public string EmailAddress;
         private int NumberOfTickets;
         protected override async void OnCreate(Bundle savedInstanceState)
         {
@@ -47,21 +44,31 @@ namespace BAAR.Droid
             Window.RequestFeature(WindowFeatures.NoTitle);
             SetContentView(Resource.Layout.student);
 
+            //try
+            //{
+            //    BarcodeScanReturn Returned = await StartBarcodeScanner();
+            //    string[] Name = SplitName(Returned.StudentName);
+            //    CreateStudentTicket((Name[0] + " " + Name[1]), Returned.StudentNumber.ToString());
+            //}
+            //catch
+            //{
+
+            //    Console.WriteLine("Pressed Back When Scanning Barcode");
+            //    Intent MainPage = new Intent(this, typeof(MainActivity));
+            //    StartActivity(MainPage);
+            //}
+
 
             FindViewById<LinearLayout>(Resource.Id.Root).SetBackgroundColor(Color.Argb(255, 0, 9, 26));
 
             FindViewById<Button>(Resource.Id.AddTicket).SetTextColor(Color.White);
             FindViewById<Button>(Resource.Id.EmailButton).SetTextColor(Color.White);
 
-            // BarcodeScanReturn Returned = await StartBarcodeScanner();
-            //string[] Name = SplitName(Returned.StudentName);
 
-            // EmailNames.Add(Name[0]);
-            // CreateStudentTicket((Name[0] + " " + Name[1]), Returned.StudentNumber.ToString());
 
             CreateStudentTicket("Dakota","9203847");
-            CreateStudentTicket("Jacob", "9203847");
-
+            //CreateStudentTicket("Jacob", "9203847");
+            //CreateStudentTicket("Wessley", "9583485");
 
             Button EmailButton = FindViewById<Button>(Resource.Id.EmailButton);
             EmailButton.Click += (sender, e) =>
@@ -70,13 +77,16 @@ namespace BAAR.Droid
                 {
                     string EmailBehaviour = LayoutSpinner[i + 1].Item1.SelectedItem.ToString();
                     string EmailLocation = LayoutSpinner[i + 1].Item2.SelectedItem.ToString();
-                    string EmailName = EmailNames[i];
-                    Thread EmailThread = new Thread(new ThreadStart(new EmailInfo("Daxs", "dakotastickney@gmail.com", "dakotastickney@gmail.com", "dakotastickney@gmail.com", "Commons", "Safety").BackgroundEmail));
-                    SqlCommand Insert = new SqlCommand("INSERT INTO MTSS_ActionLog VALUES (@DT, @SF, @SL, @SN, @StN, @ATi, @AT, @AL)", Login.conn);
-                    Login.conn.Open();
-                    log log = new log(Login.StaffFirst, Login.StaffLast, AllReturned[i].StudentName.ToString(), Convert.ToDouble(AllReturned[i].StudentNumber.ToString()), LayoutSpinner[i + 1].Item1.SelectedItem.ToString(), LayoutSpinner[i +1].Item2.SelectedItem.ToString());
-                    log.exe(Insert);
-                    Login.conn.Close();
+                    //string EmailName = AllReturned[i].StudentName;
+                    //TODO Change these things to reflect powerschol query
+                   // Thread EmailThread = new Thread(new ThreadStart(new EmailInfo(AllReturned[i].StudentName,"dakotastickney@gmail.com", AllReturned[i].SecondaryAddress,AllReturned[i].StudentAddress,EmailLocation, EmailBehaviour).BackgroundEmail));
+                    Thread EmailThread = new Thread(new ThreadStart(new EmailInfo("SEdc", "dakotastickney@gmail.com", null,null, EmailLocation, EmailBehaviour).BackgroundEmail));
+
+                    //SqlCommand Insert = new SqlCommand("INSERT INTO MTSS_ActionLog VALUES (@DT, @SF, @SL, @SN, @StN, @ATi, @AT, @AL)", Login.conn);
+                    //  Login.conn.Open();
+                    //log log = new log(Login.StaffFirst, Login.StaffLast, AllReturned[i].StudentName.ToString(), Convert.ToDouble(AllReturned[i].StudentNumber.ToString()), LayoutSpinner[i + 1].Item1.SelectedItem.ToString(), LayoutSpinner[i +1].Item2.SelectedItem.ToString());
+                    //log.exe(Insert);
+                    //Login.conn.Close();
                     EmailThread.Start();
                 }
 
@@ -93,7 +103,6 @@ namespace BAAR.Droid
                 {
                     BarcodeScanReturn Thing = await StartBarcodeScanner();
                     string[] SecondaryName = SplitName(Thing.StudentName);
-                    EmailNames.Add(SecondaryName[0]);
                     CreateStudentTicket(SecondaryName[0] + " " + SecondaryName[1], Thing.StudentNumber);
                 }
                 catch
@@ -151,6 +160,7 @@ namespace BAAR.Droid
 
             var StudentImageParam = new RelativeLayout.LayoutParams(250,250);
             StudentImageParam.AddRule(LayoutRules.AlignParentLeft);
+            StudentImage.SetPadding(45,0,0,0);
 
             RelLayout.AddView(StudentImage, StudentImageParam);
 
@@ -166,7 +176,6 @@ namespace BAAR.Droid
             StudentIDNumber.AddRule(LayoutRules.Below, StudentName.Id);
             StudentIdNumber.SetPadding(30, 0, 0, 0);
             RelLayout.AddView(StudentIdNumber, StudentIDNumber);
-            
 
             var BehaviourParam = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent,
 ViewGroup.LayoutParams.WrapContent);
@@ -203,8 +212,8 @@ ViewGroup.LayoutParams.WrapContent);
 
             RelativeLayout Layout = (RelativeLayout)(Thing.Parent);
 
-            Spinner Test = (Spinner)Layout.GetChildAt(5);
-            Test.Adapter = new ArrayAdapter(this,Android.Resource.Layout.SimpleSpinnerDropDownItem, BLL[(int)e.Id]);
+            Spinner LocationsPerBuilding = (Spinner)Layout.GetChildAt(5);
+            LocationsPerBuilding.Adapter = new ArrayAdapter(this,Android.Resource.Layout.SimpleSpinnerDropDownItem, BLL[(int)e.Id]);
             
         }
 
@@ -238,7 +247,6 @@ ViewGroup.LayoutParams.WrapContent);
                 AllReturned.Add(Staff);
                 return Staff;
             }
-            
         }
     } 
 
@@ -290,14 +298,15 @@ ViewGroup.LayoutParams.WrapContent);
         public void BackgroundEmail()
         {
             var fromAddress = new MailAddress("GoingPro@kentisd.org", "Going Pro");
-            var toAddress = new MailAddress(this.PrimaryAddress, "Thing");
+            var toAddress = new MailAddress(this.PrimaryAddress,this.PrimaryAddress);
             const string fromPassword = AccountPassword;
             string subject = " " + this.Name + " was positively recognized today at Kent ISD!";
             string body = String.Format("A staff member at Kent ISD secondary campus schools recognized " + this.Name + " for " + this.Action + " in the " + this.Location + " today! \n This recognition comes with our campus initiative, “Going Pro at Kent ISD”, which is preparing students to be college and career ready by focusing on positive behaviors.\n Be Professional. Be Respectful. Be Responsible. Demonstrate Initiative. Be Safe. \n Please make sure to congratulate " + this.Name + " tonight!" + "Sincerely <a href=\"mailto:{1}?GoingPro\" target=\"_top\">{0}</a>", Login.StaffFirst + " " + Login.StaffLast,Login.StaffEmail);
 
+            Console.WriteLine("Host " + fromAddress.Host);
             var smtp = new SmtpClient
             {
-                Host = "smtp.office365.com",
+                Host = "smtp.kentisd.org",
                 Port = 587,
                 EnableSsl = true,
                 DeliveryMethod = SmtpDeliveryMethod.Network,

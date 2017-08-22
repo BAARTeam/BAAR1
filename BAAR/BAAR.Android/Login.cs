@@ -58,41 +58,57 @@ namespace BAAR.Droid
             button.Click += (sender1, e) =>
             {
                 //the password grabbed from the DB
-                string pass;
-                using (SqlConnection connection = new SqlConnection())
+                string pass = null;
+                try
                 {
-                    connection.ConnectionString = conn.ConnectionString;
+                    using (SqlConnection connection = new SqlConnection())
+                    {
+                        connection.ConnectionString = conn.ConnectionString;
 
-                    connection.Open();
+                        connection.Open();
 
-                    //gets the password the matches the username the user entered, if no match, "" is returned
-                    SqlCommand getpassword = new SqlCommand("SELECT Login_PW FROM MTSS_LoginAccount WHERE Login_Name=@LN", connection);
-                    getpassword.Parameters.AddWithValue("@LN", Username.Text);
-                    //sets pass as the grabbed password
-                    pass = Convert.ToString(getpassword.ExecuteScalar());
+                        //gets the password the matches the username the user entered, if no match, "" is returned
+                        SqlCommand getpassword = new SqlCommand("SELECT Login_PW FROM MTSS_LoginAccount WHERE Login_Name=@LN", connection);
+                        getpassword.Parameters.AddWithValue("@LN", Username.Text);
+                        //sets pass as the grabbed password
+                        pass = Convert.ToString(getpassword.ExecuteScalar());
+                    }
+                }
+                catch
+                {
+                    Toast.MakeText(this.ApplicationContext, "Could Not Connect", ToastLength.Long).Show();
+                    return;
                 }
 
                 //checks if the passwords match and the query did not return ""
-                if (pass == Password.Text && !string.IsNullOrEmpty(Password.Text))
+                if (pass == Password.Text && !string.IsNullOrEmpty(Password.Text) && pass != null)
                 {
-                    //Requests an access token from powerschool that we use for getting data;
-                    Token = (AccessObject)MainActivity.MakeRequest(string.Format(@"http://172.21.123.196/oauth/access_token?grant_type=client_credentials"), "application/x-www-form-urlencoded;charset=UTF-8", "POST", "Basic ZThmMmViNjYtNDcwYy00YjZkLTlhYjItMDQ4OWM5NGJlNDEwOjJmY2U2MmY3LWVlZDMtNDAzYi04NWNhLWRjY2E5OTFjMGI2Nw==", true);
+                    try
+                    {
 
-                    //saves the logged in users information
-                    conn.Open();
-                    SqlCommand SF = new SqlCommand("SELECT First_Name FROM MTSS_LoginAccount WHERE Login_Name=@ln",conn);
-                    SF.Parameters.AddWithValue("@ln", Username.Text);
-                    StaffFirst = SF.ExecuteScalar().ToString();
+                        //Requests an access token from powerschool that we use for getting data;
+                        Token = (AccessObject)MainActivity.MakeRequest(string.Format(@"http://172.21.123.196/oauth/access_token?grant_type=client_credentials"), "application/x-www-form-urlencoded;charset=UTF-8", "POST", "Basic ZThmMmViNjYtNDcwYy00YjZkLTlhYjItMDQ4OWM5NGJlNDEwOjJmY2U2MmY3LWVlZDMtNDAzYi04NWNhLWRjY2E5OTFjMGI2Nw==", true);
 
-                    SqlCommand SL = new SqlCommand("SELECT Last_Name FROM MTSS_LoginAccount WHERE Login_Name=@ln",conn);
-                    SL.Parameters.AddWithValue("@ln", Username.Text);
-                    StaffLast = SL.ExecuteScalar().ToString();
+                        //saves the logged in users information
+                        conn.Open();
+                        SqlCommand SF = new SqlCommand("SELECT First_Name FROM MTSS_LoginAccount WHERE Login_Name=@ln", conn);
+                        SF.Parameters.AddWithValue("@ln", Username.Text);
+                        StaffFirst = SF.ExecuteScalar().ToString();
 
-                    SqlCommand SE = new SqlCommand("SELECT Allow_Email FROM MTSS_LoginAccount WHERE Login_Name=@ln", conn);
-                    SE.Parameters.AddWithValue("@ln", Username.Text);
-                    StaffEmail = SE.ExecuteScalar().ToString();
-                    conn.Close();
+                        SqlCommand SL = new SqlCommand("SELECT Last_Name FROM MTSS_LoginAccount WHERE Login_Name=@ln", conn);
+                        SL.Parameters.AddWithValue("@ln", Username.Text);
+                        StaffLast = SL.ExecuteScalar().ToString();
 
+                        SqlCommand SE = new SqlCommand("SELECT Allow_Email FROM MTSS_LoginAccount WHERE Login_Name=@ln", conn);
+                        SE.Parameters.AddWithValue("@ln", Username.Text);
+                        StaffEmail = SE.ExecuteScalar().ToString();
+                        conn.Close();
+                    }
+                    catch
+                    {
+                        Toast.MakeText(this.ApplicationContext, "Could Not Connect", ToastLength.Long).Show();
+                        return;
+                    }
                     
                     // Create an intent allowing the program to change to a different page;
                     var MainPage = new Intent(this, typeof(MainActivity));
@@ -105,6 +121,12 @@ namespace BAAR.Droid
                     Toast.MakeText(this, "Incorrect Password", ToastLength.Short).Show();
                 }
             };
+        }
+
+        public override void OnBackPressed()
+        {
+            //exits app on back button pressed.
+            MoveTaskToBack(true);
         }
     }
 }

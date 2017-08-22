@@ -51,6 +51,12 @@ namespace BAAR.Droid
 
         }
 
+        public override void OnBackPressed()
+        {
+            var NewScreen = new Intent(this, typeof(Login));
+            StartActivity(NewScreen);
+        }
+
         //function for the REST API Calls (Access Token)
         public static object MakeRequest(string RequestURL, string ContentType, string Method, string AuthHeader, bool ReturnAccessToken = false)
         {
