@@ -306,22 +306,22 @@ ViewGroup.LayoutParams.WrapContent);
             Console.WriteLine("Host " + fromAddress.Host);
             var smtp = new SmtpClient
             {
-                Host = "smtp.kentisd.org",
+                Host = "smtp.office365.com",
                 Port = 587,
                 EnableSsl = true,
                 DeliveryMethod = SmtpDeliveryMethod.Network,
                 UseDefaultCredentials = false,
                 Credentials = new NetworkCredential(fromAddress.Address, fromPassword)
             };
-            try
-            {
+            // try
+            // {
 
-                using (var GuardianEmail = new MailMessage(fromAddress, toAddress)
-                {
-                    Subject = subject,
-                    IsBodyHtml = true,
-                    Body = body
-                })
+            using (var GuardianEmail = new MailMessage(fromAddress, toAddress)
+            {
+                Subject = subject,
+                IsBodyHtml = true,
+                Body = body
+            }) 
                 {
                     if (GuardianEmail != null)
                     { 
@@ -352,7 +352,7 @@ ViewGroup.LayoutParams.WrapContent);
                         smtp.Send(StudentEmail);
                     }
                 }
-            }catch
+           // }catch
             {
                 Console.WriteLine("Error when sending emails. Probably not connected to the internet.");
             }
