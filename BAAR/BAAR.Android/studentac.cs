@@ -306,7 +306,7 @@ ViewGroup.LayoutParams.WrapContent);
             Console.WriteLine("Host " + fromAddress.Host);
             var smtp = new SmtpClient
             {
-                Host = "smtp.office365.com",
+                Host = "smtp.gmail.com",
                 Port = 587,
                 EnableSsl = true,
                 DeliveryMethod = SmtpDeliveryMethod.Network,
@@ -328,31 +328,31 @@ ViewGroup.LayoutParams.WrapContent);
                         smtp.Send(GuardianEmail);
                     }
                 }
-                using (var GuardianEmail2 = new MailMessage(fromAddress, new MailAddress(this.SecondaryAddress))
-                {
-                    Subject = subject,
-                    IsBodyHtml = true,
-                    Body = body
-                })
-                {
-                    if (GuardianEmail2 != null)
-                    {
-                        smtp.Send(GuardianEmail2);
-                    }
-                }
-                using (var StudentEmail = new MailMessage(fromAddress, new MailAddress(this.StudentAddress))
-                {
-                    Subject = "Congratulations on being positively recognized today at Kent ISD",
-                    IsBodyHtml = true,
-                    Body = "A staff member at Kent ISD secondary campus schools recognized you for being respectful in the commons today! This recognition comes with our campus initiative, “Going Pro at Kent ISD”, which is preparing students to be college and career ready by focusing on positive behaviors. Be Professional. Be Respectful. Be Responsible. Demonstrate Initiative. Be Safe. Congratulations on demonstrating professional behavior today!"
-                })
-                {
-                    if (StudentEmail != null)
-                    {
-                        smtp.Send(StudentEmail);
-                    }
-                }
-           // }catch
+           //     using (var GuardianEmail2 = new MailMessage(fromAddress, new MailAddress(this.SecondaryAddress))
+           //     {
+           //         Subject = subject,
+           //         IsBodyHtml = true,
+           //         Body = body
+           //     })
+           //     {
+           //         if (GuardianEmail2 != null)
+           //         {
+           //             smtp.Send(GuardianEmail2);
+           //         }
+           //     }
+           //     using (var StudentEmail = new MailMessage(fromAddress, new MailAddress(this.StudentAddress))
+           //     {
+           //         Subject = "Congratulations on being positively recognized today at Kent ISD",
+           //         IsBodyHtml = true,
+           //         Body = "A staff member at Kent ISD secondary campus schools recognized you for being respectful in the commons today! This recognition comes with our campus initiative, “Going Pro at Kent ISD”, which is preparing students to be college and career ready by focusing on positive behaviors. Be Professional. Be Respectful. Be Responsible. Demonstrate Initiative. Be Safe. Congratulations on demonstrating professional behavior today!"
+           //     })
+           //     {
+           //         if (StudentEmail != null)
+           //         {
+           //             smtp.Send(StudentEmail);
+           //         }
+           //     }
+           //// }catch
             {
                 Console.WriteLine("Error when sending emails. Probably not connected to the internet.");
             }
