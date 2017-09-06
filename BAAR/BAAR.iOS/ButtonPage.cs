@@ -1,6 +1,7 @@
 ﻿using Foundation;
 using System;
 using UIKit;
+using ZXing.Mobile;
 
 namespace BAAR.iOS
 {
@@ -10,9 +11,17 @@ namespace BAAR.iOS
         {
         }
 
-        public override void ViewDidLoad()
+        public async override void ViewDidLoad()
         {
             base.ViewDidLoad();
+            StartBarcode.TouchUpInside += async delegate
+            {
+               // MobileBarcodeScanner.Initialize();
+
+                var scanner = new ZXing.Mobile.MobileBarcodeScanner();
+                var result = await scanner.Scan();
+
+            };
         }
 
         public override void DidReceiveMemoryWarning()
