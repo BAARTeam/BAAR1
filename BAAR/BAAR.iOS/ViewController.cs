@@ -80,6 +80,9 @@ namespace BAAR.iOS
                     //Go to different page;
                     // StartActivity(MainPage);
                     Login.SetTitle("Login Successful", UIControlState.Normal);
+                   // var _settingsStoryboard = UIStoryboard.FromName("ButtonPage", null);
+                   // var initialViewController = _settingsStoryboard.InstantiateInitialViewController() as UIViewController;
+                  //  initialViewController.LoadView();
                 }
                 else
                 {
