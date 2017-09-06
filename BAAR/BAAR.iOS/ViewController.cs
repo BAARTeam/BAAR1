@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Data.SqlClient;
+using System.IO;
+using Newtonsoft.Json;
+using System.Net;
 using UIKit;
 
 namespace BAAR.iOS
@@ -52,7 +55,7 @@ namespace BAAR.iOS
                     {
 
                         //Requests an access token from powerschool that we use for getting data;
-                        //    Token = (AccessObject)MainActivity.MakeRequest(string.Format(@"http://172.21.123.196/oauth/access_token?grant_type=client_credentials"), "application/x-www-form-urlencoded;charset=UTF-8", "POST", "Basic ZThmMmViNjYtNDcwYy00YjZkLTlhYjItMDQ4OWM5NGJlNDEwOjJmY2U2MmY3LWVlZDMtNDAzYi04NWNhLWRjY2E5OTFjMGI2Nw==", true);
+                         AccessObject   Token = (AccessObject)MakeRequest(string.Format(@"http://172.21.123.196/oauth/access_token?grant_type=client_credentials"), "application/x-www-form-urlencoded;charset=UTF-8", "POST", "Basic ZThmMmViNjYtNDcwYy00YjZkLTlhYjItMDQ4OWM5NGJlNDEwOjJmY2U2MmY3LWVlZDMtNDAzYi04NWNhLWRjY2E5OTFjMGI2Nw==", true);
 
                         //saves the logged in users information
                         conn.Open();
@@ -97,6 +100,34 @@ namespace BAAR.iOS
 			base.DidReceiveMemoryWarning ();
 			// Release any cached data, images, etc that aren't in use.
 		}
-	}
+        public static object MakeRequest(string RequestURL, string ContentType, string Method, string AuthHeader, bool ReturnAccessToken = false)
+        {
+            //builds request
+            HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(RequestURL);
+            request.ContentType = ContentType;
+            request.Method = Method;
+            //passes in clientid+secret
+            request.Headers.Add(HttpRequestHeader.Authorization, AuthHeader);
+
+            using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+            {
+                if (response.StatusCode != HttpStatusCode.OK)
+                    Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
+                //reads response
+                using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                {
+                    var content = reader.ReadToEnd();
+
+                    if (ReturnAccessToken)
+                    {
+                        AccessObject Token = JsonConvert.DeserializeObject<AccessObject>(content);
+                        return Token;
+                    }
+                    return response;
+                }
+            }
+        }
+
+    }
 }
 

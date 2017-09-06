@@ -17,10 +17,8 @@ namespace BAAR.iOS
             StartBarcode.TouchUpInside += async delegate
             {
                // MobileBarcodeScanner.Initialize();
-
                 var scanner = new ZXing.Mobile.MobileBarcodeScanner();
                 var result = await scanner.Scan();
-
             };
         }
 

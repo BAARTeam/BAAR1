@@ -17,7 +17,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oBE-Ac-vcx" misplaced="YES" buttonType="roundedRect" hasAttributedTitle="YES">
-                                <rect key="frame" x="184" y="353" width="46" height="30"/>
+                                <rect key="frame" x="164" y="342" width="87" height="53"/>
                                 <connections>
                                     <segue id="256" destination="192" kind="show"/>
                                 </connections>
@@ -134,19 +134,27 @@
                             <color key="backgroundColor" colorSpace="calibratedRGB" red="0" green="0.035294117647058823" blue="0.10196078431372549" alpha="1"/>
                         </variation>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="258" translatesAutoresizingMaskIntoConstraints="NO" text="Going Pro!">
-                                <rect key="frame" x="155" y="140" width="122" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="258" translatesAutoresizingMaskIntoConstraints="NO" text="Going Pro!">
+                                <rect key="frame" x="146" y="140" width="122" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="highlightedColor"/>
                                 <accessibility key="accessibilityConfiguration" label="Scan"/>
                                 <color key="textColor" colorSpace="calibratedRGB" red="1" green="1" blue="1" alpha="1"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="261" translatesAutoresizingMaskIntoConstraints="NO">
-                                <rect key="frame" x="136" y="265" width="141" height="123"/>
-                                <state key="normal" title="GoingPro">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                    <color key="titleColor" colorSpace="calibratedRGB" red="0" green="0.52549019607843139" blue="1" alpha="1"/>
+                            <button contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" buttonType="roundedRect" lineBreakMode="middleTruncation" id="261" translatesAutoresizingMaskIntoConstraints="NO" alpha="255">
+                                <rect key="frame" x="136" y="255" width="141" height="123"/>
+                                <state key="normal" title="GoingPro" image="GoingPro_Icon.png" backgroundImage="GoingPro_Icon.png">
+                                    <color key="titleShadowColor" colorSpace="calibratedRGB" red="1" green="0" blue="0" alpha="0"/>
+                                    <color key="titleColor" colorSpace="calibratedRGB" red="1" green="1" blue="1" alpha="1"/>
                                 </state>
+                                <connections/>
+                                <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
+                                    <color key="tintColor" colorSpace="calibratedRGB" red="1" green="1" blue="1" alpha="0"/>
+                                    <color key="backgroundColor" colorSpace="calibratedRGB" red="1" green="0" blue="0" alpha="0"/>
+                                </variation>
+                                <accessibility key="accessibilityConfiguration">
+                                    <accessibilityTraits key="traits" button="YES" image="YES"/>
+                                </accessibility>
                             </button>
                         </subviews>
                         <variation key="default">
@@ -170,4 +178,7 @@
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedScreenMetrics key="destination" type="retina55"/>
     </simulatedMetricsContainer>
+    <resources>
+        <image name="GoingPro_Icon.png" width="1575" height="1575"/>
+    </resources>
 </document>
