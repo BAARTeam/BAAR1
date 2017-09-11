@@ -51,11 +51,7 @@ namespace BAAR.iOS
             //  FindViewById<Button>(Resource.Id.AddTicket).SetTextColor(Color.White);
             //  FindViewById<Button>(Resource.Id.EmailButton).SetTextColor(Color.White);
 
-
-
             // CreateStudentTicket("Dakota", "9203847");
-            //CreateStudentTicket("Jacob", "9203847");
-            //CreateStudentTicket("Wessley", "9583485");
 
             Button EmailButton = FindViewById<Button>(Resource.Id.EmailButton);
             EmailButton.Click += (sender, e) =>
@@ -82,6 +78,7 @@ namespace BAAR.iOS
               //  StartActivity(MainPage);
             };
 
+           //  USE THIS UIButton btn1 = this.View.ViewWithTag(1) as UIButton;
             Button TicketButton = FindViewById<Button>(Resource.Id.AddTicket);
 
             TicketButton.Click += async (sender, e) =>
