@@ -13,8 +13,16 @@ namespace BAAR.iOS
     [Register ("StudentAccount")]
     partial class StudentAccount
     {
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIStackView TicketHolder { get; set; }
+
         void ReleaseDesignerOutlets ()
         {
+            if (TicketHolder != null) {
+                TicketHolder.Dispose ();
+                TicketHolder = null;
+            }
         }
     }
 }
