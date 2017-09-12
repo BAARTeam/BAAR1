@@ -9,13 +9,13 @@ namespace BAAR.iOS
 {
 
     public partial class ViewController : UIViewController
-	{
-		int count = 1;
+    {
         public static SqlConnection conn = new SqlConnection(@"Data Source = webdb\webdb; Initial Catalog = MTSS_BadgePro; Integrated Security = False; User ID = mtss_admin; Password =KBhSIQXqZ8J^; Pooling = False");
 
-		public ViewController (IntPtr handle) : base (handle)
-		{
-		}
+        public static AccessObject Token;
+        public ViewController(IntPtr handle) : base(handle)
+        {
+        }
 
         public override void ViewDidLoad()
         {
@@ -55,7 +55,7 @@ namespace BAAR.iOS
                     {
 
                         //Requests an access token from powerschool that we use for getting data;
-                         AccessObject   Token = (AccessObject)MakeRequest(string.Format(@"http://172.21.123.196/oauth/access_token?grant_type=client_credentials"), "application/x-www-form-urlencoded;charset=UTF-8", "POST", "Basic ZThmMmViNjYtNDcwYy00YjZkLTlhYjItMDQ4OWM5NGJlNDEwOjJmY2U2MmY3LWVlZDMtNDAzYi04NWNhLWRjY2E5OTFjMGI2Nw==", true);
+                        Token = (AccessObject)MakeRequest(string.Format(@"http://172.21.123.196/oauth/access_token?grant_type=client_credentials"), "application/x-www-form-urlencoded;charset=UTF-8", "POST", "Basic ZThmMmViNjYtNDcwYy00YjZkLTlhYjItMDQ4OWM5NGJlNDEwOjJmY2U2MmY3LWVlZDMtNDAzYi04NWNhLWRjY2E5OTFjMGI2Nw==", true);
 
                         //saves the logged in users information
                         conn.Open();
@@ -83,9 +83,9 @@ namespace BAAR.iOS
                     //Go to different page;
                     // StartActivity(MainPage);
                     Login.SetTitle("Login Successful", UIControlState.Normal);
-                   // var _settingsStoryboard = UIStoryboard.FromName("ButtonPage", null);
-                   // var initialViewController = _settingsStoryboard.InstantiateInitialViewController() as UIViewController;
-                  //  initialViewController.LoadView();
+                    // var _settingsStoryboard = UIStoryboard.FromName("ButtonPage", null);
+                    // var initialViewController = _settingsStoryboard.InstantiateInitialViewController() as UIViewController;
+                    //  initialViewController.LoadView();
                 }
                 else
                 {
@@ -95,11 +95,11 @@ namespace BAAR.iOS
             };
         }
 
-		public override void DidReceiveMemoryWarning ()
-		{
-			base.DidReceiveMemoryWarning ();
-			// Release any cached data, images, etc that aren't in use.
-		}
+        public override void DidReceiveMemoryWarning()
+        {
+            base.DidReceiveMemoryWarning();
+            // Release any cached data, images, etc that aren't in use.
+        }
         public static object MakeRequest(string RequestURL, string ContentType, string Method, string AuthHeader, bool ReturnAccessToken = false)
         {
             //builds request
@@ -128,6 +128,40 @@ namespace BAAR.iOS
             }
         }
 
+        public static object MakeRequest3(string QueryName, string StudentNumber)
+        {
+            HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(@"http://172.21.123.196/ws/schema/query/" + QueryName + "?");
+            request.Method = "POST";
+            request.ContentType = "application/json";
+            request.Headers.Add(HttpRequestHeader.Authorization, string.Format("Bearer {0}", Token.AccessToken));
+            request.Accept = "application/json";
+
+
+            using (var streamWriter = new StreamWriter(request.GetRequestStream()))
+            {
+                double StudNum = Convert.ToDouble(StudentNumber);
+                StudentAccount.JsonPayload StudentNum = new StudentAccount.JsonPayload();
+                StudentNum.Number = StudNum;
+                string Tests = (string)JsonConvert.SerializeObject(StudentNum);
+
+                streamWriter.Write(Tests);
+                streamWriter.Flush();
+                streamWriter.Close();
+            }
+
+            using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+            {
+                if (response.StatusCode != HttpStatusCode.OK)
+                    Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
+                using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                {
+                    var content = reader.ReadToEnd();
+
+                    return content;
+                }
+            }
+
+        }
     }
 }
 

@@ -179,6 +179,11 @@
     </Compile>
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
+    <Compile Include="StudentAccount.cs" />
+    <Compile Include="StudentAccount.designer.cs">
+      <DependentUpon>StudentAccount.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Utilities.cs" />
     <Compile Include="ViewController.cs" />
     <Compile Include="ViewController.designer.cs">
       <DependentUpon>ViewController.cs</DependentUpon>
