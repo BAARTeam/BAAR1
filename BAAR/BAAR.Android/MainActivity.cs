@@ -66,7 +66,7 @@ namespace BAAR.Droid
             request.Method = Method;
             //passes in clientid+secret
             request.Headers.Add(HttpRequestHeader.Authorization, AuthHeader);
-
+           
             using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
             {
                 if (response.StatusCode != HttpStatusCode.OK)
@@ -88,7 +88,7 @@ namespace BAAR.Droid
         //REST API Calls for PowerQuery
         public static object MakeRequest3(string QueryName,string StudentNumber)
         {
-            HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(@"http://172.21.123.196/ws/schema/query/" +QueryName +"?");
+            HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(@"http://powerschool.kentisd.org/ws/schema/query/" +QueryName +"?");
             request.Method = "POST";
             request.ContentType = "application/json";
             request.Headers.Add(HttpRequestHeader.Authorization, string.Format("Bearer {0}", Login.Token.AccessToken));

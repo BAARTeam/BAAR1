@@ -55,7 +55,7 @@ namespace BAAR.iOS
                     {
 
                         //Requests an access token from powerschool that we use for getting data;
-                        Token = (AccessObject)MakeRequest(string.Format(@"http://172.21.123.196/oauth/access_token?grant_type=client_credentials"), "application/x-www-form-urlencoded;charset=UTF-8", "POST", "Basic ZThmMmViNjYtNDcwYy00YjZkLTlhYjItMDQ4OWM5NGJlNDEwOjJmY2U2MmY3LWVlZDMtNDAzYi04NWNhLWRjY2E5OTFjMGI2Nw==", true);
+                        Token = (AccessObject)MakeRequest(string.Format(@"http://powerschool.kentisd.org/oauth/access_token?grant_type=client_credentials"), "application/x-www-form-urlencoded;charset=UTF-8", "POST", "Basic ZWRlMjY4ZmMtOTM5Mi00Y2NkLTgxNjktNjk2ZjI0YmNjZTU2OmU5MDRlNzYwLTEzZjQtNDY5My1iYWM5LWIwZTMyYTJhM2Y3Ng==", true);
 
                         //saves the logged in users information
                         conn.Open();
@@ -130,7 +130,7 @@ namespace BAAR.iOS
 
         public static object MakeRequest3(string QueryName, string StudentNumber)
         {
-            HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(@"http://172.21.123.196/ws/schema/query/" + QueryName + "?");
+            HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(@"http://powerschool.kentisd.org/ws/schema/query/" + QueryName + "?");
             request.Method = "POST";
             request.ContentType = "application/json";
             request.Headers.Add(HttpRequestHeader.Authorization, string.Format("Bearer {0}", Token.AccessToken));

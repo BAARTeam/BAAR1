@@ -22,10 +22,6 @@ namespace BAAR.iOS
         [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UILabel Scan { get; set; }
 
-        [Outlet]
-        [GeneratedCode ("iOS Designer", "1.0")]
-        UIKit.UIButton StartBarcode { get; set; }
-
         void ReleaseDesignerOutlets ()
         {
             if (Buttons != null) {
@@ -36,11 +32,6 @@ namespace BAAR.iOS
             if (Scan != null) {
                 Scan.Dispose ();
                 Scan = null;
-            }
-
-            if (StartBarcode != null) {
-                StartBarcode.Dispose ();
-                StartBarcode = null;
             }
         }
     }

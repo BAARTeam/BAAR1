@@ -44,19 +44,19 @@ namespace BAAR.Droid
             Window.RequestFeature(WindowFeatures.NoTitle);
             SetContentView(Resource.Layout.student);
 
-            //try
-            //{
-            //    BarcodeScanReturn Returned = await StartBarcodeScanner();
-            //    string[] Name = SplitName(Returned.StudentName);
-            //    CreateStudentTicket((Name[0] + " " + Name[1]), Returned.StudentNumber.ToString());
-            //}
-            //catch
-            //{
-
-            //    Console.WriteLine("Pressed Back When Scanning Barcode");
-            //    Intent MainPage = new Intent(this, typeof(MainActivity));
-            //    StartActivity(MainPage);
-            //}
+            try
+            {
+                Login.Token = (AccessObject)MainActivity.MakeRequest(string.Format(@"http://powerschool.kentisd.org/oauth/access_token?grant_type=client_credentials"), "application/x-www-form-urlencoded;charset=UTF-8", "POST", "Basic ZWRlMjY4ZmMtOTM5Mi00Y2NkLTgxNjktNjk2ZjI0YmNjZTU2OmU5MDRlNzYwLTEzZjQtNDY5My1iYWM5LWIwZTMyYTJhM2Y3Ng==", true);
+                BarcodeScanReturn Returned = await StartBarcodeScanner();
+                string[] Name = SplitName(Returned.StudentName);
+                CreateStudentTicket((Name[0] + " " + Name[1]), Returned.StudentNumber.ToString());
+            }
+            catch
+            {
+                Console.WriteLine("Pressed Back When Scanning Barcode");
+                Intent MainPage = new Intent(this, typeof(MainActivity));
+                StartActivity(MainPage);
+            }
 
 
             FindViewById<LinearLayout>(Resource.Id.Root).SetBackgroundColor(Color.Argb(255, 0, 9, 26));
@@ -66,7 +66,7 @@ namespace BAAR.Droid
 
 
 
-            CreateStudentTicket("Dakota","9203847");
+         //   CreateStudentTicket("Dakota","9203847");
             //CreateStudentTicket("Jacob", "9203847");
             //CreateStudentTicket("Wessley", "9583485");
 
@@ -224,26 +224,26 @@ ViewGroup.LayoutParams.WrapContent);
             var scanner = new ZXing.Mobile.MobileBarcodeScanner();
             var result = await scanner.Scan();
 
-            string[] Results = result.ToString().Split('|');
+            // string[] Results = result.ToString().Split('|');
 
-
-            if (Results[0]=="0")
+            string[] Results = result.ToString().Split('*');
+            //  if (Results[0]=="0")
             {
+                Console.WriteLine("Returned Data " + Results[1]);
                 string Contra = (string)MainActivity.MakeRequest3("data", Results[1]);
 
-                Console.WriteLine("Returned Data " + Contra);
-                string Name = Contra.GetStringOut("lastfirst");
-                
+              string Name = Contra.GetStringOut("lastfirst");
+
                 string Email1 = Contra.GetStringOut("guardianemail");
                 string Email2 = Contra.GetStringOut("guardianemail_2");
                 string Email3 = Contra.GetStringOut("stud_email");
-                BarcodeScanReturn Student = new BarcodeScanReturn(Name, Results[1], Email1, Email2, Email3);
+                BarcodeScanReturn Student = new BarcodeScanReturn(Name, Results[1],Email1, Email2, Email3);
                 AllReturned.Add(Student);
                 return Student;
             }
-            else
+          //  else
             {
-                BarcodeScanReturn Staff = new BarcodeScanReturn((Results[3] + ", " + Results[2]), Results[1], null, null, null);
+               BarcodeScanReturn Staff = new BarcodeScanReturn((Results[3] + ", " + Results[2]), Results[1], null, null, null);
                 AllReturned.Add(Staff);
                 return Staff;
             }

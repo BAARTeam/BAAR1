@@ -7,6 +7,8 @@ using Newtonsoft.Json;
 using System.Net.Mail;
 using System.Threading.Tasks;
 using BAAR.iOS;
+using CoreAnimation;
+using System.Drawing;
 
 namespace BAAR.iOS
 {
@@ -40,10 +42,10 @@ namespace BAAR.iOS
 
             try
             {
-                CreateStudentTicket("Dakota","39809");
-               // BarcodeScanReturn Returned = await StartBarcodeScanner();
-               // string[] Name = SplitName(Returned.StudentName);
-               // Console.WriteLine(Returned.StudentNumber.ToString());
+             //   BarcodeScanReturn Returned = await StartBarcodeScanner();
+               //string[] Name = SplitName(Returned.StudentName);
+                //Console.WriteLine("Yellow " + Returned.StudentNumber.ToString());
+                CreateStudentTicket("Daktoa","13172");
             }
             catch
             {
@@ -110,6 +112,8 @@ private string[] SplitName(string ToSplit)
         const string AccountPassword = "Fopo7082";
         public void CreateStudentTicket(string Name, string Number)
         {
+
+
             UILabel StudentName = new UILabel();
             StudentName.Text = Name;
             StudentName.LayoutMargins = new UIEdgeInsets(0,0,-200,0);
@@ -119,92 +123,33 @@ private string[] SplitName(string ToSplit)
 
             UILabel StudentNumber = new UILabel();
             StudentNumber.Text = Number;
+            StudentNumber.LayoutMargins = new UIEdgeInsets(0, 0, -200, 0);
             StudentNumber.TextColor = UIColor.White;
             StudentNumber.Font.WithSize(36);
             TicketHolder.AddArrangedSubview(StudentNumber);
 
-            ////            Spinner BuildingLocationSpinner = new Spinner(this);
-            ////            var Buildings = new List<string>() { "KTC", "MySchool", "KCTC", "KIH" };
-            ////            var BuildingsAdapter = new ArrayAdapter(this, Android.Resource.Layout.SimpleSpinnerDropDownItem, Buildings);
-            ////            BuildingLocationSpinner.Adapter = BuildingsAdapter;
+            UIPickerView TEst = new UIPickerView();
+            TEst.BackgroundColor = UIColor.White;
+            TEst.Model = new ExamplePickerViewModel(new List<string>() {"Testing","Cake","Lies" });
+            var layer = new CALayer();
+            layer.Frame = new RectangleF(1, 1, (float)TEst.Frame.Width - 120,
+                (float)TEst.Frame.Height - 120);
+            layer.CornerRadius = 0;
+            layer.BackgroundColor = UIColor.White.CGColor;
 
-            ////            Spinner BehaviourSpinner = new Spinner(this);
-            ////            var Behaviours = new List<string>() { "Showed Responsibility", "Showed Respect", "Demonstrated Initiative", "Was Safe", "Demonstrated Professionalism" };
-            ////            var Adapter = new ArrayAdapter(this, Android.Resource.Layout.SimpleSpinnerDropDownItem, Behaviours);
-            ////            BehaviourSpinner.Adapter = Adapter;
+            TEst.Layer.Mask = layer;
+            TicketHolder.AddArrangedSubview(TEst);
 
-            ////            Spinner LocationSpinner = new Spinner(this);
-            ////            var Locations = BLL[0];
-            ////            var LocationAdapter = new ArrayAdapter(this, Android.Resource.Layout.SimpleSpinnerDropDownItem, Locations);
-            ////            LocationSpinner.Adapter = LocationAdapter;
+            UIPickerView TEst2 = new UIPickerView();
+            TEst2.BackgroundColor = UIColor.White;
+            TEst2.Model = new ExamplePickerViewModel(new List<string>() { "Testing", "Protal", "Guns" });
+            TicketHolder.AddArrangedSubview(TEst2);
 
-            ////            TextView StudentName = new TextView(this);
-            ////            TextView StudentIdNumber = new TextView(this);
-            ////            ImageView StudentImage = new ImageView(this);
-            ////            StudentImage.SetImageDrawable(Resources.GetDrawable(Resource.Drawable.pbutton));
-            ////            StudentName.Id = 2;
-            ////            StudentName.TextSize = 25;
-            ////            StudentIdNumber.TextSize = 25;
-            ////            StudentIdNumber.Id = 4;
-            ////            StudentImage.Id = 10;
-            ////            BuildingLocationSpinner.Id = 15;
-            ////            BehaviourSpinner.Id = 6;
-            ////            LocationSpinner.Id = 8;
-
-            ////            StudentIdNumber.Text = Number;
-            ////            StudentName.Text = Name;
-            ////            LinearLayout MainLayout = FindViewById<LinearLayout>(Resource.Id.TicketHolder);
-            ////            RelativeLayout RelLayout = new RelativeLayout(this);
-            ////            RelLayout.SetPadding(20, 20, 0, 0);
-
-            ////            var StudentImageParam = new RelativeLayout.LayoutParams(250, 250);
-            ////            StudentImageParam.AddRule(LayoutRules.AlignParentLeft);
-            ////            StudentImage.SetPadding(45, 0, 0, 0);
-
-            ////            RelLayout.AddView(StudentImage, StudentImageParam);
-
-            ////            var StudentNameParam = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent,
-            ////    ViewGroup.LayoutParams.WrapContent);
-            ////            StudentNameParam.AddRule(LayoutRules.RightOf, StudentImage.Id);
-            ////            StudentName.SetPadding(30, 0, 0, 0);
-            ////            RelLayout.AddView(StudentName, StudentNameParam);
-
-            ////            var StudentIDNumber = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent,
-            ////    ViewGroup.LayoutParams.WrapContent);
-            ////            StudentIDNumber.AddRule(LayoutRules.RightOf, StudentImage.Id);
-            ////            StudentIDNumber.AddRule(LayoutRules.Below, StudentName.Id);
-            ////            StudentIdNumber.SetPadding(30, 0, 0, 0);
-            ////            RelLayout.AddView(StudentIdNumber, StudentIDNumber);
-
-            ////            var BehaviourParam = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent,
-            ////ViewGroup.LayoutParams.WrapContent);
-            ////            BehaviourParam.AddRule(LayoutRules.Below, StudentIdNumber.Id);
-            ////            RelLayout.AddView(BehaviourSpinner, BehaviourParam);
-
-            ////            var BuildingLocation = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent,
-            ////    ViewGroup.LayoutParams.WrapContent);
-            ////            BuildingLocation.AddRule(LayoutRules.Below, BehaviourSpinner.Id);
-            ////            RelLayout.AddView(BuildingLocationSpinner, BuildingLocation);
-            ////            BuildingLocationSpinner.LayoutParameters.Width = 550;
-
-            ////            var LocationParam = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent / 2,
-            ////ViewGroup.LayoutParams.WrapContent);
-            ////            LocationParam.AddRule(LayoutRules.RightOf, BuildingLocationSpinner.Id);
-            ////            LocationParam.AddRule(LayoutRules.Below, BehaviourSpinner.Id);
-            ////            RelLayout.AddView(LocationSpinner, LocationParam);
-            ////            LocationSpinner.LayoutParameters.Width = 900;
-
-
-            ////            RelLayout.SetBackgroundColor(Color.Argb(255, 21, 21, 30));
-            ////            LinearLayout.LayoutParams Test = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MatchParent, LinearLayout.LayoutParams.WrapContent);
-            ////            Test.SetMargins(25, 25, 25, 25);
-            ////            RelLayout.LayoutParameters = Test;
-            ////            MainLayout.AddView(RelLayout);
-            ////            NumberOfTickets++;
-            ////            LayoutSpinner.Add(NumberOfTickets, new Tuple<Spinner, Spinner>(BehaviourSpinner, LocationSpinner));
-            ////            BuildingLocationSpinner.ItemSelected += ItemSelected;
-            ////        }
-
+            UIPickerView TEst3 = new UIPickerView();
+            TEst3.BackgroundColor = UIColor.White;
+            TEst3.Model = new ExamplePickerViewModel(new List<string>() { "ESC", "KCTC", "KIH" });
+            TicketHolder.AddArrangedSubview(TEst3);
+       
             ////        private void ItemSelected(object sender, ItemSelectedEventArgs e)
             ////        {
             ////            Spinner Thing = sender as Spinner;
@@ -215,7 +160,41 @@ private string[] SplitName(string ToSplit)
             ////            LocationsPerBuilding.Adapter = new ArrayAdapter(this, Android.Resource.Layout.SimpleSpinnerDropDownItem, BLL[(int)e.Id]);
 
         }
+        public class ExamplePickerViewModel : UIPickerViewModel
+        {
+            private List<string> _myItems;
+            protected int selectedIndex = 0;
 
+            public ExamplePickerViewModel(List<string> items)
+            {
+                _myItems = items;
+            }
+
+            public string SelectedItem
+            {
+                get { return _myItems[selectedIndex]; }
+            }
+
+            public override nint GetComponentCount(UIPickerView picker)
+            {
+                return 1;
+            }
+
+            public override nint GetRowsInComponent(UIPickerView picker, nint component)
+            {
+                return _myItems.Count;
+            }
+
+            public override string GetTitle(UIPickerView picker, nint row, nint component)
+            {
+                return _myItems[(int)row];
+            }
+
+            public override void Selected(UIPickerView picker, nint row, nint component)
+            {
+                selectedIndex = (int)row;
+            }
+        }
         public async Task<BarcodeScanReturn> StartBarcodeScanner()
         {
             // MobileBarcodeScanner.Initialize(Application);
@@ -223,14 +202,12 @@ private string[] SplitName(string ToSplit)
             var scanner = new ZXing.Mobile.MobileBarcodeScanner();
             var result = await scanner.Scan();
 
-            string[] Results = result.ToString().Split('|');
-
-
-            if (Results[0] == "0")
+            string[] Results = result.ToString().Split('*');
+            //  if (Results[0]=="0")
             {
+                Console.WriteLine("Returned Data " + Results[1]);
                 string Contra = (string)ViewController.MakeRequest3("data", Results[1]);
 
-                Console.WriteLine("Returned Data " + Contra);
                 string Name = Contra.GetStringOut("lastfirst");
 
                 string Email1 = Contra.GetStringOut("guardianemail");
@@ -240,7 +217,7 @@ private string[] SplitName(string ToSplit)
                 AllReturned.Add(Student);
                 return Student;
             }
-            else
+            //  else
             {
                 BarcodeScanReturn Staff = new BarcodeScanReturn((Results[3] + ", " + Results[2]), Results[1], null, null, null);
                 AllReturned.Add(Staff);
