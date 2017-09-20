@@ -15,10 +15,19 @@ namespace BAAR.iOS
     {
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIScrollView Scroll { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UIStackView TicketHolder { get; set; }
 
         void ReleaseDesignerOutlets ()
         {
+            if (Scroll != null) {
+                Scroll.Dispose ();
+                Scroll = null;
+            }
+
             if (TicketHolder != null) {
                 TicketHolder.Dispose ();
                 TicketHolder = null;

@@ -15,13 +15,12 @@
       "scale": "2x",
       "size": "29x29",
       "idiom": "iphone",
-      "filename": "Icon-Small@2x.png"
+      "filename": "GoingPro_Icon@2x.png"
     },
     {
       "scale": "3x",
       "size": "29x29",
-      "idiom": "iphone",
-      "filename": "Icon-Small@3x.png"
+      "idiom": "iphone"
     },
     {
       "scale": "2x",
@@ -49,13 +48,13 @@
       "scale": "2x",
       "size": "60x60",
       "idiom": "iphone",
-      "filename": "Icon-60@2x.png"
+      "filename": "GoingPro_Icon120@2x.png"
     },
     {
       "scale": "3x",
       "size": "60x60",
       "idiom": "iphone",
-      "filename": "Icon-60@3x.png"
+      "filename": "GoingPro_Icon180@3x.png"
     },
     {
       "scale": "1x",

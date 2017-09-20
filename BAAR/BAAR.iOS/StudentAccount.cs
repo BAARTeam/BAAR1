@@ -42,9 +42,12 @@ namespace BAAR.iOS
 
             try
             {
-             //   BarcodeScanReturn Returned = await StartBarcodeScanner();
-               //string[] Name = SplitName(Returned.StudentName);
+                //   BarcodeScanReturn Returned = await StartBarcodeScanner();
+                //string[] Name = SplitName(Returned.StudentName);
                 //Console.WriteLine("Yellow " + Returned.StudentNumber.ToString());
+                
+                Scroll.AddSubview(TicketHolder);
+                Scroll.ContentSize = TicketHolder.Frame.Size;
                 CreateStudentTicket("Daktoa","13172");
             }
             catch
@@ -113,44 +116,42 @@ private string[] SplitName(string ToSplit)
         public void CreateStudentTicket(string Name, string Number)
         {
 
+            UIView Ticket = new UIView();
+            Ticket.BackgroundColor = UIColor.White;
+
 
             UILabel StudentName = new UILabel();
             StudentName.Text = Name;
-            StudentName.LayoutMargins = new UIEdgeInsets(0,0,-200,0);
-            StudentName.TextColor = UIColor.White;
-            StudentName.Font.WithSize(36);
-            TicketHolder.AddArrangedSubview(StudentName);
+            StudentName.TextColor = UIColor.Black;
+            StudentName.Font.WithSize(106);
+           
+
+            Ticket.AddSubview(StudentName);
+            
+            TicketHolder.AddArrangedSubview(Ticket);
 
             UILabel StudentNumber = new UILabel();
             StudentNumber.Text = Number;
-            StudentNumber.LayoutMargins = new UIEdgeInsets(0, 0, -200, 0);
-            StudentNumber.TextColor = UIColor.White;
+            StudentNumber.TextColor = UIColor.Blue;
             StudentNumber.Font.WithSize(36);
-            TicketHolder.AddArrangedSubview(StudentNumber);
 
-            UIPickerView TEst = new UIPickerView();
-            TEst.BackgroundColor = UIColor.White;
-            TEst.Model = new ExamplePickerViewModel(new List<string>() {"Testing","Cake","Lies" });
-            var layer = new CALayer();
-            layer.Frame = new RectangleF(1, 1, (float)TEst.Frame.Width - 120,
-                (float)TEst.Frame.Height - 120);
-            layer.CornerRadius = 0;
-            layer.BackgroundColor = UIColor.White.CGColor;
-
-            TEst.Layer.Mask = layer;
-            TicketHolder.AddArrangedSubview(TEst);
 
             UIPickerView TEst2 = new UIPickerView();
             TEst2.BackgroundColor = UIColor.White;
             TEst2.Model = new ExamplePickerViewModel(new List<string>() { "Testing", "Protal", "Guns" });
             TicketHolder.AddArrangedSubview(TEst2);
 
-            UIPickerView TEst3 = new UIPickerView();
-            TEst3.BackgroundColor = UIColor.White;
-            TEst3.Model = new ExamplePickerViewModel(new List<string>() { "ESC", "KCTC", "KIH" });
-            TicketHolder.AddArrangedSubview(TEst3);
-       
-            ////        private void ItemSelected(object sender, ItemSelectedEventArgs e)
+            //UIPickerView TEst3 = new UIPickerView();
+            //TEst3.BackgroundColor = UIColor.White;
+            //TEst3.Model = new ExamplePickerViewModel(new List<string>() { "ESC", "KCTC", "KIH" });
+            //TicketHolder.AddArrangedSubview(TEst3);
+
+            //UIPickerView TEst4 = new UIPickerView();
+            //TEst4.BackgroundColor = UIColor.White;
+            //TEst4.Model = new ExamplePickerViewModel(new List<string>() { "ESC", "KCTC", "KIH" });
+            //TicketHolder.AddArrangedSubview(TEst4);
+
+            //        private void ItemSelected(object sender, ItemSelectedEventArgs e)
             ////        {
             ////            Spinner Thing = sender as Spinner;
 
