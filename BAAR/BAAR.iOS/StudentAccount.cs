@@ -49,6 +49,7 @@ namespace BAAR.iOS
                 Scroll.AddSubview(TicketHolder);
                 Scroll.ContentSize = TicketHolder.Frame.Size;
                 CreateStudentTicket("Daktoa","13172");
+                CreateStudentTicket("Jacob","90779");
             }
             catch
             {
@@ -116,40 +117,101 @@ private string[] SplitName(string ToSplit)
         public void CreateStudentTicket(string Name, string Number)
         {
 
+            TicketHolder.TranslatesAutoresizingMaskIntoConstraints = false;
+
             UIView Ticket = new UIView();
             Ticket.BackgroundColor = UIColor.White;
-
+            Ticket.HeightAnchor.ConstraintEqualTo(250).Active = true;
+            Ticket.WidthAnchor.ConstraintEqualTo(TicketHolder.Bounds.Size.Width).Active = true;
 
             UILabel StudentName = new UILabel();
             StudentName.Text = Name;
             StudentName.TextColor = UIColor.Black;
-            StudentName.Font.WithSize(106);
-           
+            StudentName.Font.WithSize(36);
+            StudentName.Frame = new RectangleF(75, 0, 100, 100);
+
+
 
             Ticket.AddSubview(StudentName);
-            
-            TicketHolder.AddArrangedSubview(Ticket);
 
             UILabel StudentNumber = new UILabel();
             StudentNumber.Text = Number;
             StudentNumber.TextColor = UIColor.Blue;
             StudentNumber.Font.WithSize(36);
+            StudentNumber.Frame = new RectangleF(75, 15, 100, 100);
 
+            Ticket.AddSubview(StudentNumber);
 
-            UIPickerView TEst2 = new UIPickerView();
-            TEst2.BackgroundColor = UIColor.White;
-            TEst2.Model = new ExamplePickerViewModel(new List<string>() { "Testing", "Protal", "Guns" });
-            TicketHolder.AddArrangedSubview(TEst2);
+            TicketHolder.AddArrangedSubview(Ticket);
+
+            UIImageView ImageView = new UIImageView();
+            ImageView.BackgroundColor = UIColor.Black;
+            ImageView.Frame = new CoreGraphics.CGRect(15, 25, 50, 50);
+            Ticket.AddSubview(ImageView);
+
+            UIDropDown DropDown = new UIDropDown(Ticket);
+            //UIButton Button = new UIButton();
+            //Button.BackgroundColor = UIColor.Green;
+            //Button.Frame = new CoreGraphics.CGRect(25, 60, 40, 20);
+            //Button.TouchUpInside += delegate
+            {
+                Console.WriteLine("Touched");
+
+                //UIStackView DropDown = new UIStackView();
+                //DropDown.Frame = new CoreGraphics.CGRect(25,Button.Frame.Bottom,250,300);
+                //DropDown.Axis = UILayoutConstraintAxis.Vertical;
+                //DropDown.TranslatesAutoresizingMaskIntoConstraints = false;
+                //DropDown.Alignment = UIStackViewAlignment.Trailing;
+                //DropDown.Distribution = UIStackViewDistribution.EqualSpacing;
+                //DropDown.BackgroundColor = UIColor.Blue;
+
+                List<UIButton> Buttons = new List<UIButton>();
+                Scroll.ScrollEnabled = false;
+               // View.SendSubviewToBack(DropDown);
+                for (int i = 0; i < 5; i++)
+                {
+                    UIButton TestButton = new UIButton();
+                    TestButton.BackgroundColor = UIColor.Blue;
+                    View.BringSubviewToFront(TestButton);
+                    TestButton.ClipsToBounds = true;
+                    TestButton.SetTitle("Classrooms", UIControlState.Normal);
+                   // TestButton.Frame = new CoreGraphics.CGRect(25, Button.Frame.Bottom + (i * 25), 250, 25);
+                    Buttons.Add(TestButton);
+                    TestButton.TouchUpInside += delegate {
+                        Console.WriteLine("Hide!!");
+                        for (int k = 0; k < Buttons.Count; k++)
+                        {
+                            Buttons[k].Hidden = true;
+                        }
+                      //  Button.SetTitle(TestButton.Title(UIControlState.Normal),UIControlState.Normal);
+                    };
+                    
+                    View.AddSubview(TestButton);
+                }
+
+                //View.AddSubview(DropDown);
+
+            };
+
+           // Ticket.AddSubview(Button);
+
+            //UIPickerView TEst2 = new UIPickerView();
+            //TEst2.BackgroundColor = UIColor.Blue;
+            //TEst2.Model = new ExamplePickerViewModel(new List<string>() { "Testing", "Protal", "Cake" });
+            //TEst2.Frame = new CoreGraphics.CGRect(0,80,TicketHolder.Bounds.Size.Width,45);
+            //Ticket.AddSubview(TEst2);
 
             //UIPickerView TEst3 = new UIPickerView();
-            //TEst3.BackgroundColor = UIColor.White;
+            //TEst3.BackgroundColor = UIColor.Blue;
             //TEst3.Model = new ExamplePickerViewModel(new List<string>() { "ESC", "KCTC", "KIH" });
-            //TicketHolder.AddArrangedSubview(TEst3);
+            //TEst3.Frame = new CoreGraphics.CGRect(25, 175,100, 45);
+            //Ticket.AddSubview(TEst3);
 
             //UIPickerView TEst4 = new UIPickerView();
-            //TEst4.BackgroundColor = UIColor.White;
-            //TEst4.Model = new ExamplePickerViewModel(new List<string>() { "ESC", "KCTC", "KIH" });
-            //TicketHolder.AddArrangedSubview(TEst4);
+            //TEst4.BackgroundColor = UIColor.Blue;
+            //TEst4.Model = new ExamplePickerViewModel(new List<string>() { "Classrooms", "Parking Lot", "Vending Machines" });
+            //TEst4.Frame = new CoreGraphics.CGRect(150,175, 200, 45);
+            //Ticket.AddSubview(TEst4);
 
             //        private void ItemSelected(object sender, ItemSelectedEventArgs e)
             ////        {
