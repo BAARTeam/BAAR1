@@ -149,51 +149,32 @@ private string[] SplitName(string ToSplit)
             ImageView.Frame = new CoreGraphics.CGRect(15, 25, 50, 50);
             Ticket.AddSubview(ImageView);
 
-            UIDropDown DropDown = new UIDropDown(Ticket);
-            //UIButton Button = new UIButton();
-            //Button.BackgroundColor = UIColor.Green;
-            //Button.Frame = new CoreGraphics.CGRect(25, 60, 40, 20);
-            //Button.TouchUpInside += delegate
+            UIDropDown DropDown = new UIDropDown(Ticket,View, new List<string>()
             {
-                Console.WriteLine("Touched");
+                "Showing Responsibility",
+                "Showed Respect",
+                "Testing",
+                "Blah Blah",
+                "Willow"
+            }, new CoreGraphics.CGRect(25,90,200,30));
 
-                //UIStackView DropDown = new UIStackView();
-                //DropDown.Frame = new CoreGraphics.CGRect(25,Button.Frame.Bottom,250,300);
-                //DropDown.Axis = UILayoutConstraintAxis.Vertical;
-                //DropDown.TranslatesAutoresizingMaskIntoConstraints = false;
-                //DropDown.Alignment = UIStackViewAlignment.Trailing;
-                //DropDown.Distribution = UIStackViewDistribution.EqualSpacing;
-                //DropDown.BackgroundColor = UIColor.Blue;
 
-                List<UIButton> Buttons = new List<UIButton>();
-                Scroll.ScrollEnabled = false;
-               // View.SendSubviewToBack(DropDown);
-                for (int i = 0; i < 5; i++)
-                {
-                    UIButton TestButton = new UIButton();
-                    TestButton.BackgroundColor = UIColor.Blue;
-                    View.BringSubviewToFront(TestButton);
-                    TestButton.ClipsToBounds = true;
-                    TestButton.SetTitle("Classrooms", UIControlState.Normal);
-                   // TestButton.Frame = new CoreGraphics.CGRect(25, Button.Frame.Bottom + (i * 25), 250, 25);
-                    Buttons.Add(TestButton);
-                    TestButton.TouchUpInside += delegate {
-                        Console.WriteLine("Hide!!");
-                        for (int k = 0; k < Buttons.Count; k++)
-                        {
-                            Buttons[k].Hidden = true;
-                        }
-                      //  Button.SetTitle(TestButton.Title(UIControlState.Normal),UIControlState.Normal);
-                    };
-                    
-                    View.AddSubview(TestButton);
-                }
+            UIDropDown DropDown2 = new UIDropDown(Ticket, View, new List<string>()
+            {
+                "KCTC",
+                "ESC",
+                "KISD",
+                "KTC",
+            }, new CoreGraphics.CGRect(25, 130, 100, 30));
 
-                //View.AddSubview(DropDown);
-
-            };
-
-           // Ticket.AddSubview(Button);
+            UIDropDown DropDown3 = new UIDropDown(Ticket, View, new List<string>()
+            {
+                "Classrooms",
+                "Parking Lot",
+                "Vending Machines",
+                "Commons",
+            }, new CoreGraphics.CGRect(150, 130, 100, 30));
+            // Ticket.AddSubview(Button);
 
             //UIPickerView TEst2 = new UIPickerView();
             //TEst2.BackgroundColor = UIColor.Blue;
