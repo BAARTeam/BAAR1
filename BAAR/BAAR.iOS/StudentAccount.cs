@@ -35,77 +35,81 @@ namespace BAAR.iOS
             {3, new string[] { "Hallways", "Classrooms", "IT Help", "Main Office", "Vending Machines", "Collaboration Areas / Learning Pods", "Parking Lot" } },
         };
         public List<BarcodeScanReturn> AllReturned = new List<BarcodeScanReturn>();
-        private int NumberOfTickets;
+        private int NumberOfTickets = 0;
         public async override void ViewDidLoad()
         {
             base.ViewDidLoad();
 
             try
             {
-                //   BarcodeScanReturn Returned = await StartBarcodeScanner();
-                //string[] Name = SplitName(Returned.StudentName);
-                //Console.WriteLine("Yellow " + Returned.StudentNumber.ToString());
-                
+                BarcodeScanReturn Returned = await StartBarcodeScanner();
+                string[] Name = SplitName(Returned.StudentName);
+
                 Scroll.AddSubview(TicketHolder);
                 Scroll.ContentSize = TicketHolder.Frame.Size;
-                CreateStudentTicket("Daktoa","13172");
-                CreateStudentTicket("Jacob","90779");
+                CreateStudentTicket(Name[0] + " " + Name[1], Returned.StudentNumber, NumberOfTickets);
+                // CreateStudentTicket("Daktoa","13172",0);
+                //CreateStudentTicket("Jacob","90779",1);
             }
             catch
             {
+                Console.WriteLine("Something went stupid");
             }
+
+
+            // FindViewById<LinearLayout>(Resource.Id.Root).SetBackgroundColor(Color.Argb(255, 0, 9, 26));
+
+            //  FindViewById<Button>(Resource.Id.AddTicket).SetTextColor(Color.White);
+            //  FindViewById<Button>(Resource.Id.EmailButton).SetTextColor(Color.White);
+
+            // CreateStudentTicket("Dakota", "9203847");
+
+            // Button EmailButton = FindViewById<Button>(Resource.Id.EmailButton);
+            //EmailButton.Click += (sender, e) =>
+            //{
+            //    for (int i = 0; i < NumberOfTickets; i++)
+            //    {
+            //        string EmailBehaviour = LayoutSpinner[i + 1].Item1.SelectedItem.ToString();
+            //        string EmailLocation = LayoutSpinner[i + 1].Item2.SelectedItem.ToString();
+            //        //string EmailName = AllReturned[i].StudentName;
+            //        //TODO Change these things to reflect powerschol query
+            //        // Thread EmailThread = new Thread(new ThreadStart(new EmailInfo(AllReturned[i].StudentName,"dakotastickney@gmail.com", AllReturned[i].SecondaryAddress,AllReturned[i].StudentAddress,EmailLocation, EmailBehaviour).BackgroundEmail));
+            //        Thread EmailThread = new Thread(new ThreadStart(new EmailInfo("SEdc", "dakotastickney@gmail.com", null, null, EmailLocation, EmailBehaviour).BackgroundEmail));
+
+            //        //SqlCommand Insert = new SqlCommand("INSERT INTO MTSS_ActionLog VALUES (@DT, @SF, @SL, @SN, @StN, @ATi, @AT, @AL)", Login.conn);
+            //        //  Login.conn.Open();
+            //        //log log = new log(Login.StaffFirst, Login.StaffLast, AllReturned[i].StudentName.ToString(), Convert.ToDouble(AllReturned[i].StudentNumber.ToString()), LayoutSpinner[i + 1].Item1.SelectedItem.ToString(), LayoutSpinner[i +1].Item2.SelectedItem.ToString());
+            //        //log.exe(Insert);
+            //        //Login.conn.Close();
+            //        EmailThread.Start();
+            //    }
+
+            // Toast.MakeText(this, "Email Sent", ToastLength.Long).Show();
+            //  Intent MainPage = new Intent(this, typeof(MainActivity));
+            //  StartActivity(MainPage);
+            //  };
+
+            //  USE THIS UIButton btn1 = this.View.ViewWithTag(1) as UIButton;
+            // Button TicketButton = FindViewById<Button>(Resource.Id.AddTicket);
+
+            TicketButton.TouchUpInside += async delegate 
+            {
+                Console.WriteLine("Pushed");
+                try
+                {
+                    BarcodeScanReturn Thing = await StartBarcodeScanner();
+                    string[] SecondaryName = SplitName(Thing.StudentName);
+                    CreateStudentTicket(SecondaryName[0] + " " + SecondaryName[1], Thing.StudentNumber,NumberOfTickets);
+                }
+                catch
+                {
+                    // Toast.MakeText(this, "Invalid Barcode Scanned", ToastLength.Long).Show();
+                    //    Console.WriteLine("Woah Something Went Wrong When Scanning Barcode either that is not a valid barcode or there is no connection.");
+                }
+
+            };
         }
-
-// FindViewById<LinearLayout>(Resource.Id.Root).SetBackgroundColor(Color.Argb(255, 0, 9, 26));
-
-//  FindViewById<Button>(Resource.Id.AddTicket).SetTextColor(Color.White);
-//  FindViewById<Button>(Resource.Id.EmailButton).SetTextColor(Color.White);
-
-// CreateStudentTicket("Dakota", "9203847");
-
-// Button EmailButton = FindViewById<Button>(Resource.Id.EmailButton);
-//EmailButton.Click += (sender, e) =>
-//{
-//    for (int i = 0; i < NumberOfTickets; i++)
-//    {
-//        string EmailBehaviour = LayoutSpinner[i + 1].Item1.SelectedItem.ToString();
-//        string EmailLocation = LayoutSpinner[i + 1].Item2.SelectedItem.ToString();
-//        //string EmailName = AllReturned[i].StudentName;
-//        //TODO Change these things to reflect powerschol query
-//        // Thread EmailThread = new Thread(new ThreadStart(new EmailInfo(AllReturned[i].StudentName,"dakotastickney@gmail.com", AllReturned[i].SecondaryAddress,AllReturned[i].StudentAddress,EmailLocation, EmailBehaviour).BackgroundEmail));
-//        Thread EmailThread = new Thread(new ThreadStart(new EmailInfo("SEdc", "dakotastickney@gmail.com", null, null, EmailLocation, EmailBehaviour).BackgroundEmail));
-
-//        //SqlCommand Insert = new SqlCommand("INSERT INTO MTSS_ActionLog VALUES (@DT, @SF, @SL, @SN, @StN, @ATi, @AT, @AL)", Login.conn);
-//        //  Login.conn.Open();
-//        //log log = new log(Login.StaffFirst, Login.StaffLast, AllReturned[i].StudentName.ToString(), Convert.ToDouble(AllReturned[i].StudentNumber.ToString()), LayoutSpinner[i + 1].Item1.SelectedItem.ToString(), LayoutSpinner[i +1].Item2.SelectedItem.ToString());
-//        //log.exe(Insert);
-//        //Login.conn.Close();
-//        EmailThread.Start();
-//    }
-
-// Toast.MakeText(this, "Email Sent", ToastLength.Long).Show();
-//  Intent MainPage = new Intent(this, typeof(MainActivity));
-//  StartActivity(MainPage);
-//  };
-
-//  USE THIS UIButton btn1 = this.View.ViewWithTag(1) as UIButton;
-// Button TicketButton = FindViewById<Button>(Resource.Id.AddTicket);
-
-//    TicketButton.Click += async (sender, e) =>
-//    {
-//        try
-//        {
-//            BarcodeScanReturn Thing = await StartBarcodeScanner();
-//            string[] SecondaryName = SplitName(Thing.StudentName);
-//            CreateStudentTicket(SecondaryName[0] + " " + SecondaryName[1], Thing.StudentNumber);
-//        }
-//        catch
-//        {
-//            // Toast.MakeText(this, "Invalid Barcode Scanned", ToastLength.Long).Show();
-//            //    Console.WriteLine("Woah Something Went Wrong When Scanning Barcode either that is not a valid barcode or there is no connection.");
-//        }
-//    };
-//}
+   
 
 private string[] SplitName(string ToSplit)
         {
@@ -114,21 +118,20 @@ private string[] SplitName(string ToSplit)
             return new string[] { SpaceSplit[1], SplitName[0] };
         }
         const string AccountPassword = "Fopo7082";
-        public void CreateStudentTicket(string Name, string Number)
+        public void CreateStudentTicket(string Name, string Number,int TicketNumber)
         {
 
             TicketHolder.TranslatesAutoresizingMaskIntoConstraints = false;
 
             UIView Ticket = new UIView();
             Ticket.BackgroundColor = UIColor.White;
-            Ticket.HeightAnchor.ConstraintEqualTo(250).Active = true;
+            Ticket.HeightAnchor.ConstraintEqualTo(160).Active = true;
             Ticket.WidthAnchor.ConstraintEqualTo(TicketHolder.Bounds.Size.Width).Active = true;
 
             UILabel StudentName = new UILabel();
             StudentName.Text = Name;
             StudentName.TextColor = UIColor.Black;
-            StudentName.Font.WithSize(36);
-            StudentName.Frame = new RectangleF(75, 0, 100, 100);
+            StudentName.Font.WithSize(40);
 
 
 
@@ -137,8 +140,7 @@ private string[] SplitName(string ToSplit)
             UILabel StudentNumber = new UILabel();
             StudentNumber.Text = Number;
             StudentNumber.TextColor = UIColor.Blue;
-            StudentNumber.Font.WithSize(36);
-            StudentNumber.Frame = new RectangleF(75, 15, 100, 100);
+            StudentNumber.Font.WithSize(40);
 
             Ticket.AddSubview(StudentNumber);
 
@@ -146,7 +148,11 @@ private string[] SplitName(string ToSplit)
 
             UIImageView ImageView = new UIImageView();
             ImageView.BackgroundColor = UIColor.Black;
-            ImageView.Frame = new CoreGraphics.CGRect(15, 25, 50, 50);
+      
+         
+                ImageView.Frame = new CoreGraphics.CGRect(15, 15, 50, 50);
+                StudentName.Frame = new RectangleF(75, 18, 90, 20);
+                StudentNumber.Frame = new RectangleF(75, 36,90, 20);
             Ticket.AddSubview(ImageView);
 
             UIDropDown DropDown = new UIDropDown(Ticket,View, new List<string>()
@@ -156,7 +162,7 @@ private string[] SplitName(string ToSplit)
                 "Testing",
                 "Blah Blah",
                 "Willow"
-            }, new CoreGraphics.CGRect(25,90,200,30));
+            }, new CoreGraphics.CGRect(25,85,TicketHolder.Bounds.Width - 85,30),Scroll,TicketNumber);
 
 
             UIDropDown DropDown2 = new UIDropDown(Ticket, View, new List<string>()
@@ -165,7 +171,7 @@ private string[] SplitName(string ToSplit)
                 "ESC",
                 "KISD",
                 "KTC",
-            }, new CoreGraphics.CGRect(25, 130, 100, 30));
+            }, new CoreGraphics.CGRect(25, 120, 100, 30),Scroll,TicketNumber);
 
             UIDropDown DropDown3 = new UIDropDown(Ticket, View, new List<string>()
             {
@@ -173,26 +179,9 @@ private string[] SplitName(string ToSplit)
                 "Parking Lot",
                 "Vending Machines",
                 "Commons",
-            }, new CoreGraphics.CGRect(150, 130, 100, 30));
-            // Ticket.AddSubview(Button);
+            }, new CoreGraphics.CGRect(150, 120, 100, 30),Scroll,TicketNumber);
 
-            //UIPickerView TEst2 = new UIPickerView();
-            //TEst2.BackgroundColor = UIColor.Blue;
-            //TEst2.Model = new ExamplePickerViewModel(new List<string>() { "Testing", "Protal", "Cake" });
-            //TEst2.Frame = new CoreGraphics.CGRect(0,80,TicketHolder.Bounds.Size.Width,45);
-            //Ticket.AddSubview(TEst2);
-
-            //UIPickerView TEst3 = new UIPickerView();
-            //TEst3.BackgroundColor = UIColor.Blue;
-            //TEst3.Model = new ExamplePickerViewModel(new List<string>() { "ESC", "KCTC", "KIH" });
-            //TEst3.Frame = new CoreGraphics.CGRect(25, 175,100, 45);
-            //Ticket.AddSubview(TEst3);
-
-            //UIPickerView TEst4 = new UIPickerView();
-            //TEst4.BackgroundColor = UIColor.Blue;
-            //TEst4.Model = new ExamplePickerViewModel(new List<string>() { "Classrooms", "Parking Lot", "Vending Machines" });
-            //TEst4.Frame = new CoreGraphics.CGRect(150,175, 200, 45);
-            //Ticket.AddSubview(TEst4);
+            NumberOfTickets += 1;
 
             //        private void ItemSelected(object sender, ItemSelectedEventArgs e)
             ////        {
@@ -251,7 +240,6 @@ private string[] SplitName(string ToSplit)
             {
                 Console.WriteLine("Returned Data " + Results[1]);
                 string Contra = (string)ViewController.MakeRequest3("data", Results[1]);
-
                 string Name = Contra.GetStringOut("lastfirst");
 
                 string Email1 = Contra.GetStringOut("guardianemail");

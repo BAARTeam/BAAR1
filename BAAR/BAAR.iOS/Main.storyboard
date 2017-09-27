@@ -17,7 +17,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oBE-Ac-vcx" buttonType="roundedRect" hasAttributedTitle="YES" verticalHuggingPriority="371">
-                                <rect key="frame" x="142" y="300" width="130" height="52"/>
+                                <rect key="frame" x="0.0" y="315" width="414" height="37"/>
                                 <connections>
                                     <segue id="579" destination="283" kind="show"/>
                                 </connections>
@@ -31,19 +31,9 @@
                                         </fragment>
                                     </attributedString>
                                 </state>
-                                <variation key="heightClass=regular-widthClass=compact" preservesSuperviewLayoutMargins="YES">
+                                <variation key="heightClass=regular-widthClass=compact" preservesSuperviewLayoutMargins="YES" fixedFrame="YES">
                                     <color key="tintColor" colorSpace="calibratedRGB" red="0.94901960784313721" green="0.95294117647058818" blue="0.96078431372549022" alpha="1"/>
-                                    <mask key="constraints">
-                                        <include reference="782"/>
-                                    </mask>
-                                </variation>
-                                <constraints>
-                                    <constraint id="782" firstAttribute="width" constant="130"/>
-                                </constraints>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="782"/>
-                                    </mask>
+                                    <color key="backgroundColor" colorSpace="calibratedRGB" red="0.47450980392156861" green="0.42745098039215684" blue="0.42745098039215684" alpha="1"/>
                                 </variation>
                             </button>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" borderStyle="line" minimumFontSize="17" id="3" translatesAutoresizingMaskIntoConstraints="NO">
@@ -136,10 +126,6 @@
                             <constraint id="766" firstItem="263" firstAttribute="centerX" secondItem="262" secondAttribute="centerX"/>
                             <constraint id="769" firstItem="263" firstAttribute="top" secondItem="3" secondAttribute="centerY" constant="38"/>
                             <constraint id="770" firstItem="263" firstAttribute="centerY" secondItem="3" secondAttribute="centerY" constant="56"/>
-                            <constraint id="780" firstItem="oBE-Ac-vcx" firstAttribute="centerX" secondItem="4" secondAttribute="centerX"/>
-                            <constraint id="781" firstItem="oBE-Ac-vcx" firstAttribute="centerX" secondItem="262" secondAttribute="centerX"/>
-                            <constraint id="783" firstItem="oBE-Ac-vcx" firstAttribute="centerY" secondItem="4" secondAttribute="centerY" constant="49"/>
-                            <constraint id="784" firstItem="oBE-Ac-vcx" firstAttribute="top" secondItem="4" secondAttribute="centerY" constant="23"/>
                         </constraints>
                         <color key="tintColor" colorSpace="calibratedRGB" red="0.94901960784313721" green="0.95294117647058818" blue="0.96078431372549022" alpha="1"/>
                         <variation key="default">
@@ -156,10 +142,6 @@
                                 <exclude reference="766"/>
                                 <exclude reference="769"/>
                                 <exclude reference="770"/>
-                                <exclude reference="780"/>
-                                <exclude reference="781"/>
-                                <exclude reference="783"/>
-                                <exclude reference="784"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular-widthClass=compact">
@@ -176,10 +158,6 @@
                                 <include reference="766"/>
                                 <include reference="769"/>
                                 <include reference="770"/>
-                                <include reference="780"/>
-                                <include reference="781"/>
-                                <include reference="783"/>
-                                <include reference="784"/>
                             </mask>
                         </variation>
                     </view>
@@ -293,29 +271,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="287" translatesAutoresizingMaskIntoConstraints="NO" fixedFrame="YES">
-                                <rect key="frame" x="155" y="531" width="46" height="30"/>
-                                <state key="normal" title="Submit">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                    <color key="titleColor" colorSpace="calibratedRGB" red="0" green="0.52549019607843139" blue="1" alpha="1"/>
-                                </state>
-                                <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
-                                    <color key="tintColor" colorSpace="calibratedRGB" red="0" green="0.52549019607843139" blue="1" alpha="1"/>
-                                </variation>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="288" translatesAutoresizingMaskIntoConstraints="NO" fixedFrame="YES">
-                                <rect key="frame" x="155" y="611" width="46" height="30"/>
-                                <state key="normal" title="Add Ticket">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                            </button>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="798" translatesAutoresizingMaskIntoConstraints="NO" fixedFrame="YES">
-                                <rect key="frame" x="8" y="16" width="398" height="477"/>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="798" translatesAutoresizingMaskIntoConstraints="NO" fixedFrame="YES" showsHorizontalScrollIndicator="NO">
+                                <rect key="frame" x="8" y="16" width="398" height="546"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="left" axis="vertical" id="460" translatesAutoresizingMaskIntoConstraints="NO" fixedFrame="YES" autoresizesSubviews="NO">
-                                        <rect key="frame" x="0.0" y="0.0" width="398" height="869"/>
+                                        <rect key="frame" x="0.0" y="-350" width="398" height="890"/>
                                         <subviews/>
-                                        <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES" distribution="equalSpacing" spacing="1" alignment="trailing"/>
+                                        <variation key="heightClass=regular-widthClass=compact" distribution="equalSpacing" spacing="1" alignment="trailing" fixedFrame="YES"/>
                                     </stackView>
                                 </subviews>
                                 <variation key="default">
@@ -329,12 +291,67 @@
                                     </mask>
                                 </variation>
                             </scrollView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="288" translatesAutoresizingMaskIntoConstraints="NO" fixedFrame="YES">
+                                <rect key="frame" x="0.0" y="671" width="414" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <state key="normal" title="Add Ticket">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleColor" colorSpace="calibratedRGB" red="1" green="1" blue="1" alpha="1"/>
+                                </state>
+                                <variation key="heightClass=regular-widthClass=compact">
+                                    <color key="backgroundColor" colorSpace="calibratedRGB" red="0.47450980392156861" green="0.42745098039215684" blue="0.42745098039215684" alpha="1"/>
+                                    <mask key="constraints">
+                                        <include reference="845"/>
+                                        <include reference="846"/>
+                                    </mask>
+                                </variation>
+                                <constraints>
+                                    <constraint id="845" firstAttribute="width" constant="414"/>
+                                    <constraint id="846" firstAttribute="height" constant="30"/>
+                                </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="845"/>
+                                        <exclude reference="846"/>
+                                    </mask>
+                                </variation>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="287" translatesAutoresizingMaskIntoConstraints="NO" fixedFrame="YES" horizontalHuggingPriority="1">
+                                <rect key="frame" x="0.0" y="622" width="414" height="33"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <state key="normal" title="Submit">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleColor" colorSpace="calibratedRGB" red="1" green="1" blue="1" alpha="1"/>
+                                </state>
+                                <variation key="heightClass=regular-widthClass=compact">
+                                    <color key="tintColor" colorSpace="calibratedRGB" red="0" green="0.52549019607843139" blue="1" alpha="1"/>
+                                    <color key="backgroundColor" colorSpace="calibratedRGB" red="0.47450980392156861" green="0.42745098039215684" blue="0.42745098039215684" alpha="1"/>
+                                    <mask key="constraints">
+                                        <include reference="857"/>
+                                    </mask>
+                                </variation>
+                                <connections/>
+                                <constraints>
+                                    <constraint id="857" firstAttribute="width" constant="414"/>
+                                </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="857"/>
+                                    </mask>
+                                </variation>
+                            </button>
                         </subviews>
                         <variation key="default">
                             <mask key="subviews">
                                 <exclude reference="287"/>
                                 <exclude reference="288"/>
                                 <exclude reference="798"/>
+                            </mask>
+                            <mask key="constraints">
+                                <exclude reference="843"/>
+                                <exclude reference="844"/>
+                                <exclude reference="855"/>
+                                <exclude reference="856"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular-widthClass=compact">
@@ -345,11 +362,24 @@
                             </mask>
                             <color key="tintColor" colorSpace="calibratedRGB" red="0" green="0.52549019607843139" blue="1" alpha="1"/>
                             <color key="backgroundColor" colorSpace="calibratedRGB" red="0" green="0.035294117647058823" blue="0.10196078431372549" alpha="1"/>
+                            <mask key="constraints">
+                                <include reference="843"/>
+                                <include reference="844"/>
+                                <include reference="855"/>
+                                <include reference="856"/>
+                            </mask>
                         </variation>
+                        <constraints>
+                            <constraint id="843" firstItem="284" firstAttribute="trailing" secondItem="288" secondAttribute="trailing"/>
+                            <constraint id="844" firstItem="284" firstAttribute="bottom" secondItem="288" secondAttribute="bottom" constant="35"/>
+                            <constraint id="855" firstItem="284" firstAttribute="trailing" secondItem="287" secondAttribute="trailing" relation="greaterThanOrEqual"/>
+                            <constraint id="856" firstItem="284" firstAttribute="bottom" secondItem="287" secondAttribute="bottom" constant="81"/>
+                        </constraints>
                     </view>
                     <connections>
                         <outlet property="TicketHolder" destination="460" id="name-outlet-460"/>
                         <outlet property="Scroll" destination="798" id="name-outlet-798"/>
+                        <outlet property="TicketButton" destination="288" id="name-outlet-288"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="285" userLabel="First Responder" sceneMemberID="firstResponder"/>

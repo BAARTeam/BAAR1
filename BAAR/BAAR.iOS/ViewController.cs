@@ -28,6 +28,8 @@ namespace BAAR.iOS
                 string pass = null;
                 try
                 {
+                    Token = (AccessObject)MakeRequest(string.Format(@"http://powerschool.kentisd.org/oauth/access_token?grant_type=client_credentials"), "application/x-www-form-urlencoded;charset=UTF-8", "POST", "Basic ZWRlMjY4ZmMtOTM5Mi00Y2NkLTgxNjktNjk2ZjI0YmNjZTU2OmU5MDRlNzYwLTEzZjQtNDY5My1iYWM5LWIwZTMyYTJhM2Y3Ng==", true);
+
                     using (SqlConnection connection = new SqlConnection())
                     {
                         connection.ConnectionString = conn.ConnectionString;

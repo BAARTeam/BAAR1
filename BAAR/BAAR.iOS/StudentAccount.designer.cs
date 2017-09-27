@@ -19,6 +19,10 @@ namespace BAAR.iOS
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIButton TicketButton { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UIStackView TicketHolder { get; set; }
 
         void ReleaseDesignerOutlets ()
@@ -26,6 +30,11 @@ namespace BAAR.iOS
             if (Scroll != null) {
                 Scroll.Dispose ();
                 Scroll = null;
+            }
+
+            if (TicketButton != null) {
+                TicketButton.Dispose ();
+                TicketButton = null;
             }
 
             if (TicketHolder != null) {
