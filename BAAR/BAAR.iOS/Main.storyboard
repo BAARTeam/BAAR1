@@ -284,7 +284,7 @@
                                 <rect key="frame" x="7" y="16" width="307" height="384"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="left" axis="vertical" id="460" translatesAutoresizingMaskIntoConstraints="NO" fixedFrame="YES" autoresizesSubviews="NO">
-                                        <rect key="frame" x="0.0" y="0.0" width="307" height="384"/>
+                                        <rect key="frame" x="0.0" y="-618" width="307" height="1002"/>
                                         <subviews/>
                                         <variation key="heightClass=regular-widthClass=compact" distribution="equalSpacing" spacing="1" alignment="trailing" fixedFrame="YES"/>
                                     </stackView>

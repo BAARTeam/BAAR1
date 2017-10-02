@@ -12,8 +12,9 @@ namespace BAAR.iOS
     public class UIDropDown
     {
         public List<UIButton> Items = new List<UIButton>();
-        
-        UIButton PrimaryButton;
+
+        public Func<int,string> OptionSelected;
+        public UIButton PrimaryButton;
         UIView RootView;
         public List<string> Options = new List<string>();
         public bool HasGenerated;
@@ -62,6 +63,10 @@ namespace BAAR.iOS
                     TestButton.Frame = new CoreGraphics.CGRect(25, (PrimButton.Frame.Y + (160 * TicketOffset) - IsInScroll.ContentOffset.Y) + (i * 25), 275, 25);
                     Items.Add(TestButton);
                     TestButton.TouchUpInside += delegate {
+                        if (OptionSelected != null)
+                        {
+                            OptionSelected(1);
+                        }
                         for (int k = 0; k < Items.Count; k++)
                         {
                             Items[k].Hidden = true;

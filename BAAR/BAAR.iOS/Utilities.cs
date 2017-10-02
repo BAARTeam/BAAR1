@@ -28,5 +28,16 @@ namespace BAAR.iOS
             }
             return StringToGet;
         }
+
+
+        public static List<string> ToList(this string[] ArrayToConvert)
+        {
+            List<string> NewList = new List<string>();
+            for (int i = 0; i < ArrayToConvert.Length; i++)
+            {
+                NewList.Add(ArrayToConvert[i]);
+            }
+            return NewList;
+        } 
     }
 }

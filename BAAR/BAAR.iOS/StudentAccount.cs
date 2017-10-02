@@ -174,14 +174,21 @@ private string[] SplitName(string ToSplit)
                 "KTC",
             }, new CoreGraphics.CGRect(25, 120, 100, 30), Scroll, TicketNumber);
 
+
             UIDropDown DropDown3 = new UIDropDown(Ticket, View, new List<string>()
             {
                 "Classrooms",
                 "Parking Lot",
                 "Vending Machines",
                 "Commons",
-            }, new CoreGraphics.CGRect(150, 120, 100, 30), Scroll, TicketNumber);
+            }, new CoreGraphics.CGRect(182, 120, 100, 30), Scroll, TicketNumber);
 
+            DropDown2.OptionSelected += (e) =>
+            {
+                Console.WriteLine("Here " + e );
+                DropDown3.Options = BLL[e].ToList();
+                return null;
+            };
             NumberOfTickets += 1;
 
             //        private void ItemSelected(object sender, ItemSelectedEventArgs e)
