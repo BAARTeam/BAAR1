@@ -19,6 +19,10 @@ namespace BAAR.iOS
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIButton SubmitButton { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UIButton TicketButton { get; set; }
 
         [Outlet]
@@ -30,6 +34,11 @@ namespace BAAR.iOS
             if (Scroll != null) {
                 Scroll.Dispose ();
                 Scroll = null;
+            }
+
+            if (SubmitButton != null) {
+                SubmitButton.Dispose ();
+                SubmitButton = null;
             }
 
             if (TicketButton != null) {

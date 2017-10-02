@@ -22,15 +22,28 @@ namespace BAAR.iOS
             Options = Titles;
             RootView = MainView;
             PrimaryButton = new UIButton();
-            PrimaryButton.BackgroundColor = UIColor.DarkGray;
+            PrimaryButton.BackgroundColor = UIColor.FromRGBA(21, 21, 30, 255);
+            PrimaryButton.HorizontalAlignment = UIControlContentHorizontalAlignment.Left;
             PrimaryButton.SetTitle(Options[0],UIControlState.Normal);
             PrimaryButton.Frame = Frame;
+
+            UIButton Arrow = new UIButton();
+            Arrow.BackgroundColor = UIColor.FromRGBA(21, 21, 30, 255);
+            Arrow.ContentMode = UIViewContentMode.ScaleAspectFit;
+            Arrow.SetImage(UIImage.FromBundle("DropDownArrow.png"),UIControlState.Normal);
+            Arrow.Frame = new CoreGraphics.CGRect(PrimaryButton.Frame.Right,PrimaryButton.Frame.Top,25,Frame.Height);
+
+            Arrow.TouchUpInside += delegate
+            {
+                GenerateList(PrimaryButton, Scroller, TicketNumber);
+            };
             PrimaryButton.TouchUpInside += delegate
             {
                 GenerateList(PrimaryButton,Scroller,TicketNumber);
             };
 
             ViewToPlace.AddSubview(PrimaryButton);
+            ViewToPlace.AddSubview(Arrow);
         }
 
         public void GenerateList(UIButton PrimButton,UIScrollView IsInScroll,int TicketOffset)
@@ -44,8 +57,9 @@ namespace BAAR.iOS
                     TestButton.BackgroundColor = UIColor.Gray;
                     TestButton.ClipsToBounds = true;
                     TestButton.SetTitle(Options[i], UIControlState.Normal);
+                    TestButton.HorizontalAlignment = UIControlContentHorizontalAlignment.Left;
 
-                    TestButton.Frame = new CoreGraphics.CGRect(25, (PrimButton.Frame.Y + (160 * TicketOffset) - IsInScroll.ContentOffset.Y) + (i * 25), 250, 25);
+                    TestButton.Frame = new CoreGraphics.CGRect(25, (PrimButton.Frame.Y + (160 * TicketOffset) - IsInScroll.ContentOffset.Y) + (i * 25), 275, 25);
                     Items.Add(TestButton);
                     TestButton.TouchUpInside += delegate {
                         for (int k = 0; k < Items.Count; k++)

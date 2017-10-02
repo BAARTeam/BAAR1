@@ -64,12 +64,6 @@ namespace BAAR.Droid
             FindViewById<Button>(Resource.Id.AddTicket).SetTextColor(Color.White);
             FindViewById<Button>(Resource.Id.EmailButton).SetTextColor(Color.White);
 
-
-
-         //   CreateStudentTicket("Dakota","9203847");
-            //CreateStudentTicket("Jacob", "9203847");
-            //CreateStudentTicket("Wessley", "9583485");
-
             Button EmailButton = FindViewById<Button>(Resource.Id.EmailButton);
             EmailButton.Click += (sender, e) =>
             {
@@ -142,7 +136,7 @@ namespace BAAR.Droid
             TextView StudentName = new TextView(this);
             TextView StudentIdNumber = new TextView(this);
             ImageView StudentImage = new ImageView(this);
-            StudentImage.SetImageDrawable(Resources.GetDrawable(Resource.Drawable.pbutton));
+            StudentImage.SetImageDrawable(Resources.GetDrawable(Resource.Drawable.GoingPro_Icon));
             StudentName.Id = 2;
             StudentName.TextSize = 25;
             StudentIdNumber.TextSize = 25;

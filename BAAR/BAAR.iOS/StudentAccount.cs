@@ -42,14 +42,13 @@ namespace BAAR.iOS
 
             try
             {
-                BarcodeScanReturn Returned = await StartBarcodeScanner();
-                string[] Name = SplitName(Returned.StudentName);
+              //  BarcodeScanReturn Returned = await StartBarcodeScanner();
+               // string[] Name = SplitName(Returned.StudentName);
 
                 Scroll.AddSubview(TicketHolder);
                 Scroll.ContentSize = TicketHolder.Frame.Size;
-                CreateStudentTicket(Name[0] + " " + Name[1], Returned.StudentNumber, NumberOfTickets);
-                // CreateStudentTicket("Daktoa","13172",0);
-                //CreateStudentTicket("Jacob","90779",1);
+                CreateStudentTicket("Test User","210",0);
+               // CreateStudentTicket(Name[0] + " " + Name[1], Returned.StudentNumber, NumberOfTickets);
             }
             catch
             {
@@ -104,7 +103,7 @@ namespace BAAR.iOS
                 catch
                 {
                     // Toast.MakeText(this, "Invalid Barcode Scanned", ToastLength.Long).Show();
-                    //    Console.WriteLine("Woah Something Went Wrong When Scanning Barcode either that is not a valid barcode or there is no connection.");
+                    Console.WriteLine("Woah Something Went Wrong When Scanning Barcode either that is not a valid barcode or there is no connection.");
                 }
 
             };
@@ -118,19 +117,19 @@ private string[] SplitName(string ToSplit)
             return new string[] { SpaceSplit[1], SplitName[0] };
         }
         const string AccountPassword = "Fopo7082";
-        public void CreateStudentTicket(string Name, string Number,int TicketNumber)
+        public void CreateStudentTicket(string Name, string Number, int TicketNumber)
         {
 
             TicketHolder.TranslatesAutoresizingMaskIntoConstraints = false;
 
             UIView Ticket = new UIView();
-            Ticket.BackgroundColor = UIColor.White;
+            Ticket.BackgroundColor = UIColor.FromRGBA(21, 21, 30, 255);
             Ticket.HeightAnchor.ConstraintEqualTo(160).Active = true;
             Ticket.WidthAnchor.ConstraintEqualTo(TicketHolder.Bounds.Size.Width).Active = true;
 
             UILabel StudentName = new UILabel();
             StudentName.Text = Name;
-            StudentName.TextColor = UIColor.Black;
+            StudentName.TextColor = UIColor.White;
             StudentName.Font.WithSize(40);
 
 
@@ -139,7 +138,7 @@ private string[] SplitName(string ToSplit)
 
             UILabel StudentNumber = new UILabel();
             StudentNumber.Text = Number;
-            StudentNumber.TextColor = UIColor.Blue;
+            StudentNumber.TextColor = UIColor.White;
             StudentNumber.Font.WithSize(40);
 
             Ticket.AddSubview(StudentNumber);
@@ -148,21 +147,23 @@ private string[] SplitName(string ToSplit)
 
             UIImageView ImageView = new UIImageView();
             ImageView.BackgroundColor = UIColor.Black;
-      
-         
-                ImageView.Frame = new CoreGraphics.CGRect(15, 15, 50, 50);
-                StudentName.Frame = new RectangleF(75, 18, 90, 20);
-                StudentNumber.Frame = new RectangleF(75, 36,90, 20);
+            ImageView.ContentMode = UIViewContentMode.ScaleAspectFit;
+            ImageView.Image = UIImage.FromBundle("GoingPro_Icon.png");
+
+
+            ImageView.Frame = new CoreGraphics.CGRect(15, 15, 50, 50);
+            StudentName.Frame = new RectangleF(75, 18, 90, 20);
+            StudentNumber.Frame = new RectangleF(75, 36, 90, 20);
             Ticket.AddSubview(ImageView);
 
-            UIDropDown DropDown = new UIDropDown(Ticket,View, new List<string>()
+            UIDropDown DropDown = new UIDropDown(Ticket, View, new List<string>()
             {
                 "Showing Responsibility",
                 "Showed Respect",
                 "Testing",
                 "Blah Blah",
                 "Willow"
-            }, new CoreGraphics.CGRect(25,85,TicketHolder.Bounds.Width - 85,30),Scroll,TicketNumber);
+            }, new CoreGraphics.CGRect(25, 85, TicketHolder.Bounds.Width - 50, 30), Scroll, TicketNumber);
 
 
             UIDropDown DropDown2 = new UIDropDown(Ticket, View, new List<string>()
@@ -171,7 +172,7 @@ private string[] SplitName(string ToSplit)
                 "ESC",
                 "KISD",
                 "KTC",
-            }, new CoreGraphics.CGRect(25, 120, 100, 30),Scroll,TicketNumber);
+            }, new CoreGraphics.CGRect(25, 120, 100, 30), Scroll, TicketNumber);
 
             UIDropDown DropDown3 = new UIDropDown(Ticket, View, new List<string>()
             {
@@ -179,7 +180,7 @@ private string[] SplitName(string ToSplit)
                 "Parking Lot",
                 "Vending Machines",
                 "Commons",
-            }, new CoreGraphics.CGRect(150, 120, 100, 30),Scroll,TicketNumber);
+            }, new CoreGraphics.CGRect(150, 120, 100, 30), Scroll, TicketNumber);
 
             NumberOfTickets += 1;
 
