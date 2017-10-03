@@ -28,5 +28,8 @@ namespace BAAR.iOS
             // Release any cached data, images, etc that aren't in use.
         }
 
+        partial void UIButton985_TouchUpInside(UIButton sender)
+        {
+        }
     }
 }

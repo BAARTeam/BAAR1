@@ -90,6 +90,9 @@ namespace BAAR.Droid
                                 //Requests an access token from powerschool that we use for getting data;
                                 Token = (AccessObject)MainActivity.MakeRequest(string.Format(@"http://powerschool.kentisd.org/oauth/access_token?grant_type=client_credentials"), "application/x-www-form-urlencoded;charset=UTF-8", "POST", "Basic ZWRlMjY4ZmMtOTM5Mi00Y2NkLTgxNjktNjk2ZjI0YmNjZTU2OmU5MDRlNzYwLTEzZjQtNDY5My1iYWM5LWIwZTMyYTJhM2Y3Ng==", true);
 
+                                StaffFirst = thisinfo.First_Name;
+                                StaffLast = thisinfo.Last_Name;
+                                StaffEmail = thisinfo.Email;
                                 // Create an intent allowing the program to change to a different page;
                                 var MainPage = new Intent(this, typeof(MainActivity));
                                 //Go to different page;

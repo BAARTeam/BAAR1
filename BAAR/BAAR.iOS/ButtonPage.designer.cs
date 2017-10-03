@@ -22,6 +22,10 @@ namespace BAAR.iOS
         [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UILabel Scan { get; set; }
 
+        [Action ("UIButton985_TouchUpInside:")]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        partial void UIButton985_TouchUpInside (UIKit.UIButton sender);
+
         void ReleaseDesignerOutlets ()
         {
             if (Buttons != null) {

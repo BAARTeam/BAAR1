@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:installLocation="auto" package="Going_Pro.Going_Pro">
 	<uses-sdk android:minSdkVersion="15" />
-	<application android:label="BAAR.Android"></application>
+	<application android:label="Going Pro" android:icon="@drawable/GoingPro_Icon"></application>
 </manifest>
