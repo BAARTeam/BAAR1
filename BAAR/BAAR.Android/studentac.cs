@@ -23,7 +23,7 @@ using static Android.Widget.AdapterView;
 
 namespace BAAR.Droid
 {
-    [Activity(Label = "student", ScreenOrientation = ScreenOrientation.Portrait,MainLauncher =true)]
+    [Activity(Label = "student", ScreenOrientation = ScreenOrientation.Portrait, MainLauncher = false)]
 
     public class studentac : Activity
     {
@@ -67,27 +67,66 @@ namespace BAAR.Droid
             Button EmailButton = FindViewById<Button>(Resource.Id.EmailButton);
             EmailButton.Click += (sender, e) =>
             {
-                for (int i = 0; i < NumberOfTickets; i++)
+                for (int i = 0; i < 1; i++)
                 {
                     string EmailBehaviour = LayoutSpinner[i + 1].Item1.SelectedItem.ToString();
                     string EmailLocation = LayoutSpinner[i + 1].Item2.SelectedItem.ToString();
                     //string EmailName = AllReturned[i].StudentName;
                     //TODO Change these things to reflect powerschol query
-                   // Thread EmailThread = new Thread(new ThreadStart(new EmailInfo(AllReturned[i].StudentName,"dakotastickney@gmail.com", AllReturned[i].SecondaryAddress,AllReturned[i].StudentAddress,EmailLocation, EmailBehaviour).BackgroundEmail));
-                    Thread EmailThread = new Thread(new ThreadStart(new EmailInfo("SEdc", "dakotastickney@gmail.com", null,null, EmailLocation, EmailBehaviour).BackgroundEmail));
+                     Thread EmailThread = new Thread(new ThreadStart(new EmailInfo(AllReturned[i].StudentName,"LisaHungerford@kentisd.org", AllReturned[i].SecondaryAddress,AllReturned[i].StudentAddress,EmailLocation, EmailBehaviour).BackgroundEmail));
+                     Thread EmailThread2 = new Thread(new ThreadStart(new EmailInfo(AllReturned[i].StudentName, "JohnKraus@kentisd.org", AllReturned[i].SecondaryAddress, AllReturned[i].StudentAddress, EmailLocation, EmailBehaviour).BackgroundEmail));
 
-                    //SqlCommand Insert = new SqlCommand("INSERT INTO MTSS_ActionLog VALUES (@DT, @SF, @SL, @SN, @StN, @ATi, @AT, @AL)", Login.conn);
-                    //  Login.conn.Open();
-                    //log log = new log(Login.StaffFirst, Login.StaffLast, AllReturned[i].StudentName.ToString(), Convert.ToDouble(AllReturned[i].StudentNumber.ToString()), LayoutSpinner[i + 1].Item1.SelectedItem.ToString(), LayoutSpinner[i +1].Item2.SelectedItem.ToString());
-                    //log.exe(Insert);
-                    //Login.conn.Close();
+                    //Thread EmailThread = new Thread(new ThreadStart(new EmailInfo("Dakota Stickney", "dakotastickney@gmail.com", null, null, EmailLocation, EmailBehaviour).BackgroundEmail));
                     EmailThread.Start();
+
+                    var thisinfo = JsonConvert.SerializeObject(new
+                    {
+                        LogDateTime = DateTime.Now,
+                        District = "KentISD",
+                        Building = "KCTC",
+                        Student_ID = "12345",
+                        Student_First_Name = "Joe",
+                        Student_Last_Name = "No Name",
+                        Behavior = "Responsibility",
+                        Behavior_Location = "Hallway",
+                        Staff_Login_ID = "LFernandez"
+                    });
+
+                    // POST a JSON string
+                    HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://goingpro.azurewebsites.net/api/Behavior_Log");
+                    request.Method = "POST";
+                    request.ContentType = @"application/json";
+                    request.Accept = @"application/json";
+
+                    var dataStream = new StreamWriter(request.GetRequestStream());
+
+                    using (dataStream)
+                    {
+                        dataStream.Write(thisinfo);
+                        dataStream.Flush();
+                        dataStream.Close();
+                    }
+
+                    HttpWebResponse response = request.GetResponse() as HttpWebResponse;
+                    using (response)
+                    {
+                        if (response.StatusCode != HttpStatusCode.Created)
+                        {
+                            Console.WriteLine("Error fetching data.  Server returned status code " + response.StatusCode);
+                        }
+                        else
+                        {
+                            Toast.MakeText(this, "Information Saved", ToastLength.Long);
+                        }
+                    }
+
                 }
 
                 Toast.MakeText(this, "Email Sent", ToastLength.Long).Show();
                 Intent MainPage = new Intent(this, typeof(MainActivity));
                 StartActivity(MainPage);
             };
+
 
             Button TicketButton = FindViewById<Button>(Resource.Id.AddTicket);
 
@@ -225,9 +264,7 @@ ViewGroup.LayoutParams.WrapContent);
             {
                 Console.WriteLine("Returned Data " + Results[1]);
                 string Contra = (string)MainActivity.MakeRequest3("data", Results[1]);
-
-              string Name = Contra.GetStringOut("lastfirst");
-
+                string Name = Contra.GetStringOut("lastfirst");
                 string Email1 = Contra.GetStringOut("guardianemail");
                 string Email2 = Contra.GetStringOut("guardianemail_2");
                 string Email3 = Contra.GetStringOut("stud_email");
@@ -300,7 +337,7 @@ ViewGroup.LayoutParams.WrapContent);
             Console.WriteLine("Host " + fromAddress.Host);
             var smtp = new SmtpClient
             {
-                Host = "smtp.gmail.com",
+                Host = "smtp.outlook.com",
                 Port = 587,
                 EnableSsl = true,
                 DeliveryMethod = SmtpDeliveryMethod.Network,
@@ -308,14 +345,14 @@ ViewGroup.LayoutParams.WrapContent);
                 Credentials = new NetworkCredential(fromAddress.Address, fromPassword)
             };
             // try
-            // {
+           {
 
-            using (var GuardianEmail = new MailMessage(fromAddress, toAddress)
-            {
-                Subject = subject,
+                using (var GuardianEmail = new MailMessage(fromAddress, toAddress)
+                {
+                    Subject = subject,
                 IsBodyHtml = true,
                 Body = body
-            }) 
+                })
                 {
                     if (GuardianEmail != null)
                     { 
@@ -346,9 +383,9 @@ ViewGroup.LayoutParams.WrapContent);
            //             smtp.Send(StudentEmail);
            //         }
            //     }
-           //// }catch
+           }//catch
             {
-                Console.WriteLine("Error when sending emails. Probably not connected to the internet.");
+            //    Console.WriteLine("Error when sending emails. Probably not connected to the internet.");
             }
         }
     }
