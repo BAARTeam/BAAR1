@@ -334,12 +334,12 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="798" translatesAutoresizingMaskIntoConstraints="NO" fixedFrame="YES" showsHorizontalScrollIndicator="NO">
-                                <rect key="frame" x="7" y="16" width="307" height="384"/>
+                                <rect key="frame" x="0.0" y="15" width="320" height="384"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="left" axis="vertical" id="460" translatesAutoresizingMaskIntoConstraints="NO" fixedFrame="YES" autoresizesSubviews="NO">
-                                        <rect key="frame" x="0.0" y="-618" width="307" height="1002"/>
+                                        <rect key="frame" x="0.0" y="-460" width="375" height="996"/>
                                         <subviews/>
-                                        <variation key="heightClass=regular-widthClass=compact" distribution="equalSpacing" spacing="1" alignment="trailing" fixedFrame="YES"/>
+                                        <variation key="heightClass=regular-widthClass=compact" distribution="equalSpacing" spacing="1" alignment="trailing" misplaced="YES"/>
                                     </stackView>
                                 </subviews>
                                 <variation key="default">
@@ -347,8 +347,9 @@
                                         <exclude reference="460"/>
                                     </mask>
                                     <mask key="constraints">
-                                        <exclude reference="928"/>
-                                        <exclude reference="929"/>
+                                        <exclude reference="1348"/>
+                                        <exclude reference="1359"/>
+                                        <exclude reference="1360"/>
                                     </mask>
                                 </variation>
                                 <variation key="heightClass=regular-widthClass=compact">
@@ -356,13 +357,15 @@
                                         <include reference="460"/>
                                     </mask>
                                     <mask key="constraints">
-                                        <include reference="928"/>
-                                        <include reference="929"/>
+                                        <include reference="1348"/>
+                                        <include reference="1359"/>
+                                        <include reference="1360"/>
                                     </mask>
                                 </variation>
                                 <constraints>
-                                    <constraint id="928" firstAttribute="width" constant="307"/>
-                                    <constraint id="929" firstAttribute="height" constant="384"/>
+                                    <constraint id="1348" firstItem="460" firstAttribute="width" secondItem="798" secondAttribute="width"/>
+                                    <constraint id="1359" firstItem="460" firstAttribute="leading" secondItem="798" secondAttribute="leading"/>
+                                    <constraint id="1360" firstItem="460" firstAttribute="bottom" secondItem="798" secondAttribute="bottom" constant="53"/>
                                 </constraints>
                             </scrollView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="288" translatesAutoresizingMaskIntoConstraints="NO" fixedFrame="YES">
@@ -398,14 +401,16 @@
                                 <exclude reference="798"/>
                             </mask>
                             <mask key="constraints">
-                                <exclude reference="926"/>
-                                <exclude reference="927"/>
                                 <exclude reference="976"/>
                                 <exclude reference="978"/>
                                 <exclude reference="979"/>
                                 <exclude reference="982"/>
                                 <exclude reference="983"/>
                                 <exclude reference="984"/>
+                                <exclude reference="1347"/>
+                                <exclude reference="1349"/>
+                                <exclude reference="1350"/>
+                                <exclude reference="1351"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular-widthClass=compact">
@@ -417,25 +422,29 @@
                             <color key="tintColor" colorSpace="calibratedRGB" red="0" green="0.52549019607843139" blue="1" alpha="1"/>
                             <color key="backgroundColor" colorSpace="calibratedRGB" red="0" green="0.035294117647058823" blue="0.10196078431372549" alpha="1"/>
                             <mask key="constraints">
-                                <include reference="926"/>
-                                <include reference="927"/>
                                 <include reference="976"/>
                                 <include reference="978"/>
                                 <include reference="979"/>
                                 <include reference="982"/>
                                 <include reference="983"/>
                                 <include reference="984"/>
+                                <include reference="1347"/>
+                                <include reference="1349"/>
+                                <include reference="1350"/>
+                                <include reference="1351"/>
                             </mask>
                         </variation>
                         <constraints>
-                            <constraint id="926" firstItem="284" firstAttribute="trailing" secondItem="798" secondAttribute="trailing" constant="6"/>
-                            <constraint id="927" firstItem="798" firstAttribute="top" secondItem="284" secondAttribute="top" constant="16"/>
                             <constraint id="976" firstItem="284" firstAttribute="bottom" secondItem="288" secondAttribute="bottom" constant="29"/>
                             <constraint id="978" firstItem="288" firstAttribute="width" secondItem="284" secondAttribute="width"/>
                             <constraint id="979" firstItem="284" firstAttribute="leadingMargin" secondItem="288" secondAttribute="leading" constant="16"/>
                             <constraint id="982" firstItem="287" firstAttribute="width" secondItem="284" secondAttribute="width"/>
                             <constraint id="983" firstItem="288" firstAttribute="top" secondItem="287" secondAttribute="bottom" constant="17"/>
                             <constraint id="984" firstItem="284" firstAttribute="leadingMargin" secondItem="287" secondAttribute="leading" constant="16"/>
+                            <constraint id="1347" firstItem="798" firstAttribute="width" secondItem="284" secondAttribute="width"/>
+                            <constraint id="1349" firstItem="287" firstAttribute="top" secondItem="798" secondAttribute="bottom" constant="56"/>
+                            <constraint id="1350" firstItem="284" firstAttribute="leadingMargin" secondItem="798" secondAttribute="leading" constant="16"/>
+                            <constraint id="1351" firstItem="280" firstAttribute="bottom" secondItem="798" secondAttribute="top" constant="5"/>
                         </constraints>
                     </view>
                     <connections>
