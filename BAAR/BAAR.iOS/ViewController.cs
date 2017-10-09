@@ -4,15 +4,19 @@ using System.IO;
 using Newtonsoft.Json;
 using System.Net;
 using UIKit;
+using System.Security.Cryptography;
 
 namespace BAAR.iOS
 {
 
     public partial class ViewController : UIViewController
     {
-        public static SqlConnection conn = new SqlConnection(@"Data Source = webdb\webdb; Initial Catalog = MTSS_BadgePro; Integrated Security = False; User ID = mtss_admin; Password =KBhSIQXqZ8J^; Pooling = False");
 
         public static AccessObject Token;
+        public static string StaffFirst;
+        public static string StaffLast;
+        public static string StaffEmail;
+        public static string StaffUserName;
         public ViewController(IntPtr handle) : base(handle)
         {
         }
@@ -24,74 +28,62 @@ namespace BAAR.iOS
             Login.AccessibilityIdentifier = "myButton";
             Login.TouchUpInside += delegate
             {
-                string pass = null;
                 try
                 {
-                    Token = (AccessObject)MakeRequest(string.Format(@"http://powerschool.kentisd.org/oauth/access_token?grant_type=client_credentials"), "application/x-www-form-urlencoded;charset=UTF-8", "POST", "Basic ZWRlMjY4ZmMtOTM5Mi00Y2NkLTgxNjktNjk2ZjI0YmNjZTU2OmU5MDRlNzYwLTEzZjQtNDY5My1iYWM5LWIwZTMyYTJhM2Y3Ng==", true);
+                    HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://goingpro.azurewebsites.net/api/Logins?loginid=" + UserNameTextField.Text);
+                    request.Method = "Get";
+                    //request.ContentType = @"application/json";
+                    request.Accept = @"application/json";
 
-                    using (SqlConnection connection = new SqlConnection())
+                    HttpWebResponse response = request.GetResponse() as HttpWebResponse;
+                    Stream stream = response.GetResponseStream();
+                    StreamReader getjson = new StreamReader(stream);
+
+                    String getcontent = getjson.ReadToEnd();
+
+                    using (response)
                     {
-                        connection.ConnectionString = conn.ConnectionString;
+                        if (response.StatusCode != HttpStatusCode.OK)
+                        {
+                            Console.WriteLine("Error fetching data.  Server returned status code " + response.StatusCode);
+                        }
+                        else
+                        {
+                            //unhash password and check against TBPassword.Text
+                            LoginInfo thisinfo = JsonConvert.DeserializeObject<LoginInfo>(getcontent);
+                            if (!checkpassword(thisinfo.Login_Password, Password.Text))
+                            {
+                                Console.WriteLine("Wrong!");
+                                //Toast.MakeText(this, "Wrong Password", ToastLength.Long).Show();
+                            }
+                            else
+                            {
+                                //Requests an access token from powerschool that we use for getting data;
+                                Token = (AccessObject)MakeRequest(string.Format(@"http://powerschool.kentisd.org/oauth/access_token?grant_type=client_credentials"), "application/x-www-form-urlencoded;charset=UTF-8", "POST", "Basic ZWRlMjY4ZmMtOTM5Mi00Y2NkLTgxNjktNjk2ZjI0YmNjZTU2OmU5MDRlNzYwLTEzZjQtNDY5My1iYWM5LWIwZTMyYTJhM2Y3Ng==", true);
+                                // Toast.MakeText(this, "Login Successful", ToastLength.Long).Show();
 
-                        connection.Open();
+                                StaffFirst = thisinfo.First_Name;
+                                StaffLast = thisinfo.Last_Name;
+                                StaffEmail = thisinfo.Email;
+                                StaffUserName = UserNameTextField.Text;
+                                Console.WriteLine("Correct!");
+                                // Create an intent allowing the program to change to a different page;
+                                //  var MainPage = new Intent(this, typeof(MainActivity));
+                                //Go to different page;
+                                //  StartActivity(MainPage);
+                                Login.SetTitle("Login Successful", UIControlState.Normal);
 
-                        //gets the password the matches the username the user entered, if no match, "" is returned
-                        SqlCommand getpassword = new SqlCommand("SELECT Login_PW FROM MTSS_LoginAccount WHERE Login_Name=@LN", connection);
-                        getpassword.Parameters.AddWithValue("@LN", Username.Text);
-                        //sets pass as the grabbed password
-                        pass = Convert.ToString(getpassword.ExecuteScalar());
-                        Console.WriteLine(pass);
+                                 var Sb =  Storyboard.InstantiateViewController("ButtonPage");
+                                //  initialViewController.LoadView();
+                                PresentViewController(Sb,false,null);
+                            }
+                        }
                     }
                 }
                 catch
                 {
                     // Toast.MakeText(this.ApplicationContext, "Could Not Connect", ToastLength.Long).Show();
                     //  return;
-                }
-
-                //checks if the passwords match and the query did not return ""
-                if (pass == Password.Text && !string.IsNullOrEmpty(Password.Text) && pass != null)
-                {
-                    try
-                    {
-
-                        //Requests an access token from powerschool that we use for getting data;
-                        Token = (AccessObject)MakeRequest(string.Format(@"http://powerschool.kentisd.org/oauth/access_token?grant_type=client_credentials"), "application/x-www-form-urlencoded;charset=UTF-8", "POST", "Basic ZWRlMjY4ZmMtOTM5Mi00Y2NkLTgxNjktNjk2ZjI0YmNjZTU2OmU5MDRlNzYwLTEzZjQtNDY5My1iYWM5LWIwZTMyYTJhM2Y3Ng==", true);
-
-                        //saves the logged in users information
-                        conn.Open();
-                        SqlCommand SF = new SqlCommand("SELECT First_Name FROM MTSS_LoginAccount WHERE Login_Name=@ln", conn);
-                        SF.Parameters.AddWithValue("@ln", Username.Text);
-                        // StaffFirst = SF.ExecuteScalar().ToString();
-
-                        SqlCommand SL = new SqlCommand("SELECT Last_Name FROM MTSS_LoginAccount WHERE Login_Name=@ln", conn);
-                        SL.Parameters.AddWithValue("@ln", Username.Text);
-                        //  StaffLast = SL.ExecuteScalar().ToString();
-
-                        SqlCommand SE = new SqlCommand("SELECT Allow_Email FROM MTSS_LoginAccount WHERE Login_Name=@ln", conn);
-                        SE.Parameters.AddWithValue("@ln", Username.Text);
-                        //  StaffEmail = SE.ExecuteScalar().ToString();
-                        conn.Close();
-                    }
-                    catch
-                    {
-                        // Toast.MakeText(this.ApplicationContext, "Could Not Connect", ToastLength.Long).Show();
-                        return;
-                    }
-
-                    // Create an intent allowing the program to change to a different page;
-                    // var MainPage = new Intent(this, typeof(MainActivity));
-                    //Go to different page;
-                    // StartActivity(MainPage);
-                    Login.SetTitle("Login Successful", UIControlState.Normal);
-                    // var _settingsStoryboard = UIStoryboard.FromName("ButtonPage", null);
-                    // var initialViewController = _settingsStoryboard.InstantiateInitialViewController() as UIViewController;
-                    //  initialViewController.LoadView();
-                }
-                else
-                {
-                    //Pops up on screen to signify when user inputs incorrect password
-                    // Toast.MakeText(this, "Incorrect Password", ToastLength.Short).Show();
                 }
             };
         }
@@ -101,6 +93,29 @@ namespace BAAR.iOS
             base.DidReceiveMemoryWarning();
             // Release any cached data, images, etc that aren't in use.
         }
+
+        public bool checkpassword(string hashpw, string PW)
+        {
+            //Extract the bytes
+            byte[] hashBytes = Convert.FromBase64String(hashpw);
+            //Get the salt
+            byte[] salt = new byte[16];
+            Array.Copy(hashBytes, 0, salt, 0, 16);
+            //Compute the hash on the password the user entered
+            var pbkdf2 = new Rfc2898DeriveBytes(PW, salt, 10000);
+            byte[] hashentered = pbkdf2.GetBytes(20);
+            //Compare the hashentered to the hash retrieved from db
+            bool PWAuthorized = true;
+            for (int i = 0; i < 20; i++)
+            {
+                if (hashBytes[i + 16] != hashentered[i])
+                {
+                    PWAuthorized = false;
+                }
+            }
+            return PWAuthorized;
+        }
+
         public static object MakeRequest(string RequestURL, string ContentType, string Method, string AuthHeader, bool ReturnAccessToken = false)
         {
             //builds request
@@ -164,5 +179,55 @@ namespace BAAR.iOS
 
         }
     }
+    public class LoginInfo
+    {
+        public long login_db_id { get; set; }
+        public string Distric { get; set; }
+        public string Building { get; set; }
+        public string Login_ID { get; set; }
+        public string Login_Password { get; set; }
+        public string First_Name { get; set; }
+        public string Last_Name { get; set; }
+        public string Email { get; set; }
+        public LoginInfo(long dbid, string Dis, string bldg, string ID, string PW, string First, string Last, string email)
+        {
+            this.login_db_id = dbid;
+            this.Distric = Dis;
+            this.Building = bldg;
+            this.Login_ID = ID;
+            this.Login_Password = PW;
+            this.First_Name = First;
+            this.Last_Name = Last;
+            this.Email = email;
+        }
+    }
+    public class BehaviorLogInfo
+    {
+        public long log_db_id { get; set; }
+        public DateTime LogDateTime { get; set; }
+        public string District { get; set; }
+        public string Building { get; set; }
+        public string Student_ID { get; set; }
+        public string Student_First_Name { get; set; }
+        public string Student_Last_Name { get; set; }
+        public string Behavior { get; set; }
+        public string Behavior_Location { get; set; }
+        public string Staff_Login_ID { get; set; }
+
+        public BehaviorLogInfo(long dbid, DateTime dt, string Dist, string bldg, string studid, string First, string Last, string behav, string behavLoc, string staffid)
+        {
+            this.log_db_id = dbid;
+            this.LogDateTime = dt;
+            this.District = Dist;
+            this.Building = bldg;
+            this.Student_ID = studid;
+            this.Student_First_Name = First;
+            this.Student_Last_Name = Last;
+            this.Behavior = behav;
+            this.Behavior_Location = behavLoc;
+            this.Staff_Login_ID = staffid;
+        }
+    }
+
 }
 

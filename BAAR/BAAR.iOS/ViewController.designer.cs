@@ -28,7 +28,7 @@ namespace BAAR.iOS
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
-        UIKit.UITextField Username { get; set; }
+        UIKit.UITextField UserNameTextField { get; set; }
 
         void ReleaseDesignerOutlets ()
         {
@@ -47,9 +47,9 @@ namespace BAAR.iOS
                 Password = null;
             }
 
-            if (Username != null) {
-                Username.Dispose ();
-                Username = null;
+            if (UserNameTextField != null) {
+                UserNameTextField.Dispose ();
+                UserNameTextField = null;
             }
         }
     }

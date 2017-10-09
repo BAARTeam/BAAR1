@@ -209,14 +209,14 @@ namespace BAAR.Droid
     ViewGroup.LayoutParams.WrapContent);
             StudentIDNumber.AddRule(LayoutRules.RightOf, StudentImage.Id);
             StudentIDNumber.AddRule(LayoutRules.Below, StudentName.Id);
-            StudentIdNumber.SetPadding(30, 0, 0, 0);
+            StudentIdNumber.SetPadding(30, 0, 0, 50);
             RelLayout.AddView(StudentIdNumber, StudentIDNumber);
 
             var BehaviourParam = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent,
 ViewGroup.LayoutParams.WrapContent);
             BehaviourParam.AddRule(LayoutRules.Below, StudentIdNumber.Id);
-            BehaviourSpinner.SetPadding(0,40,0,0);
             RelLayout.AddView(BehaviourSpinner, BehaviourParam);
+            BehaviourSpinner.LayoutParameters.Width = 800;
 
             var BuildingLocation = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent,
     ViewGroup.LayoutParams.WrapContent);

@@ -22,8 +22,6 @@ namespace BAAR.Droid
     {
         //used to use the token across forms
         public static AccessObject Token;
-        //the sql connection used to connect to the KISD Database webdb\webdb
-        public static SqlConnection conn = new SqlConnection(@"Data Source = webdb\webdb; Initial Catalog = MTSS_BadgePro; Integrated Security = False; User ID = mtss_admin; Password =KBhSIQXqZ8J^; Pooling = False");
         //used to send the signed in users names to the log in the studentac form
         public static string StaffFirst;
         public static string StaffLast;
