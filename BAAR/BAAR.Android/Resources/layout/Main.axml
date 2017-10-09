@@ -32,4 +32,12 @@
         android:scaleType="fitCenter"
         android:outlineProvider="none"
         android:layout_marginTop="-220sp" />
+    <TextView
+        android:text="Click Badge To Start Scan"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView3"
+        android:gravity="center_horizontal"
+        android:paddingTop="20px" />
 </LinearLayout>

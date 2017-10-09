@@ -28,6 +28,7 @@ namespace BAAR.Droid
         public static string StaffFirst;
         public static string StaffLast;
         public static string StaffEmail;
+        public static string StaffUserName;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -86,13 +87,14 @@ namespace BAAR.Droid
                             }
                             else
                             {
-                                Toast.MakeText(this,"Login Successful",ToastLength.Long).Show();
                                 //Requests an access token from powerschool that we use for getting data;
                                 Token = (AccessObject)MainActivity.MakeRequest(string.Format(@"http://powerschool.kentisd.org/oauth/access_token?grant_type=client_credentials"), "application/x-www-form-urlencoded;charset=UTF-8", "POST", "Basic ZWRlMjY4ZmMtOTM5Mi00Y2NkLTgxNjktNjk2ZjI0YmNjZTU2OmU5MDRlNzYwLTEzZjQtNDY5My1iYWM5LWIwZTMyYTJhM2Y3Ng==", true);
+                                Toast.MakeText(this,"Login Successful",ToastLength.Long).Show();
 
                                 StaffFirst = thisinfo.First_Name;
                                 StaffLast = thisinfo.Last_Name;
                                 StaffEmail = thisinfo.Email;
+                                StaffUserName = Username.Text;
                                 // Create an intent allowing the program to change to a different page;
                                 var MainPage = new Intent(this, typeof(MainActivity));
                                 //Go to different page;
@@ -103,7 +105,7 @@ namespace BAAR.Droid
                 }
                 catch
                 {
-                    Toast.MakeText(this.ApplicationContext, "Could Not Connect", ToastLength.Long).Show();
+                    Toast.MakeText(this.ApplicationContext, "Could not Connect to Service (Perhaps Wifi or Powerschool is down.)", ToastLength.Long).Show();
                     return;
                 }
             };

@@ -27,7 +27,8 @@ namespace BAAR.Droid
 
     public class studentac : Activity
     {
-        public Dictionary<int, Tuple<Spinner, Spinner>> LayoutSpinner = new Dictionary<int, Tuple<Spinner, Spinner>>();
+        public Dictionary<int, List<Spinner>> LayoutSpinner = new Dictionary<int,List<Spinner>>();
+
 
         public Dictionary<int, string[]> BLL = new Dictionary<int, string[]>()
         {
@@ -46,9 +47,11 @@ namespace BAAR.Droid
 
             try
             {
-                Login.Token = (AccessObject)MainActivity.MakeRequest(string.Format(@"http://powerschool.kentisd.org/oauth/access_token?grant_type=client_credentials"), "application/x-www-form-urlencoded;charset=UTF-8", "POST", "Basic ZWRlMjY4ZmMtOTM5Mi00Y2NkLTgxNjktNjk2ZjI0YmNjZTU2OmU5MDRlNzYwLTEzZjQtNDY5My1iYWM5LWIwZTMyYTJhM2Y3Ng==", true);
                 BarcodeScanReturn Returned = await StartBarcodeScanner();
+                Console.WriteLine(Returned.StudentName);
                 string[] Name = SplitName(Returned.StudentName);
+                Returned.FirstName = Name[0];
+                Returned.LastName = Name[1];
                 CreateStudentTicket((Name[0] + " " + Name[1]), Returned.StudentNumber.ToString());
             }
             catch
@@ -67,30 +70,28 @@ namespace BAAR.Droid
             Button EmailButton = FindViewById<Button>(Resource.Id.EmailButton);
             EmailButton.Click += (sender, e) =>
             {
-                for (int i = 0; i < 1; i++)
+                for (int i = 0; i < NumberOfTickets; i++)
                 {
-                    string EmailBehaviour = LayoutSpinner[i + 1].Item1.SelectedItem.ToString();
-                    string EmailLocation = LayoutSpinner[i + 1].Item2.SelectedItem.ToString();
-                    //string EmailName = AllReturned[i].StudentName;
-                    //TODO Change these things to reflect powerschol query
-                     Thread EmailThread = new Thread(new ThreadStart(new EmailInfo(AllReturned[i].StudentName,"LisaHungerford@kentisd.org", AllReturned[i].SecondaryAddress,AllReturned[i].StudentAddress,EmailLocation, EmailBehaviour).BackgroundEmail));
-                     Thread EmailThread2 = new Thread(new ThreadStart(new EmailInfo(AllReturned[i].StudentName, "JohnKraus@kentisd.org", AllReturned[i].SecondaryAddress, AllReturned[i].StudentAddress, EmailLocation, EmailBehaviour).BackgroundEmail));
+                    string EmailBehaviour = LayoutSpinner[i + 1][0].SelectedItem.ToString();
+                    string EmailBuilding = LayoutSpinner[i + 1][1].SelectedItem.ToString();
+                    string EmailLocation = LayoutSpinner[i + 1][2].SelectedItem.ToString();
 
-                    //Thread EmailThread = new Thread(new ThreadStart(new EmailInfo("Dakota Stickney", "dakotastickney@gmail.com", null, null, EmailLocation, EmailBehaviour).BackgroundEmail));
+                    Thread EmailThread = new Thread(new ThreadStart(new EmailInfo(AllReturned[i].FirstName, "dakotastickney@gmail.com", AllReturned[i].SecondaryAddress, AllReturned[i].StudentAddress, EmailLocation, EmailBehaviour).BackgroundEmail));
                     EmailThread.Start();
 
                     var thisinfo = JsonConvert.SerializeObject(new
                     {
                         LogDateTime = DateTime.Now,
                         District = "KentISD",
-                        Building = "KCTC",
-                        Student_ID = "12345",
-                        Student_First_Name = "Joe",
-                        Student_Last_Name = "No Name",
-                        Behavior = "Responsibility",
-                        Behavior_Location = "Hallway",
-                        Staff_Login_ID = "LFernandez"
+                        Building = EmailBuilding,
+                        Student_ID = AllReturned[i].StudentNumber,
+                        Student_First_Name = AllReturned[i].FirstName,
+                        Student_Last_Name = AllReturned[i].LastName,
+                        Behavior = EmailBehaviour,
+                        Behavior_Location = EmailLocation,
+                        Staff_Login_ID = Login.StaffUserName
                     });
+
 
                     // POST a JSON string
                     HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://goingpro.azurewebsites.net/api/Behavior_Log");
@@ -107,8 +108,7 @@ namespace BAAR.Droid
                         dataStream.Close();
                     }
 
-                    HttpWebResponse response = request.GetResponse() as HttpWebResponse;
-                    using (response)
+                    using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
                     {
                         if (response.StatusCode != HttpStatusCode.Created)
                         {
@@ -136,6 +136,8 @@ namespace BAAR.Droid
                 {
                     BarcodeScanReturn Thing = await StartBarcodeScanner();
                     string[] SecondaryName = SplitName(Thing.StudentName);
+                    Thing.FirstName = SecondaryName[0];
+                    Thing.LastName = SecondaryName[1];
                     CreateStudentTicket(SecondaryName[0] + " " + SecondaryName[1], Thing.StudentNumber);
                 }
                 catch
@@ -163,7 +165,7 @@ namespace BAAR.Droid
             BuildingLocationSpinner.Adapter = BuildingsAdapter;
 
             Spinner BehaviourSpinner = new Spinner(this);
-            var Behaviours = new List<string>() { "Showed Responsibility", "Showed Respect", "Demonstrated Initiative", "Was Safe", "Demonstrated Professionalism" };
+            var Behaviours = new List<string>() { "Showing Responsibility", "Showing Respect", "Demonstrating Initiative", "Being Safe", "Demonstrating Professionalism" };
             var Adapter = new ArrayAdapter(this, Android.Resource.Layout.SimpleSpinnerDropDownItem, Behaviours);
             BehaviourSpinner.Adapter = Adapter;
 
@@ -213,6 +215,7 @@ namespace BAAR.Droid
             var BehaviourParam = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent,
 ViewGroup.LayoutParams.WrapContent);
             BehaviourParam.AddRule(LayoutRules.Below, StudentIdNumber.Id);
+            BehaviourSpinner.SetPadding(0,40,0,0);
             RelLayout.AddView(BehaviourSpinner, BehaviourParam);
 
             var BuildingLocation = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent,
@@ -235,7 +238,7 @@ ViewGroup.LayoutParams.WrapContent);
             RelLayout.LayoutParameters = Test;
             MainLayout.AddView(RelLayout);
             NumberOfTickets++;
-            LayoutSpinner.Add(NumberOfTickets, new Tuple<Spinner, Spinner>(BehaviourSpinner, LocationSpinner));
+            LayoutSpinner.Add(NumberOfTickets, new List<Spinner>() {BehaviourSpinner,BuildingLocationSpinner,LocationSpinner });
             BuildingLocationSpinner.ItemSelected += ItemSelected;
         }
 
@@ -257,8 +260,6 @@ ViewGroup.LayoutParams.WrapContent);
             var scanner = new ZXing.Mobile.MobileBarcodeScanner();
             var result = await scanner.Scan();
 
-            // string[] Results = result.ToString().Split('|');
-
             string[] Results = result.ToString().Split('*');
             //  if (Results[0]=="0")
             {
@@ -268,7 +269,7 @@ ViewGroup.LayoutParams.WrapContent);
                 string Email1 = Contra.GetStringOut("guardianemail");
                 string Email2 = Contra.GetStringOut("guardianemail_2");
                 string Email3 = Contra.GetStringOut("stud_email");
-                BarcodeScanReturn Student = new BarcodeScanReturn(Name, Results[1],Email1, Email2, Email3);
+                BarcodeScanReturn Student = new BarcodeScanReturn(Name, Results[1], Email1, Email2, Email3);
                 AllReturned.Add(Student);
                 return Student;
             }
@@ -289,6 +290,8 @@ ViewGroup.LayoutParams.WrapContent);
 
     public class BarcodeScanReturn
     {
+        public string FirstName;
+        public string LastName;
         public string StudentName;
         public string StudentNumber;
         public string PrimaryEmailAddress;
@@ -332,7 +335,7 @@ ViewGroup.LayoutParams.WrapContent);
             var toAddress = new MailAddress(this.PrimaryAddress,this.PrimaryAddress);
             const string fromPassword = AccountPassword;
             string subject = " " + this.Name + " was positively recognized today at Kent ISD!";
-            string body = String.Format("A staff member at Kent ISD secondary campus schools recognized " + this.Name + " for " + this.Action + " in the " + this.Location + " today! \n This recognition comes with our campus initiative, “Going Pro at Kent ISD”, which is preparing students to be college and career ready by focusing on positive behaviors.\n Be Professional. Be Respectful. Be Responsible. Demonstrate Initiative. Be Safe. \n Please make sure to congratulate " + this.Name + " tonight!" + "Sincerely <a href=\"mailto:{1}?GoingPro\" target=\"_top\">{0}</a>", Login.StaffFirst + " " + Login.StaffLast,Login.StaffEmail);
+            string body = String.Format("A staff member at Kent ISD secondary campus schools recognized " + this.Name + " for " + this.Action + " in the " + this.Location + " today! \n This recognition comes with our campus initiative, “Going Pro at Kent ISD”, which is preparing students to be college and career ready by focusing on positive behaviors.\n Be Professional. Be Respectful. Be Responsible. Demonstrate Initiative. Be Safe. \n Please make sure to congratulate " + this.Name + " tonight!" + "\n Sincerely <a href=\"mailto:{1}?GoingPro\" target=\"_top\">{0}</a>", Login.StaffFirst + " " + Login.StaffLast,Login.StaffEmail);
 
             Console.WriteLine("Host " + fromAddress.Host);
             var smtp = new SmtpClient
@@ -344,48 +347,49 @@ ViewGroup.LayoutParams.WrapContent);
                 UseDefaultCredentials = false,
                 Credentials = new NetworkCredential(fromAddress.Address, fromPassword)
             };
-            // try
-           {
+            try
+            {
 
                 using (var GuardianEmail = new MailMessage(fromAddress, toAddress)
                 {
                     Subject = subject,
-                IsBodyHtml = true,
-                Body = body
+                    IsBodyHtml = true,
+                    Body = body
                 })
                 {
                     if (GuardianEmail != null)
-                    { 
+                    {
                         smtp.Send(GuardianEmail);
                     }
                 }
-           //     using (var GuardianEmail2 = new MailMessage(fromAddress, new MailAddress(this.SecondaryAddress))
-           //     {
-           //         Subject = subject,
-           //         IsBodyHtml = true,
-           //         Body = body
-           //     })
-           //     {
-           //         if (GuardianEmail2 != null)
-           //         {
-           //             smtp.Send(GuardianEmail2);
-           //         }
-           //     }
-           //     using (var StudentEmail = new MailMessage(fromAddress, new MailAddress(this.StudentAddress))
-           //     {
-           //         Subject = "Congratulations on being positively recognized today at Kent ISD",
-           //         IsBodyHtml = true,
-           //         Body = "A staff member at Kent ISD secondary campus schools recognized you for being respectful in the commons today! This recognition comes with our campus initiative, “Going Pro at Kent ISD”, which is preparing students to be college and career ready by focusing on positive behaviors. Be Professional. Be Respectful. Be Responsible. Demonstrate Initiative. Be Safe. Congratulations on demonstrating professional behavior today!"
-           //     })
-           //     {
-           //         if (StudentEmail != null)
-           //         {
-           //             smtp.Send(StudentEmail);
-           //         }
-           //     }
-           }//catch
+                //     using (var GuardianEmail2 = new MailMessage(fromAddress, new MailAddress(this.SecondaryAddress))
+                //     {
+                //         Subject = subject,
+                //         IsBodyHtml = true,
+                //         Body = body
+                //     })
+                //     {
+                //         if (GuardianEmail2 != null)
+                //         {
+                //             smtp.Send(GuardianEmail2);
+                //         }
+                //     }
+                //     using (var StudentEmail = new MailMessage(fromAddress, new MailAddress(this.StudentAddress))
+                //     {
+                //         Subject = "Congratulations on being positively recognized today at Kent ISD",
+                //         IsBodyHtml = true,
+                //         Body = "A staff member at Kent ISD secondary campus schools recognized you for being respectful in the commons today! This recognition comes with our campus initiative, “Going Pro at Kent ISD”, which is preparing students to be college and career ready by focusing on positive behaviors. Be Professional. Be Respectful. Be Responsible. Demonstrate Initiative. Be Safe. Congratulations on demonstrating professional behavior today!"
+                //     })
+                //     {
+                //         if (StudentEmail != null)
+                //         {
+                //             smtp.Send(StudentEmail);
+                //         }
+                //     }
+            }
+            catch
             {
-            //    Console.WriteLine("Error when sending emails. Probably not connected to the internet.");
+               Console.WriteLine("Error when sending emails. Probably not connected to the internet.");
             }
         }
     }

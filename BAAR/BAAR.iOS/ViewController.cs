@@ -23,8 +23,7 @@ namespace BAAR.iOS
             // Perform any additional setup after loading the view, typically from a nib.
             Login.AccessibilityIdentifier = "myButton";
             Login.TouchUpInside += delegate
-            {//the password grabbed from the DB
-                Console.WriteLine("What is this");
+            {
                 string pass = null;
                 try
                 {
