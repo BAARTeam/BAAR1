@@ -74,8 +74,10 @@ namespace BAAR.iOS
                                 Login.SetTitle("Login Successful", UIControlState.Normal);
 
                                  var Sb =  Storyboard.InstantiateViewController("ButtonPage");
+                             var Thing =  UIApplication.SharedApplication.Delegate;
+                                Thing.GetWindow().RootViewController = Sb;
                                 //  initialViewController.LoadView();
-                                PresentViewController(Sb,false,null);
+                             //   PresentedViewController.PresentViewController(Sb,false,null);
                             }
                         }
                     }

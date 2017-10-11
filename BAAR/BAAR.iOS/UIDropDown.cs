@@ -12,6 +12,7 @@ namespace BAAR.iOS
     public class UIDropDown
     {
         public List<UIButton> Items = new List<UIButton>();
+        public string Selected;
 
         public Func<int,string> OptionSelected;
         public UIButton PrimaryButton;

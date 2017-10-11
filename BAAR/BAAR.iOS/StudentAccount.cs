@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using BAAR.iOS;
 using CoreAnimation;
 using System.Drawing;
+using System.IO;
 
 namespace BAAR.iOS
 {
@@ -54,41 +55,65 @@ namespace BAAR.iOS
                 Console.WriteLine("Something went stupid");
             }
 
+            SubmitButton.TouchUpInside += (sender, e) =>
+            {
+                for (int i = 0; i < NumberOfTickets; i++)
+                {
+                    //        string EmailBehaviour = LayoutSpinner[i + 1].Item1.SelectedItem.ToString();
+                    //        string EmailLocation = LayoutSpinner[i + 1].Item2.SelectedItem.ToString();
+                    //        //string EmailName = AllReturned[i].StudentName;
+                    //        //TODO Change these things to reflect powerschol query
+                    //        // Thread EmailThread = new Thread(new ThreadStart(new EmailInfo(AllReturned[i].StudentName,"dakotastickney@gmail.com", AllReturned[i].SecondaryAddress,AllReturned[i].StudentAddress,EmailLocation, EmailBehaviour).BackgroundEmail));
+                    //        Thread EmailThread = new Thread(new ThreadStart(new EmailInfo("SEdc", "dakotastickney@gmail.com", null, null, EmailLocation, EmailBehaviour).BackgroundEmail));
+                    //        EmailThread.Start();
 
-            // FindViewById<LinearLayout>(Resource.Id.Root).SetBackgroundColor(Color.Argb(255, 0, 9, 26));
+                    var thisinfo = JsonConvert.SerializeObject(new
+                    {
+                        LogDateTime = DateTime.Now,
+                        District = "KentISD",
+                        // Building = EmailBuilding,
+                        Student_ID = AllReturned[i].StudentNumber,
+                        //Student_First_Name = AllReturned[i].FirstName,
+                        // Student_Last_Name = AllReturned[i].LastName,
+                        // Behavior = EmailBehaviour,
+                        //Behavior_Location = EmailLocation,
+                        Staff_Login_ID = ViewController.StaffUserName
+                    });
 
-            //  FindViewById<Button>(Resource.Id.AddTicket).SetTextColor(Color.White);
-            //  FindViewById<Button>(Resource.Id.EmailButton).SetTextColor(Color.White);
 
-            // CreateStudentTicket("Dakota", "9203847");
+                    // POST a JSON string
+                    HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://goingpro.azurewebsites.net/api/Behavior_Log");
+                    request.Method = "POST";
+                    request.ContentType = @"application/json";
+                    request.Accept = @"application/json";
 
-            // Button EmailButton = FindViewById<Button>(Resource.Id.EmailButton);
-            //EmailButton.Click += (sender, e) =>
-            //{
-            //    for (int i = 0; i < NumberOfTickets; i++)
-            //    {
-            //        string EmailBehaviour = LayoutSpinner[i + 1].Item1.SelectedItem.ToString();
-            //        string EmailLocation = LayoutSpinner[i + 1].Item2.SelectedItem.ToString();
-            //        //string EmailName = AllReturned[i].StudentName;
-            //        //TODO Change these things to reflect powerschol query
-            //        // Thread EmailThread = new Thread(new ThreadStart(new EmailInfo(AllReturned[i].StudentName,"dakotastickney@gmail.com", AllReturned[i].SecondaryAddress,AllReturned[i].StudentAddress,EmailLocation, EmailBehaviour).BackgroundEmail));
-            //        Thread EmailThread = new Thread(new ThreadStart(new EmailInfo("SEdc", "dakotastickney@gmail.com", null, null, EmailLocation, EmailBehaviour).BackgroundEmail));
+                    var dataStream = new StreamWriter(request.GetRequestStream());
 
-            //        //SqlCommand Insert = new SqlCommand("INSERT INTO MTSS_ActionLog VALUES (@DT, @SF, @SL, @SN, @StN, @ATi, @AT, @AL)", Login.conn);
-            //        //  Login.conn.Open();
-            //        //log log = new log(Login.StaffFirst, Login.StaffLast, AllReturned[i].StudentName.ToString(), Convert.ToDouble(AllReturned[i].StudentNumber.ToString()), LayoutSpinner[i + 1].Item1.SelectedItem.ToString(), LayoutSpinner[i +1].Item2.SelectedItem.ToString());
-            //        //log.exe(Insert);
-            //        //Login.conn.Close();
-            //        EmailThread.Start();
-            //    }
+                    using (dataStream)
+                    {
+                        dataStream.Write(thisinfo);
+                        dataStream.Flush();
+                        dataStream.Close();
+                    }
 
-            // Toast.MakeText(this, "Email Sent", ToastLength.Long).Show();
-            //  Intent MainPage = new Intent(this, typeof(MainActivity));
-            //  StartActivity(MainPage);
-            //  };
+                    using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+                    {
+                        if (response.StatusCode != HttpStatusCode.Created)
+                        {
+                            Console.WriteLine("Error fetching data.  Server returned status code " + response.StatusCode);
+                        }
+                        else
+                        {
+                             //  Toast.MakeText(this, "Information Saved", ToastLength.Long);
+                        }
+                    }
+                }
+                // Toast.MakeText(this, "Email Sent", ToastLength.Long).Show();
+                //  Intent MainPage = new Intent(this, typeof(MainActivity));
+                //  StartActivity(MainPage);
+            };
 
-            //  USE THIS UIButton btn1 = this.View.ViewWithTag(1) as UIButton;
-            // Button TicketButton = FindViewById<Button>(Resource.Id.AddTicket);
+
 
             TicketButton.TouchUpInside += async delegate 
             {
@@ -109,7 +134,7 @@ namespace BAAR.iOS
         }
    
 
-private string[] SplitName(string ToSplit)
+        private string[] SplitName(string ToSplit)
         {
             string[] SplitName = ToSplit.Split(',');
             string[] SpaceSplit = SplitName[1].Split(' ');
@@ -158,19 +183,19 @@ private string[] SplitName(string ToSplit)
             UIDropDown DropDown = new UIDropDown(Ticket, View, new List<string>()
             {
                 "Showing Responsibility",
-                "Showed Respect",
-                "Testing",
-                "Blah Blah",
-                "Willow"
+                "Showing Respect",
+                "Demonstrating Initiative",
+                "Being Safe",
+                "Demonstrating Professionalism"
             }, new CoreGraphics.CGRect(25, 85, TicketHolder.Bounds.Width - 50, 30), Scroll, TicketNumber);
 
 
             UIDropDown DropDown2 = new UIDropDown(Ticket, View, new List<string>()
             {
-                "KCTC",
-                "ESC",
-                "KISD",
                 "KTC",
+                "MySchool",
+                "KCTC",
+                "KIH",
             }, new CoreGraphics.CGRect(25, 120, 100, 30), Scroll, TicketNumber);
 
 
@@ -189,16 +214,6 @@ private string[] SplitName(string ToSplit)
                 return null;
             };
             NumberOfTickets += 1;
-
-            //        private void ItemSelected(object sender, ItemSelectedEventArgs e)
-            ////        {
-            ////            Spinner Thing = sender as Spinner;
-
-            ////            RelativeLayout Layout = (RelativeLayout)(Thing.Parent);
-
-            ////            Spinner LocationsPerBuilding = (Spinner)Layout.GetChildAt(5);
-            ////            LocationsPerBuilding.Adapter = new ArrayAdapter(this, Android.Resource.Layout.SimpleSpinnerDropDownItem, BLL[(int)e.Id]);
-
         }
         public class ExamplePickerViewModel : UIPickerViewModel
         {

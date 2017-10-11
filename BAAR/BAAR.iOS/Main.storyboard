@@ -17,7 +17,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oBE-Ac-vcx" buttonType="roundedRect" hasAttributedTitle="YES" verticalHuggingPriority="371">
-                                <rect key="frame" x="84" y="300" width="247" height="30"/>
+                                <rect key="frame" x="37" y="300" width="247" height="30"/>
                                 <connections/>
                                 <state key="normal">
                                     <attributedString key="attributedTitle">
@@ -49,7 +49,7 @@
                                 </variation>
                             </button>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" borderStyle="line" minimumFontSize="17" id="3" translatesAutoresizingMaskIntoConstraints="NO">
-                                <rect key="frame" x="84" y="165" width="247" height="30"/>
+                                <rect key="frame" x="37" y="165" width="247" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                                 <color key="backgroundColor" colorSpace="calibratedRGB" red="1" green="1" blue="1" alpha="1"/>
@@ -79,7 +79,7 @@
                                 </constraints>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="262" translatesAutoresizingMaskIntoConstraints="NO" text="Username">
-                                <rect key="frame" x="0.0" y="105" width="414" height="57"/>
+                                <rect key="frame" x="0.0" y="105" width="320" height="57"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="55"/>
                                 <color key="textColor" colorSpace="calibratedRGB" red="1" green="1" blue="1" alpha="1"/>
                                 <nil key="highlightedColor"/>
@@ -101,7 +101,7 @@
                                 </variation>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="263" translatesAutoresizingMaskIntoConstraints="NO" text="Password" adjustsLetterSpacingToFitWidth="NO">
-                                <rect key="frame" x="83" y="218" width="249" height="36"/>
+                                <rect key="frame" x="36" y="218" width="249" height="36"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="55"/>
                                 <nil key="highlightedColor"/>
                                 <color key="textColor" colorSpace="calibratedRGB" red="1" green="1" blue="1" alpha="1"/>
@@ -240,7 +240,7 @@
                         </variation>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="258" translatesAutoresizingMaskIntoConstraints="NO" text="Going Pro!">
-                                <rect key="frame" x="61" y="102" width="293" height="78"/>
+                                <rect key="frame" x="14" y="102" width="293" height="78"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="60"/>
                                 <nil key="highlightedColor"/>
                                 <accessibility key="accessibilityConfiguration" label="Scan"/>
@@ -263,7 +263,7 @@
                                 </variation>
                             </label>
                             <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="985" translatesAutoresizingMaskIntoConstraints="NO">
-                                <rect key="frame" x="118" y="440" width="178" height="176"/>
+                                <rect key="frame" x="71" y="184" width="178" height="176"/>
                                 <state key="normal" backgroundImage="GoingPro_Icon.png">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -332,42 +332,27 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="798" translatesAutoresizingMaskIntoConstraints="NO" showsHorizontalScrollIndicator="NO">
-                                <rect key="frame" x="4" y="15" width="414" height="552"/>
+                                <rect key="frame" x="0.0" y="15" width="320" height="296"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="left" axis="vertical" id="460" translatesAutoresizingMaskIntoConstraints="NO" autoresizesSubviews="NO">
-                                        <rect key="frame" x="0.0" y="-460" width="375" height="996"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="304" height="254"/>
                                         <subviews/>
-                                        <variation key="heightClass=regular-widthClass=compact" distribution="equalSpacing" spacing="1" alignment="trailing" misplaced="YES"/>
+                                        <variation key="heightClass=regular-widthClass=compact" distribution="equalSpacing" spacing="1" alignment="trailing" fixedFrame="YES"/>
                                     </stackView>
                                 </subviews>
                                 <variation key="default">
                                     <mask key="subviews">
                                         <exclude reference="460"/>
                                     </mask>
-                                    <mask key="constraints">
-                                        <exclude reference="1348"/>
-                                        <exclude reference="1359"/>
-                                        <exclude reference="1360"/>
-                                    </mask>
                                 </variation>
-                                <variation key="heightClass=regular-widthClass=compact">
+                                <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
                                     <mask key="subviews">
                                         <include reference="460"/>
                                     </mask>
-                                    <mask key="constraints">
-                                        <include reference="1348"/>
-                                        <include reference="1359"/>
-                                        <include reference="1360"/>
-                                    </mask>
                                 </variation>
-                                <constraints>
-                                    <constraint id="1348" firstItem="460" firstAttribute="width" secondItem="798" secondAttribute="width"/>
-                                    <constraint id="1359" firstItem="460" firstAttribute="leading" secondItem="798" secondAttribute="leading"/>
-                                    <constraint id="1360" firstItem="460" firstAttribute="bottom" secondItem="798" secondAttribute="bottom" constant="53"/>
-                                </constraints>
                             </scrollView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="288" translatesAutoresizingMaskIntoConstraints="NO">
-                                <rect key="frame" x="4" y="673" width="414" height="34"/>
+                                <rect key="frame" x="0.0" y="417" width="320" height="34"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <state key="normal" title="Add Ticket">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -379,7 +364,7 @@
                                 <connections/>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="287" translatesAutoresizingMaskIntoConstraints="NO" horizontalHuggingPriority="1000">
-                                <rect key="frame" x="4" y="623" width="414" height="33"/>
+                                <rect key="frame" x="0.0" y="367" width="320" height="33"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <state key="normal" title="Submit">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -405,10 +390,6 @@
                                 <exclude reference="982"/>
                                 <exclude reference="983"/>
                                 <exclude reference="984"/>
-                                <exclude reference="1347"/>
-                                <exclude reference="1349"/>
-                                <exclude reference="1350"/>
-                                <exclude reference="1351"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular-widthClass=compact">
@@ -426,10 +407,6 @@
                                 <include reference="982"/>
                                 <include reference="983"/>
                                 <include reference="984"/>
-                                <include reference="1347"/>
-                                <include reference="1349"/>
-                                <include reference="1350"/>
-                                <include reference="1351"/>
                             </mask>
                         </variation>
                         <constraints>
@@ -439,10 +416,6 @@
                             <constraint id="982" firstItem="287" firstAttribute="width" secondItem="284" secondAttribute="width"/>
                             <constraint id="983" firstItem="288" firstAttribute="top" secondItem="287" secondAttribute="bottom" constant="17"/>
                             <constraint id="984" firstItem="284" firstAttribute="leadingMargin" secondItem="287" secondAttribute="leading" constant="16"/>
-                            <constraint id="1347" firstItem="798" firstAttribute="width" secondItem="284" secondAttribute="width"/>
-                            <constraint id="1349" firstItem="287" firstAttribute="top" secondItem="798" secondAttribute="bottom" constant="56"/>
-                            <constraint id="1350" firstItem="284" firstAttribute="leadingMargin" secondItem="798" secondAttribute="leading" constant="16"/>
-                            <constraint id="1351" firstItem="280" firstAttribute="bottom" secondItem="798" secondAttribute="top" constant="5"/>
                         </constraints>
                     </view>
                     <connections>
@@ -462,6 +435,6 @@
         <image name="DropDownArrow.png" width="225" height="225"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
-        <simulatedScreenMetrics key="destination" type="retina55"/>
+        <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
 </document>
