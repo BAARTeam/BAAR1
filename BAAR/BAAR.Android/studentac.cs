@@ -76,7 +76,7 @@ namespace BAAR.Droid
                     string EmailBuilding = LayoutSpinner[i + 1][1].SelectedItem.ToString();
                     string EmailLocation = LayoutSpinner[i + 1][2].SelectedItem.ToString();
 
-                    Thread EmailThread = new Thread(new ThreadStart(new EmailInfo(AllReturned[i].FirstName, "dakotastickney@gmail.com", AllReturned[i].SecondaryAddress, AllReturned[i].StudentAddress, EmailLocation, EmailBehaviour).BackgroundEmail));
+                    Thread EmailThread = new Thread(new ThreadStart(new EmailInfo(AllReturned[i].FirstName, AllReturned[i].PrimaryEmailAddress, AllReturned[i].SecondaryAddress, AllReturned[i].StudentAddress, EmailLocation, EmailBehaviour).BackgroundEmail));
                     EmailThread.Start();
 
                     var thisinfo = JsonConvert.SerializeObject(new
@@ -326,14 +326,13 @@ ViewGroup.LayoutParams.WrapContent);
             this.Location = Loc;
             this.Action = Act;
         }
-        const string AccountPassword = "Fopo7082";
-
+        const string oysd8fh376sdflsdfo8 = "Fopo7082";
 
         public void BackgroundEmail()
         {
             var fromAddress = new MailAddress("GoingPro@kentisd.org", "Going Pro");
             var toAddress = new MailAddress(this.PrimaryAddress,this.PrimaryAddress);
-            const string fromPassword = AccountPassword;
+            const string ejkrj9858 = oysd8fh376sdflsdfo8;
             string subject = " " + this.Name + " was positively recognized today at Kent ISD!";
             string body = String.Format("A staff member at Kent ISD secondary campus schools recognized " + this.Name + " for " + this.Action + " in the " + this.Location + " today! \n This recognition comes with our campus initiative, “Going Pro at Kent ISD”, which is preparing students to be college and career ready by focusing on positive behaviors.\n Be Professional. Be Respectful. Be Responsible. Demonstrate Initiative. Be Safe. \n Please make sure to congratulate " + this.Name + " tonight!" + "\n Sincerely <a href=\"mailto:{1}?GoingPro\" target=\"_top\">{0}</a>", Login.StaffFirst + " " + Login.StaffLast,Login.StaffEmail);
 
@@ -345,7 +344,7 @@ ViewGroup.LayoutParams.WrapContent);
                 EnableSsl = true,
                 DeliveryMethod = SmtpDeliveryMethod.Network,
                 UseDefaultCredentials = false,
-                Credentials = new NetworkCredential(fromAddress.Address, fromPassword)
+                Credentials = new NetworkCredential(fromAddress.Address, ejkrj9858)
             };
             try
             {
@@ -362,30 +361,49 @@ ViewGroup.LayoutParams.WrapContent);
                         smtp.Send(GuardianEmail);
                     }
                 }
-                //     using (var GuardianEmail2 = new MailMessage(fromAddress, new MailAddress(this.SecondaryAddress))
-                //     {
-                //         Subject = subject,
-                //         IsBodyHtml = true,
-                //         Body = body
-                //     })
-                //     {
-                //         if (GuardianEmail2 != null)
-                //         {
-                //             smtp.Send(GuardianEmail2);
-                //         }
-                //     }
-                //     using (var StudentEmail = new MailMessage(fromAddress, new MailAddress(this.StudentAddress))
-                //     {
-                //         Subject = "Congratulations on being positively recognized today at Kent ISD",
-                //         IsBodyHtml = true,
-                //         Body = "A staff member at Kent ISD secondary campus schools recognized you for being respectful in the commons today! This recognition comes with our campus initiative, “Going Pro at Kent ISD”, which is preparing students to be college and career ready by focusing on positive behaviors. Be Professional. Be Respectful. Be Responsible. Demonstrate Initiative. Be Safe. Congratulations on demonstrating professional behavior today!"
-                //     })
-                //     {
-                //         if (StudentEmail != null)
-                //         {
-                //             smtp.Send(StudentEmail);
-                //         }
-                //     }
+                var smtp2 = new SmtpClient
+                {
+                    Host = "smtp.outlook.com",
+                    Port = 587,
+                    EnableSsl = true,
+                    DeliveryMethod = SmtpDeliveryMethod.Network,
+                    UseDefaultCredentials = false,
+                    Credentials = new NetworkCredential(fromAddress.Address, ejkrj9858)
+                };
+                using (var GuardianEmail2 = new MailMessage(fromAddress, new MailAddress(this.SecondaryAddress))
+                {
+                    Subject = subject,
+                    IsBodyHtml = true,
+                    Body = body
+                })
+                {
+                    if (GuardianEmail2 != null)
+                    {
+                        smtp2.Send(GuardianEmail2);
+                    }
+                }
+
+                var smtp3 = new SmtpClient
+                {
+                    Host = "smtp.outlook.com",
+                    Port = 587,
+                    EnableSsl = true,
+                    DeliveryMethod = SmtpDeliveryMethod.Network,
+                    UseDefaultCredentials = false,
+                    Credentials = new NetworkCredential(fromAddress.Address, ejkrj9858)
+                };
+                using (var StudentEmail = new MailMessage(fromAddress, new MailAddress(this.StudentAddress))
+                {
+                    Subject = "Congratulations on being positively recognized today at Kent ISD",
+                    IsBodyHtml = true,
+                    Body = "A staff member at Kent ISD secondary campus schools recognized you for being respectful in the commons today! This recognition comes with our campus initiative, “Going Pro at Kent ISD”, which is preparing students to be college and career ready by focusing on positive behaviors. Be Professional. Be Respectful. Be Responsible. Demonstrate Initiative. Be Safe. Congratulations on demonstrating professional behavior today!"
+                })
+                {
+                    if (StudentEmail != null)
+                    {
+                        smtp3.Send(StudentEmail);
+                    }
+                }
             }
             catch
             {

@@ -119,12 +119,5 @@ namespace BAAR.Droid
                 }
             }
         }
-
-
-
-
     }
 }
-
-
-
