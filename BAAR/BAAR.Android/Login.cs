@@ -9,7 +9,6 @@ using Android.Widget;
 using System.Net;
 using System.IO;
 using Newtonsoft.Json;
-using Xamarin.Auth;
 using System.Json;
 using System.Data.SqlClient;
 using Android.Graphics;
