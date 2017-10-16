@@ -76,7 +76,7 @@ namespace BAAR.Droid
                     string EmailBuilding = LayoutSpinner[i + 1][1].SelectedItem.ToString();
                     string EmailLocation = LayoutSpinner[i + 1][2].SelectedItem.ToString();
 
-                    Thread EmailThread = new Thread(new ThreadStart(new EmailInfo(AllReturned[i].FirstName, AllReturned[i].PrimaryEmailAddress, AllReturned[i].SecondaryAddress, AllReturned[i].StudentAddress, EmailLocation, EmailBehaviour).BackgroundEmail));
+                    Thread EmailThread = new Thread(new ThreadStart(new EmailInfo(AllReturned[i].FirstName, "dakotastickney@gmail.com", "dakotastickney@gmail.com", "dakotastickney@gmail.com", EmailLocation, EmailBehaviour).BackgroundEmail));
                     EmailThread.Start();
 
                     var thisinfo = JsonConvert.SerializeObject(new

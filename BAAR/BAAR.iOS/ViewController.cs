@@ -4,6 +4,7 @@ using System.IO;
 using Newtonsoft.Json;
 using System.Net;
 using UIKit;
+using ToastIOS;
 using System.Security.Cryptography;
 
 namespace BAAR.iOS
@@ -30,6 +31,8 @@ namespace BAAR.iOS
             {
                 try
                 {
+
+                    Password.ResignFirstResponder();
                     HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://goingpro.azurewebsites.net/api/Logins?loginid=" + UserNameTextField.Text);
                     request.Method = "Get";
                     //request.ContentType = @"application/json";
@@ -54,38 +57,32 @@ namespace BAAR.iOS
                             if (!checkpassword(thisinfo.Login_Password, Password.Text))
                             {
                                 Console.WriteLine("Wrong!");
-                                //Toast.MakeText(this, "Wrong Password", ToastLength.Long).Show();
+                                Toast.MakeText("Password Incorrect").Show();
                             }
                             else
                             {
                                 //Requests an access token from powerschool that we use for getting data;
                                 Token = (AccessObject)MakeRequest(string.Format(@"http://powerschool.kentisd.org/oauth/access_token?grant_type=client_credentials"), "application/x-www-form-urlencoded;charset=UTF-8", "POST", "Basic ZWRlMjY4ZmMtOTM5Mi00Y2NkLTgxNjktNjk2ZjI0YmNjZTU2OmU5MDRlNzYwLTEzZjQtNDY5My1iYWM5LWIwZTMyYTJhM2Y3Ng==", true);
-                                // Toast.MakeText(this, "Login Successful", ToastLength.Long).Show();
 
                                 StaffFirst = thisinfo.First_Name;
                                 StaffLast = thisinfo.Last_Name;
                                 StaffEmail = thisinfo.Email;
                                 StaffUserName = UserNameTextField.Text;
-                                Console.WriteLine("Correct!");
-                                // Create an intent allowing the program to change to a different page;
-                                //  var MainPage = new Intent(this, typeof(MainActivity));
-                                //Go to different page;
-                                //  StartActivity(MainPage);
-                                Login.SetTitle("Login Successful", UIControlState.Normal);
 
-                                 var Sb =  Storyboard.InstantiateViewController("ButtonPage");
-                             var Thing =  UIApplication.SharedApplication.Delegate;
-                                Thing.GetWindow().RootViewController = Sb;
-                                //  initialViewController.LoadView();
-                             //   PresentedViewController.PresentViewController(Sb,false,null);
+                                Toast.MakeText("Login Successful").Show();
+
+                                // var  storyboard = UIStoryboard.FromName("SecondaryScreen", null);
+                                // var startController = storyboard.InstantiateInitialViewController() as UIViewController;
+                                // View.Window.RootViewController = startController;
+                                //View.Window.MakeKeyAndVisible();
                             }
                         }
                     }
                 }
                 catch
                 {
-                    // Toast.MakeText(this.ApplicationContext, "Could Not Connect", ToastLength.Long).Show();
-                    //  return;
+                    Toast.MakeText("Could Not Connect To Service (Perhaps Powerschool or Wi-Fi is down.)").Show();
+                    return;
                 }
             };
         }

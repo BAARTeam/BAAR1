@@ -92,6 +92,9 @@
     <Reference Include="System.Json" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
+    <Reference Include="ToastIOS">
+      <HintPath>..\..\..\..\..\Downloads\ToastIOS-1.6\ToastIOS-1.6\lib\ios-unified\ToastIOS.dll</HintPath>
+    </Reference>
     <Reference Include="Validation, Version=2.4.0.0, Culture=neutral, PublicKeyToken=2fc06f0d701809a7, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Validation.2.4.15\lib\netstandard1.3\Validation.dll</HintPath>
       <Private>True</Private>

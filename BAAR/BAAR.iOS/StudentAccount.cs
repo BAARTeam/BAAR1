@@ -6,6 +6,7 @@ using System.Net;
 using Newtonsoft.Json;
 using System.Net.Mail;
 using System.Threading.Tasks;
+using ToastIOS;
 using BAAR.iOS;
 using CoreAnimation;
 using System.Drawing;
@@ -26,7 +27,7 @@ namespace BAAR.iOS
             // Release any cached data, images, etc that aren't in use.
         }
 
-        // public Dictionary<int, Tuple<Spinner, Spinner>> LayoutSpinner = new Dictionary<int, Tuple<Spinner, Spinner>>();
+        public Dictionary<int, List<UIDropDown>> LayoutSpinner = new Dictionary<int,List<UIDropDown>>();
 
         public Dictionary<int, string[]> BLL = new Dictionary<int, string[]>()
         {
@@ -59,9 +60,10 @@ namespace BAAR.iOS
             {
                 for (int i = 0; i < NumberOfTickets; i++)
                 {
-                    //        string EmailBehaviour = LayoutSpinner[i + 1].Item1.SelectedItem.ToString();
-                    //        string EmailLocation = LayoutSpinner[i + 1].Item2.SelectedItem.ToString();
-                    //        //string EmailName = AllReturned[i].StudentName;
+                   string EmailBehaviour = LayoutSpinner[i][0].Selected;
+                   string EmailBuildingLocation = LayoutSpinner[i][1].Selected;
+                   string EmailLocation = LayoutSpinner[i][2].Selected;
+                   string EmailName = AllReturned[i].StudentName;
                     //        //TODO Change these things to reflect powerschol query
                     //        // Thread EmailThread = new Thread(new ThreadStart(new EmailInfo(AllReturned[i].StudentName,"dakotastickney@gmail.com", AllReturned[i].SecondaryAddress,AllReturned[i].StudentAddress,EmailLocation, EmailBehaviour).BackgroundEmail));
                     //        Thread EmailThread = new Thread(new ThreadStart(new EmailInfo("SEdc", "dakotastickney@gmail.com", null, null, EmailLocation, EmailBehaviour).BackgroundEmail));
@@ -71,12 +73,13 @@ namespace BAAR.iOS
                     {
                         LogDateTime = DateTime.Now,
                         District = "KentISD",
-                        // Building = EmailBuilding,
+                        Building = EmailBuildingLocation,
                         Student_ID = AllReturned[i].StudentNumber,
-                        //Student_First_Name = AllReturned[i].FirstName,
-                        // Student_Last_Name = AllReturned[i].LastName,
-                        // Behavior = EmailBehaviour,
-                        //Behavior_Location = EmailLocation,
+                        //AddTheseThings
+                        Student_First_Name = AllReturned[i].FirstName,
+                        Student_Last_Name = AllReturned[i].LastName,
+                        Behavior = EmailBehaviour,
+                        Behavior_Location = EmailLocation,
                         Staff_Login_ID = ViewController.StaffUserName
                     });
 
@@ -104,11 +107,11 @@ namespace BAAR.iOS
                         }
                         else
                         {
-                             //  Toast.MakeText(this, "Information Saved", ToastLength.Long);
+                            Console.WriteLine("Information Successfully saved");
                         }
                     }
                 }
-                // Toast.MakeText(this, "Email Sent", ToastLength.Long).Show();
+                Toast.MakeText("Email Sent").Show();
                 //  Intent MainPage = new Intent(this, typeof(MainActivity));
                 //  StartActivity(MainPage);
             };
@@ -126,7 +129,7 @@ namespace BAAR.iOS
                 }
                 catch
                 {
-                    // Toast.MakeText(this, "Invalid Barcode Scanned", ToastLength.Long).Show();
+                    Toast.MakeText("Invalid Barcode Scanned").Show();
                     Console.WriteLine("Woah Something Went Wrong When Scanning Barcode either that is not a valid barcode or there is no connection.");
                 }
 
@@ -211,8 +214,10 @@ namespace BAAR.iOS
             {
                 Console.WriteLine("Here " + e );
                 DropDown3.Options = BLL[e].ToList();
+                DropDown3.GenerateNewOptions();
                 return null;
             };
+            LayoutSpinner.Add(TicketNumber, new List<UIDropDown>() {DropDown,DropDown2,DropDown3 });
             NumberOfTickets += 1;
         }
         public class ExamplePickerViewModel : UIPickerViewModel
@@ -292,6 +297,9 @@ namespace BAAR.iOS
             public string PrimaryEmailAddress;
             public string SecondaryAddress;
             public string StudentAddress;
+
+            public object FirstName { get; internal set; }
+            public object LastName { get; internal set; }
 
             public BarcodeScanReturn(string StuName, string StuNumber, string PrimEAdd, string SecEAdd, string StuAdd)
             {
