@@ -45,12 +45,13 @@ namespace BAAR.iOS
 
             try
             {
-                BarcodeScanReturn Returned = await StartBarcodeScanner();
-                string[] Name = SplitName(Returned.StudentName);
+              //  BarcodeScanReturn Returned = await StartBarcodeScanner();
+              //  string[] Name = SplitName(Returned.StudentName);
+                TicketHolder.WidthAnchor.ConstraintEqualTo(UIScreen.MainScreen.Bounds.Width).Active = true;
                 Scroll.AddSubview(TicketHolder);
                 Scroll.ContentSize = TicketHolder.Frame.Size;
                 CreateStudentTicket("Test User","210",0);
-                CreateStudentTicket(Name[0] + " " + Name[1], Returned.StudentNumber, NumberOfTickets);
+               // CreateStudentTicket(Name[0] + " " + Name[1], Returned.StudentNumber, NumberOfTickets);
             }
             catch
             {
@@ -151,7 +152,7 @@ namespace BAAR.iOS
             UIView Ticket = new UIView();
             Ticket.BackgroundColor = UIColor.FromRGBA(21, 21, 30, 255);
             Ticket.HeightAnchor.ConstraintEqualTo(160).Active = true;
-            Ticket.WidthAnchor.ConstraintEqualTo(TicketHolder.Bounds.Size.Width).Active = true;
+            Ticket.WidthAnchor.ConstraintEqualTo(UIScreen.MainScreen.Bounds.Width).Active = true;
 
             UILabel StudentName = new UILabel();
             StudentName.Text = Name;
