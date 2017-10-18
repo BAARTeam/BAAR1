@@ -30,7 +30,7 @@ namespace BAAR.Droid
                 }
                 else
                 {
-                    return "WHOPS";
+                    return null;
                 }
             }
             return StringToGet;

@@ -11,6 +11,7 @@ using BAAR.iOS;
 using CoreAnimation;
 using System.Drawing;
 using System.IO;
+using System.Threading;
 
 namespace BAAR.iOS
 {
@@ -60,14 +61,12 @@ namespace BAAR.iOS
             {
                 for (int i = 0; i < NumberOfTickets; i++)
                 {
-                   string EmailBehaviour = LayoutSpinner[i][0].Selected;
-                   string EmailBuildingLocation = LayoutSpinner[i][1].Selected;
-                   string EmailLocation = LayoutSpinner[i][2].Selected;
-                   string EmailName = AllReturned[i].StudentName;
-                    //        //TODO Change these things to reflect powerschol query
-                    //        // Thread EmailThread = new Thread(new ThreadStart(new EmailInfo(AllReturned[i].StudentName,"dakotastickney@gmail.com", AllReturned[i].SecondaryAddress,AllReturned[i].StudentAddress,EmailLocation, EmailBehaviour).BackgroundEmail));
-                    //        Thread EmailThread = new Thread(new ThreadStart(new EmailInfo("SEdc", "dakotastickney@gmail.com", null, null, EmailLocation, EmailBehaviour).BackgroundEmail));
-                    //        EmailThread.Start();
+                    string EmailBehaviour = LayoutSpinner[i][0].Selected;
+                    string EmailBuildingLocation = LayoutSpinner[i][1].Selected;
+                    string EmailLocation = LayoutSpinner[i][2].Selected;
+                    string EmailName = AllReturned[i].FirstName.ToString();
+                   // Thread EmailThread = new Thread(new ThreadStart(new EmailInfo(AllReturned[i].StudentName,"dakotastickney@gmail.com", AllReturned[i].SecondaryAddress,AllReturned[i].StudentAddress,EmailLocation, EmailBehaviour).BackgroundEmail));
+                   // EmailThread.Start();
 
                     var thisinfo = JsonConvert.SerializeObject(new
                     {

@@ -29,7 +29,7 @@ namespace BAAR.iOS
             Login.AccessibilityIdentifier = "myButton";
             Login.TouchUpInside += delegate
             {
-                try
+               // try
                 {
 
                     Password.ResignFirstResponder();
@@ -71,15 +71,15 @@ namespace BAAR.iOS
 
                                 Toast.MakeText("Login Successful").Show();
 
-                                // var  storyboard = UIStoryboard.FromName("SecondaryScreen", null);
-                                // var startController = storyboard.InstantiateInitialViewController() as UIViewController;
+                                 //var  storyboard = UIStoryboard.FromName("ButtonPage", NibBundle);
+                                 //var startController = storyboard.InstantiateInitialViewController() as UIViewController;
                                 // View.Window.RootViewController = startController;
                                 //View.Window.MakeKeyAndVisible();
                             }
                         }
                     }
                 }
-                catch
+             //   catch
                 {
                     Toast.MakeText("Could Not Connect To Service (Perhaps Powerschool or Wi-Fi is down.)").Show();
                     return;
