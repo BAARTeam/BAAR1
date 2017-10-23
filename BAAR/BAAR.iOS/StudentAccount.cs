@@ -159,7 +159,7 @@ namespace BAAR.iOS
                         {
                             OpenDropDown.Items[k].Hidden = true;
                         }
-                       // OpenDropDown.GenerateList(OpenDropDown.PrimaryButton,OpenDropDown.Scrolled,NumberOfTickets,false);
+                        OpenDropDown.Scrolled.UserInteractionEnabled = true;
                     }
                 }
             }

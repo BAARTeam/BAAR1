@@ -13,7 +13,7 @@
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oBE-Ac-vcx" buttonType="roundedRect" verticalHuggingPriority="371">
@@ -55,7 +55,7 @@
                                     <constraint id="670" firstAttribute="height" constant="30"/>
                                 </constraints>
                             </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" borderStyle="line" minimumFontSize="17" id="4" translatesAutoresizingMaskIntoConstraints="NO" horizontalHuggingPriority="484">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" borderStyle="line" minimumFontSize="17" id="4" translatesAutoresizingMaskIntoConstraints="NO" horizontalHuggingPriority="484" misplaced="YES">
                                 <rect key="frame" x="84" y="262" width="247" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
@@ -215,7 +215,7 @@
                         <viewControllerLayoutGuide type="bottom" id="190"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="193" customClass="UIView">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <variation key="heightClass=regular-widthClass=compact">
@@ -328,7 +328,7 @@
                         <viewControllerLayoutGuide type="bottom" id="281"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="284">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <subviews>
@@ -444,8 +444,8 @@
         </scene>
     </scenes>
     <resources>
-        <image name="GoingPro_Icon.png" width="1575" height="1575"/>
         <image name="DropDownArrow.png" width="225" height="225"/>
+        <image name="GoingPro_Icon.png" width="1575" height="1575"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedScreenMetrics key="destination" type="retina4"/>

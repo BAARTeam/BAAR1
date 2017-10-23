@@ -126,7 +126,7 @@ namespace BAAR.iOS
             {
                 UIButton TestButton = new UIButton();
 
-                TestButton.BackgroundColor = UIColor.Gray;
+                TestButton.BackgroundColor = UIColor.FromRGB(38, 37, 40); ;
                 TestButton.ClipsToBounds = true;
                 TestButton.SetTitle(Options[i], UIControlState.Normal);
                 TestButton.HorizontalAlignment = UIControlContentHorizontalAlignment.Left;
