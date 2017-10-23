@@ -13,17 +13,19 @@ namespace BAAR.iOS
     {
         public List<UIButton> Items = new List<UIButton>();
         public string Selected;
-
+        StudentAccount StuAcc;
         public Func<int,string> OptionSelected;
         public UIButton PrimaryButton;
-        UIScrollView Scrolled;
+        public UIScrollView Scrolled;
         int TicketOffset;
         UIView RootView;
         public List<string> Options = new List<string>();
         public bool HasGenerated;
-        public UIDropDown(UIView ViewToPlace,UIView MainView,List<string> Titles, CoreGraphics.CGRect Frame,UIScrollView Scroller,int TicketNumber)
+        public UIDropDown(UIView ViewToPlace,UIView MainView,List<string> Titles, CoreGraphics.CGRect Frame,UIScrollView Scroller,int TicketNumber, StudentAccount Main)
         {
+            StuAcc = Main;
             Options = Titles;
+            Selected = Options[0];
             RootView = MainView;
             Scrolled = Scroller;
             TicketOffset = TicketNumber;
@@ -42,10 +44,14 @@ namespace BAAR.iOS
             Arrow.TouchUpInside += delegate
             {
                 GenerateList(PrimaryButton, Scroller, TicketNumber,false);
+                StuAcc.OpenDropDown = this;
+                Scrolled.UserInteractionEnabled = false;
             };
             PrimaryButton.TouchUpInside += delegate
             {
                 GenerateList(PrimaryButton,Scroller,TicketNumber,false);
+                StuAcc.OpenDropDown = this;
+                Scrolled.UserInteractionEnabled = false;
             };
 
             ViewToPlace.AddSubview(PrimaryButton);
@@ -68,7 +74,7 @@ namespace BAAR.iOS
                 {
                     UIButton TestButton = new UIButton();
 
-                    TestButton.BackgroundColor = UIColor.Gray;
+                    TestButton.BackgroundColor = UIColor.FromRGB(38,37,40);
                     TestButton.ClipsToBounds = true;
                     TestButton.SetTitle(Options[i], UIControlState.Normal);
                     TestButton.HorizontalAlignment = UIControlContentHorizontalAlignment.Left;
@@ -86,6 +92,8 @@ namespace BAAR.iOS
                         {
                             Items[k].Hidden = true;
                         }
+                        Scrolled.UserInteractionEnabled = true;
+                        StuAcc.OpenDropDown = null;
                         PrimaryButton.SetTitle(TestButton.Title(UIControlState.Normal), UIControlState.Normal);
                     };
                     HasGenerated = true;
@@ -136,6 +144,8 @@ namespace BAAR.iOS
                     {
                         Items[k].Hidden = true;
                     }
+                    Scrolled.UserInteractionEnabled = true;
+                    StuAcc.OpenDropDown = null;
                     PrimaryButton.SetTitle(TestButton.Title(UIControlState.Normal), UIControlState.Normal);
                 };
                 HasGenerated = true;
@@ -148,5 +158,7 @@ namespace BAAR.iOS
                 Items[i].Hidden = true;
             }
         }
+
+        
     }
 }

@@ -13,24 +13,12 @@
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oBE-Ac-vcx" buttonType="roundedRect" hasAttributedTitle="YES" verticalHuggingPriority="371">
-                                <rect key="frame" x="84" y="300" width="247" height="30"/>
-                                <connections>
-                                    <segue id="1417" destination="192" kind="show"/>
-                                </connections>
-                                <state key="normal">
-                                    <attributedString key="attributedTitle">
-                                        <fragment content="Login">
-                                            <attributes>
-                                                <color key="NSColor" colorSpace="calibratedRGB" red="1" green="1" blue="1" alpha="1"/>
-                                                <font key="NSFont" name="HelveticaNeue" size="35"/>
-                                            </attributes>
-                                        </fragment>
-                                    </attributedString>
-                                </state>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oBE-Ac-vcx" buttonType="roundedRect" verticalHuggingPriority="371">
+                                <rect key="frame" x="37" y="300" width="247" height="30"/>
+                                <connections/>
                                 <variation key="heightClass=regular-widthClass=compact">
                                     <color key="tintColor" colorSpace="calibratedRGB" red="0.94901960784313721" green="0.95294117647058818" blue="0.96078431372549022" alpha="1"/>
                                     <color key="backgroundColor" colorSpace="calibratedRGB" red="0.47450980392156861" green="0.42745098039215684" blue="0.42745098039215684" alpha="1"/>
@@ -49,9 +37,13 @@
                                         <exclude reference="970"/>
                                     </mask>
                                 </variation>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="26"/>
+                                <state key="normal" title="Login">
+                                    <color key="titleColor" colorSpace="calibratedRGB" red="1" green="1" blue="1" alpha="1"/>
+                                </state>
                             </button>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" borderStyle="line" minimumFontSize="17" id="3" translatesAutoresizingMaskIntoConstraints="NO">
-                                <rect key="frame" x="84" y="165" width="247" height="30"/>
+                                <rect key="frame" x="37" y="165" width="247" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                                 <color key="backgroundColor" colorSpace="calibratedRGB" red="1" green="1" blue="1" alpha="1"/>
@@ -63,7 +55,7 @@
                                     <constraint id="670" firstAttribute="height" constant="30"/>
                                 </constraints>
                             </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" borderStyle="line" minimumFontSize="17" id="4" translatesAutoresizingMaskIntoConstraints="NO" horizontalHuggingPriority="484" misplaced="YES">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" borderStyle="line" minimumFontSize="17" id="4" translatesAutoresizingMaskIntoConstraints="NO" horizontalHuggingPriority="484">
                                 <rect key="frame" x="84" y="262" width="247" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
@@ -81,7 +73,7 @@
                                 </constraints>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="262" translatesAutoresizingMaskIntoConstraints="NO" text="Username">
-                                <rect key="frame" x="0.0" y="105" width="414" height="57"/>
+                                <rect key="frame" x="0.0" y="105" width="320" height="57"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="55"/>
                                 <color key="textColor" colorSpace="calibratedRGB" red="1" green="1" blue="1" alpha="1"/>
                                 <nil key="highlightedColor"/>
@@ -103,8 +95,8 @@
                                 </variation>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="263" translatesAutoresizingMaskIntoConstraints="NO" text="Password" adjustsLetterSpacingToFitWidth="NO">
-                                <rect key="frame" x="83" y="218" width="249" height="36"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="55"/>
+                                <rect key="frame" x="36" y="218" width="249" height="36"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="53"/>
                                 <nil key="highlightedColor"/>
                                 <color key="textColor" colorSpace="calibratedRGB" red="1" green="1" blue="1" alpha="1"/>
                                 <variation key="heightClass=regular-widthClass=compact">
@@ -192,6 +184,7 @@
                         <outlet property="UserNameTextField" destination="3" id="name-outlet-3"/>
                         <outlet property="Password" destination="4" id="name-outlet-4"/>
                         <outlet property="Main" destination="8bC-Xf-vdC" id="name-outlet-8bC-Xf-vdC"/>
+                        <segue id="1640" destination="192" kind="show" identifier="GoToButtonPage" animates="NO"/>
                     </connections>
                     <navigationItem id="186" key="navigationItem"/>
                 </viewController>
@@ -222,7 +215,7 @@
                         <viewControllerLayoutGuide type="bottom" id="190"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="193" customClass="UIView">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <variation key="heightClass=regular-widthClass=compact">
@@ -252,7 +245,7 @@
                                 <color key="textColor" colorSpace="calibratedRGB" red="1" green="1" blue="1" alpha="1"/>
                             </label>
                             <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="985" translatesAutoresizingMaskIntoConstraints="NO">
-                                <rect key="frame" x="119" y="167" width="177" height="174"/>
+                                <rect key="frame" x="72" y="167" width="177" height="174"/>
                                 <state key="normal" backgroundImage="GoingPro_Icon.png">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -335,14 +328,14 @@
                         <viewControllerLayoutGuide type="bottom" id="281"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="284">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="798" translatesAutoresizingMaskIntoConstraints="NO" showsHorizontalScrollIndicator="NO" alwaysBounceVertical="YES" bounces="NO">
-                                <rect key="frame" x="4" y="-140" width="414" height="736"/>
+                                <rect key="frame" x="0.0" y="-140" width="320" height="568"/>
                                 <subviews>
-                                    <stackView opaque="NO" contentMode="left" axis="vertical" id="460" translatesAutoresizingMaskIntoConstraints="NO" autoresizesSubviews="NO">
+                                    <stackView opaque="NO" contentMode="left" axis="vertical" id="460" translatesAutoresizingMaskIntoConstraints="NO" autoresizesSubviews="NO" fixedFrame="YES">
                                         <rect key="frame" x="0.0" y="168" width="320" height="1162"/>
                                         <subviews/>
                                         <variation key="heightClass=regular-widthClass=compact" distribution="equalSpacing" spacing="1" alignment="trailing" fixedFrame="YES"/>
@@ -360,7 +353,7 @@
                                 </variation>
                             </scrollView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="288" translatesAutoresizingMaskIntoConstraints="NO">
-                                <rect key="frame" x="4" y="673" width="414" height="34"/>
+                                <rect key="frame" x="0.0" y="505" width="320" height="34"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <state key="normal" title="Add Ticket">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -372,7 +365,7 @@
                                 <connections/>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="287" translatesAutoresizingMaskIntoConstraints="NO" horizontalHuggingPriority="1000">
-                                <rect key="frame" x="4" y="623" width="414" height="33"/>
+                                <rect key="frame" x="0.0" y="455" width="320" height="33"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <state key="normal" title="Submit">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -455,6 +448,6 @@
         <image name="DropDownArrow.png" width="225" height="225"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
-        <simulatedScreenMetrics key="destination" type="retina55"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
 </document>

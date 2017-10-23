@@ -12,6 +12,7 @@ using CoreAnimation;
 using System.Drawing;
 using System.IO;
 using System.Threading;
+using Foundation;
 
 namespace BAAR.iOS
 {
@@ -27,6 +28,7 @@ namespace BAAR.iOS
 
             // Release any cached data, images, etc that aren't in use.
         }
+        public UIDropDown OpenDropDown= null;
 
         public Dictionary<int, List<UIDropDown>> LayoutSpinner = new Dictionary<int, List<UIDropDown>>();
 
@@ -140,7 +142,29 @@ namespace BAAR.iOS
             };
         }
 
-
+        public override void TouchesBegan(NSSet touches, UIEvent evt)
+        {
+            UITouch Touch = touches.AnyObject as UITouch;
+            if (OpenDropDown != null)
+            {
+                for (int i = 0; i < OpenDropDown.Items.Count; i++)
+                {
+                    if (OpenDropDown.Items[i].Frame.Contains(Touch.GetPreciseLocation(View)))
+                    {
+                        Console.WriteLine("TouchedInside");
+                    }
+                    else
+                    {
+                        for (int k = 0; k < OpenDropDown.Items.Count; k++)
+                        {
+                            OpenDropDown.Items[k].Hidden = true;
+                        }
+                       // OpenDropDown.GenerateList(OpenDropDown.PrimaryButton,OpenDropDown.Scrolled,NumberOfTickets,false);
+                    }
+                }
+            }
+            Console.WriteLine("Touch");
+        }
         private string[] SplitName(string ToSplit)
         {
             string[] SplitName = ToSplit.Split(',');
@@ -194,7 +218,7 @@ namespace BAAR.iOS
                 "Demonstrating Initiative",
                 "Being Safe",
                 "Demonstrating Professionalism"
-            }, new CoreGraphics.CGRect(25, 85, TicketHolder.Bounds.Width - 50, 30), Scroll, TicketNumber);
+            }, new CoreGraphics.CGRect(25, 85, TicketHolder.Bounds.Width - 50, 30), Scroll, TicketNumber,this);
 
 
             UIDropDown DropDown2 = new UIDropDown(Ticket, View, new List<string>()
@@ -203,7 +227,7 @@ namespace BAAR.iOS
                 "MySchool",
                 "KCTC",
                 "KIH",
-            }, new CoreGraphics.CGRect(25, 120, 100, 30), Scroll, TicketNumber);
+            }, new CoreGraphics.CGRect(25, 120, 100, 30), Scroll, TicketNumber,this);
 
 
             UIDropDown DropDown3 = new UIDropDown(Ticket, View, new List<string>()
@@ -212,7 +236,7 @@ namespace BAAR.iOS
                 "Parking Lot",
                 "Vending Machines",
                 "Commons",
-            }, new CoreGraphics.CGRect(182, 120, 100, 30), Scroll, TicketNumber);
+            }, new CoreGraphics.CGRect(182, 120, 100, 30), Scroll, TicketNumber,this);
 
             DropDown2.OptionSelected += (e) =>
             {

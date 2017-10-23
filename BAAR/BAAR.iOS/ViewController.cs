@@ -29,9 +29,8 @@ namespace BAAR.iOS
             Login.AccessibilityIdentifier = "myButton";
             Login.TouchUpInside += delegate
             {
-               // try
+               try
                 {
-
                     Password.ResignFirstResponder();
                     HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://goingpro.azurewebsites.net/api/Logins?loginid=" + UserNameTextField.Text);
                     request.Method = "Get";
@@ -70,16 +69,12 @@ namespace BAAR.iOS
                                 StaffUserName = UserNameTextField.Text;
 
                                 Toast.MakeText("Login Successful").Show();
-
-                                 //var  storyboard = UIStoryboard.FromName("ButtonPage", NibBundle);
-                                 //var startController = storyboard.InstantiateInitialViewController() as UIViewController;
-                                // View.Window.RootViewController = startController;
-                                //View.Window.MakeKeyAndVisible();
+                                PerformSegue("GoToButtonPage",this.Self);
                             }
                         }
                     }
                 }
-             //   catch
+               catch
                 {
                     Toast.MakeText("Could Not Connect To Service (Perhaps Powerschool or Wi-Fi is down.)").Show();
                     return;
