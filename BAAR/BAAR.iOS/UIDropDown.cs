@@ -79,13 +79,12 @@ namespace BAAR.iOS
                     TestButton.SetTitle(Options[i], UIControlState.Normal);
                     TestButton.HorizontalAlignment = UIControlContentHorizontalAlignment.Left;
 
-                    TestButton.Frame = new CoreGraphics.CGRect(25, (PrimButton.Frame.Y + (160 * TicketOffset) - IsInScroll.ContentOffset.Y) + (i * 25), 275, 25);
+                    TestButton.Frame = new CoreGraphics.CGRect(25, (PrimButton.Frame.Y + (160 * TicketOffset) - IsInScroll.ContentOffset.Y) + (i * 45), 275, 45);
                     Items.Add(TestButton);
                     TestButton.TouchUpInside += delegate {
                         if (OptionSelected != null)
                         {
                             Selected = TestButton.TitleLabel.Text.ToString();
-                            Console.WriteLine("This Thing  " + Selected);
                             OptionSelected(Options.IndexOf(TestButton.TitleLabel.Text));
                         }
                         for (int k = 0; k < Items.Count; k++)
@@ -106,7 +105,7 @@ namespace BAAR.iOS
 
                 for (int i = 0; i < Options.Count; i++)
                 {
-                    Items[i].Frame = new CoreGraphics.CGRect(25, (PrimButton.Frame.Y + (160 * TicketOffset) - IsInScroll.ContentOffset.Y) + (i * 25), 250, 25);
+                    Items[i].Frame = new CoreGraphics.CGRect(25, (PrimButton.Frame.Y + (160 * TicketOffset) - IsInScroll.ContentOffset.Y) + (i * 45), 250, 45);
                 }
                 for (int k = 0; k < Items.Count; k++)
                 {
@@ -131,7 +130,7 @@ namespace BAAR.iOS
                 TestButton.SetTitle(Options[i], UIControlState.Normal);
                 TestButton.HorizontalAlignment = UIControlContentHorizontalAlignment.Left;
 
-                TestButton.Frame = new CoreGraphics.CGRect(25, (PrimaryButton.Frame.Y + (160 * TicketOffset) - Scrolled.ContentOffset.Y) + (i * 25), 275, 25);
+                TestButton.Frame = new CoreGraphics.CGRect(25, (PrimaryButton.Frame.Y + (160 * TicketOffset) - Scrolled.ContentOffset.Y) + (i * 45), 275, 45);
                 Items.Add(TestButton);
                 TestButton.TouchUpInside += delegate {
                     if (OptionSelected != null)

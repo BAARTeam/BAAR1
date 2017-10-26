@@ -259,10 +259,9 @@ ViewGroup.LayoutParams.WrapContent);
 
             var scanner = new ZXing.Mobile.MobileBarcodeScanner();
             var result = await scanner.Scan();
-
-            string[] Results = result.ToString().Split('*');
-            //  if (Results[0]=="0")
+            try
             {
+                string[] Results = result.ToString().Split('*');
                 Console.WriteLine("Returned Data " + Results[1]);
                 string Contra = (string)MainActivity.MakeRequest3("data", Results[1]);
                 string Name = Contra.GetStringOut("lastfirst");
@@ -272,10 +271,12 @@ ViewGroup.LayoutParams.WrapContent);
                 BarcodeScanReturn Student = new BarcodeScanReturn(Name, Results[1], Email1, Email2, Email3);
                 AllReturned.Add(Student);
                 return Student;
+
             }
-          //  else
+            catch
             {
-               BarcodeScanReturn Staff = new BarcodeScanReturn((Results[3] + ", " + Results[2]), Results[1], null, null, null);
+                string[] Results = result.ToString().Split(' ');
+                BarcodeScanReturn Staff = new BarcodeScanReturn((Results[1] + ", " + Results[2]), Results[1], null, null, null);
                 AllReturned.Add(Staff);
                 return Staff;
             }

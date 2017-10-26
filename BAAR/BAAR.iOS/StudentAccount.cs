@@ -115,8 +115,6 @@ namespace BAAR.iOS
                     }
                 }
                 Toast.MakeText("Email Sent").Show();
-                //  Intent MainPage = new Intent(this, typeof(MainActivity));
-                //  StartActivity(MainPage);
             };
 
 
@@ -183,6 +181,7 @@ namespace BAAR.iOS
 
             UILabel StudentName = new UILabel();
             StudentName.Text = Name;
+            StudentName.WidthAnchor.ConstraintGreaterThanOrEqualTo(50).Active = true;
             StudentName.TextColor = UIColor.White;
             StudentName.Font.WithSize(40);
 
@@ -284,28 +283,27 @@ namespace BAAR.iOS
         }
         public async Task<BarcodeScanReturn> StartBarcodeScanner()
         {
-            // MobileBarcodeScanner.Initialize(Application);
-
             var scanner = new ZXing.Mobile.MobileBarcodeScanner();
             var result = await scanner.Scan();
 
-            string[] Results = result.ToString().Split('*');
-            //  if (Results[0]=="0")
+            try
             {
+                string[] Results = result.ToString().Split('*');
                 Console.WriteLine("Returned Data " + Results[1]);
                 string Contra = (string)ViewController.MakeRequest3("data", Results[1]);
                 string Name = Contra.GetStringOut("lastfirst");
-
                 string Email1 = Contra.GetStringOut("guardianemail");
                 string Email2 = Contra.GetStringOut("guardianemail_2");
                 string Email3 = Contra.GetStringOut("stud_email");
                 BarcodeScanReturn Student = new BarcodeScanReturn(Name, Results[1], Email1, Email2, Email3);
                 AllReturned.Add(Student);
                 return Student;
+
             }
-            //  else
+            catch
             {
-                BarcodeScanReturn Staff = new BarcodeScanReturn((Results[3] + ", " + Results[2]), Results[1], null, null, null);
+                string[] Results = result.ToString().Split(' ');
+                BarcodeScanReturn Staff = new BarcodeScanReturn((Results[1] + ", " + Results[2]), Results[1], null, null, null);
                 AllReturned.Add(Staff);
                 return Staff;
             }
