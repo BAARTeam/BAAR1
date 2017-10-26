@@ -79,7 +79,6 @@ namespace BAAR.iOS
                         District = "KentISD",
                         Building = EmailBuildingLocation,
                         Student_ID = AllReturned[i].StudentNumber,
-                        //AddTheseThings
                         Student_First_Name = AllReturned[i].FirstName,
                         Student_Last_Name = AllReturned[i].LastName,
                         Behavior = EmailBehaviour,
