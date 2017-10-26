@@ -276,7 +276,7 @@ ViewGroup.LayoutParams.WrapContent);
             catch
             {
                 string[] Results = result.ToString().Split(' ');
-                BarcodeScanReturn Staff = new BarcodeScanReturn((Results[1] + ", " + Results[2]), Results[1], null, null, null);
+                BarcodeScanReturn Staff = new BarcodeScanReturn((Results[2] + ", " + Results[1]), " ", null, null, null);
                 AllReturned.Add(Staff);
                 return Staff;
             }

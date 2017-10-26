@@ -37,7 +37,7 @@ namespace BAAR.iOS
             {0, new string[] { "Front Entry", "Hallways", "Office", "Classrooms", "Breakroom", "Bus/Parking Lot" } },
             {1, new string[] { "Testing Center", "Hallways", "Office / Counselor", "Working Classroom", "Parking Lot" } },
             {2, new string[] { "Parking Lot", "Hallways","Office", "Classrooms","Commons"} },
-            {3, new string[] { "Hallways", "Classrooms", "IT Help", "Main Office", "Vending Machines", "Collaboration Areas / Learning Pods", "Parking Lot" } },
+            {3, new string[] { "Hallways", "Classrooms", "Parking Lot", "Main Office", "Vending Machines", "Collaboration Areas / Learning Pods"} },
         };
         public List<BarcodeScanReturn> AllReturned = new List<BarcodeScanReturn>();
         private int NumberOfTickets = 0;
@@ -54,7 +54,6 @@ namespace BAAR.iOS
                 TicketHolder.WidthAnchor.ConstraintEqualTo(UIScreen.MainScreen.Bounds.Width).Active = true;
                 Scroll.AddSubview(TicketHolder);
                 Scroll.ContentSize = TicketHolder.Frame.Size;
-                CreateStudentTicket("Test User", "210", 0);
                 CreateStudentTicket(Name[0] + " " + Name[1], Returned.StudentNumber, NumberOfTickets);
             }
             catch
@@ -70,8 +69,8 @@ namespace BAAR.iOS
                     string EmailBuildingLocation = LayoutSpinner[i][1].Selected;
                     string EmailLocation = LayoutSpinner[i][2].Selected;
                     string EmailName = AllReturned[i].FirstName.ToString();
-                    // Thread EmailThread = new Thread(new ThreadStart(new EmailInfo(AllReturned[i].StudentName,"dakotastickney@gmail.com", AllReturned[i].SecondaryAddress,AllReturned[i].StudentAddress,EmailLocation, EmailBehaviour).BackgroundEmail));
-                    // EmailThread.Start();
+                    Thread EmailThread = new Thread(new ThreadStart(new EmailInfo(AllReturned[i].StudentName,"dakotastickney@gmail.com", AllReturned[i].SecondaryAddress,AllReturned[i].StudentAddress,EmailLocation, EmailBehaviour).BackgroundEmail));
+                    EmailThread.Start();
 
                     var thisinfo = JsonConvert.SerializeObject(new
                     {
@@ -180,8 +179,8 @@ namespace BAAR.iOS
             Ticket.WidthAnchor.ConstraintEqualTo(UIScreen.MainScreen.Bounds.Width).Active = true;
 
             UILabel StudentName = new UILabel();
+            StudentName.LineBreakMode = UILineBreakMode.Clip;
             StudentName.Text = Name;
-            StudentName.WidthAnchor.ConstraintGreaterThanOrEqualTo(50).Active = true;
             StudentName.TextColor = UIColor.White;
             StudentName.Font.WithSize(40);
 
@@ -303,7 +302,7 @@ namespace BAAR.iOS
             catch
             {
                 string[] Results = result.ToString().Split(' ');
-                BarcodeScanReturn Staff = new BarcodeScanReturn((Results[1] + ", " + Results[2]), Results[1], null, null, null);
+                BarcodeScanReturn Staff = new BarcodeScanReturn((Results[2] + ", " + Results[1]),"", null, null, null);
                 AllReturned.Add(Staff);
                 return Staff;
             }

@@ -82,25 +82,12 @@ namespace BAAR.iOS
             };
         }
 
-        public override UIInterfaceOrientationMask GetSupportedInterfaceOrientations()
-        {
-            return UIInterfaceOrientationMask.Portrait;
-        }
-
-        public override UIInterfaceOrientation PreferredInterfaceOrientationForPresentation()
-        {
-            return UIInterfaceOrientation.Portrait;
-        }
         public override void DidReceiveMemoryWarning()
         {
             base.DidReceiveMemoryWarning();
             // Release any cached data, images, etc that aren't in use.
         }
-        public override bool ShouldAutorotate()
-        {
-            return false;
-        }
-
+    
         public bool checkpassword(string hashpw, string PW)
         {
             //Extract the bytes
