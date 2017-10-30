@@ -179,7 +179,7 @@ namespace BAAR.iOS
             Ticket.WidthAnchor.ConstraintEqualTo(UIScreen.MainScreen.Bounds.Width).Active = true;
 
             UILabel StudentName = new UILabel();
-            StudentName.LineBreakMode = UILineBreakMode.Clip;
+        //    StudentName.LineBreakMode = UILineBreakMode.Clip;
             StudentName.Text = Name;
             StudentName.TextColor = UIColor.White;
             StudentName.Font.WithSize(40);
@@ -215,7 +215,7 @@ namespace BAAR.iOS
                 "Demonstrating Initiative",
                 "Being Safe",
                 "Demonstrating Professionalism"
-            }, new CoreGraphics.CGRect(25, 85, TicketHolder.Bounds.Width - 50, 30), Scroll, TicketNumber,this);
+            }, new CoreGraphics.CGRect(25, 85, TicketHolder.Bounds.Width - 65, 30), Scroll, TicketNumber,this);
 
 
             UIDropDown DropDown2 = new UIDropDown(Ticket, View, new List<string>()
