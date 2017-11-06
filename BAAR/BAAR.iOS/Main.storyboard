@@ -444,8 +444,9 @@
         </scene>
     </scenes>
     <resources>
-        <image name="DropDownArrow.png" width="225" height="225"/>
         <image name="GoingPro_Icon.png" width="1575" height="1575"/>
+        <image name="DropDownArrow.png" width="225" height="225"/>
+        <image name="GoingPro_Icon.ico" width="256" height="256"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedScreenMetrics key="destination" type="retina4"/>

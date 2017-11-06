@@ -38,7 +38,7 @@
 	<key>XSAppIconAssets</key>
 	<string>Resources/Images.xcassets/AppIcons.appiconset</string>
 	<key>CFBundleIdentifier</key>
-	<string>KCTC.GoingPro</string>
+	<string>Kent.GoingPro</string>
 	<key>XSLaunchImageAssets</key>
 	<string>Resources/Images.xcassets/LaunchImages.launchimage</string>
 	<key>CFBundleDisplayName</key>
@@ -46,6 +46,6 @@
 	<key>UIStatusBarHidden</key>
 	<true/>
 	<key>MinimumOSVersion</key>
-	<string>9.2</string>
+	<string>10.3</string>
 </dict>
 </plist>
