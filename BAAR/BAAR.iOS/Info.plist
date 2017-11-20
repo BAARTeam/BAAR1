@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleVersion</key>
-	<string>1.5</string>
+	<string>1.7</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UIDeviceFamily</key>
@@ -16,6 +16,8 @@
 	<string>Main</string>
 	<key>UIMainStoryboardFile~ipad</key>
 	<string>Main</string>
+  <key>NSCameraUsageDescription</key>
+  <string>${PRODUCT_NAME} required to scan student badges</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>arm64</string>
@@ -44,8 +46,14 @@
 	<key>UIStatusBarHidden</key>
 	<true/>
 	<key>CFBundleShortVersionString</key>
-	<string>1.5</string>
+	<string>1.7</string>
 	<key>MinimumOSVersion</key>
 	<string>11.0</string>
+  <key>CFBundleIconFiles</key>
+  <array>
+    <string>Icon-60@2x.png</string>
+    <string>Icon-76.png</string>
+    <string>Icon-76@2x.png</string>
+  </array>
 </dict>
 </plist>

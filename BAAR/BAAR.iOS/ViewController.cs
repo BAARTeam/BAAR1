@@ -18,6 +18,9 @@ namespace BAAR.iOS
         public static string StaffLast;
         public static string StaffEmail;
         public static string StaffUserName;
+        public static string SavePass = "";
+        public static string SaveUser = "";
+
         public ViewController(IntPtr handle) : base(handle)
         {
         }
@@ -26,6 +29,8 @@ namespace BAAR.iOS
         {
             base.ViewDidLoad();
             // Perform any additional setup after loading the view, typically from a nib.
+            UserNameTextField.Text = SaveUser;
+            Password.Text = SavePass;
             Login.AccessibilityIdentifier = "myButton";
             Login.TouchUpInside += delegate
             {
@@ -57,6 +62,7 @@ namespace BAAR.iOS
                             {
                                 Console.WriteLine("Wrong!");
                                 Toast.MakeText("Password Incorrect").Show();
+                                Password.Text = "";
                             }
                             else
                             {
@@ -67,7 +73,8 @@ namespace BAAR.iOS
                                 StaffLast = thisinfo.Last_Name;
                                 StaffEmail = thisinfo.Email;
                                 StaffUserName = UserNameTextField.Text;
-
+                                SavePass = Password.Text;
+                                SaveUser = UserNameTextField.Text;
                                 Toast.MakeText("Login Successful").Show();
                                 PerformSegue("GoToButtonPage",this.Self);
                             }

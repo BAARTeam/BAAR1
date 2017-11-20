@@ -69,7 +69,7 @@ namespace BAAR.iOS
                     string EmailBuildingLocation = LayoutSpinner[i][1].Selected;
                     string EmailLocation = LayoutSpinner[i][2].Selected;
                     string EmailName = AllReturned[i].FirstName.ToString();
-                    Thread EmailThread = new Thread(new ThreadStart(new EmailInfo(AllReturned[i].StudentName,"dakotastickney@gmail.com", AllReturned[i].SecondaryAddress,AllReturned[i].StudentAddress,EmailLocation, EmailBehaviour).BackgroundEmail));
+                    Thread EmailThread = new Thread(new ThreadStart(new EmailInfo(AllReturned[i].StudentName, "dakotastickney@gmail.com", AllReturned[i].SecondaryAddress, AllReturned[i].StudentAddress, EmailLocation, EmailBehaviour).BackgroundEmail));
                     EmailThread.Start();
 
                     var thisinfo = JsonConvert.SerializeObject(new

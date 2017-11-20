@@ -27,6 +27,8 @@ namespace BAAR.Droid
         public static string StaffEmail;
         public static string StaffUserName;
 
+        public static string SavePass = "";
+        public static string SaveUser = "";
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -36,6 +38,8 @@ namespace BAAR.Droid
             SetContentView(Resource.Layout.Login);
             //changes login page color
             FindViewById<LinearLayout>(Resource.Id.Login).SetBackgroundColor(Color.Argb(255, 0, 9, 26));
+
+
 
             //collects info from the login text boxes
             EditText Username = FindViewById<EditText>(Resource.Id.Username_Textbox);
@@ -51,6 +55,9 @@ namespace BAAR.Droid
             Username.SetTextColor(Color.Black);
             Password.SetBackgroundColor(Color.White);
             Password.SetTextColor(Color.Black);
+
+            Username.Text = SaveUser;
+            Password.Text = SavePass;
 
             //login button
             button.Click += (sender1, e) =>
@@ -85,6 +92,8 @@ namespace BAAR.Droid
                             else
                             {
                                 //Requests an access token from powerschool that we use for getting data;
+                                SavePass = Password.Text;
+                                SaveUser = Username.Text;
                                 Token = (AccessObject)MainActivity.MakeRequest(string.Format(@"http://powerschool.kentisd.org/oauth/access_token?grant_type=client_credentials"), "application/x-www-form-urlencoded;charset=UTF-8", "POST", "Basic ZWRlMjY4ZmMtOTM5Mi00Y2NkLTgxNjktNjk2ZjI0YmNjZTU2OmU5MDRlNzYwLTEzZjQtNDY5My1iYWM5LWIwZTMyYTJhM2Y3Ng==", true);
                                 Toast.MakeText(this,"Login Successful",ToastLength.Long).Show();
 

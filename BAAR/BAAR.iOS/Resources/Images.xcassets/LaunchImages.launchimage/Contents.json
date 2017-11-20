@@ -6,7 +6,8 @@
       "minimum-system-version": "7.0",
       "scale": "2x",
       "size": "640x960",
-      "idiom": "iphone"
+      "idiom": "iphone",
+      "filename": "GoingProLA.png"
     },
     {
       "orientation": "portrait",
@@ -15,7 +16,8 @@
       "subtype": "retina4",
       "scale": "2x",
       "size": "640x1136",
-      "idiom": "iphone"
+      "idiom": "iphone",
+      "filename": "GoingProLB.png"
     },
     {
       "orientation": "portrait",
@@ -23,7 +25,8 @@
       "minimum-system-version": "7.0",
       "scale": "1x",
       "size": "768x1024",
-      "idiom": "ipad"
+      "idiom": "ipad",
+      "filename": "GoingProLC.png"
     },
     {
       "orientation": "landscape",
@@ -31,7 +34,8 @@
       "minimum-system-version": "7.0",
       "scale": "1x",
       "size": "1024x768",
-      "idiom": "ipad"
+      "idiom": "ipad",
+      "filename": "GoingProLE.png"
     },
     {
       "orientation": "portrait",
@@ -39,7 +43,8 @@
       "minimum-system-version": "7.0",
       "scale": "2x",
       "size": "1536x2048",
-      "idiom": "ipad"
+      "idiom": "ipad",
+      "filename": "GoingProLD.png"
     },
     {
       "orientation": "landscape",
@@ -47,7 +52,8 @@
       "minimum-system-version": "7.0",
       "scale": "2x",
       "size": "2048x1536",
-      "idiom": "ipad"
+      "idiom": "ipad",
+      "filename": "GoingProLF.png"
     }
   ],
   "properties": {},
