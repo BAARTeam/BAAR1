@@ -9,6 +9,7 @@ namespace BAAR.iOS
     {
         public ButtonPage(IntPtr handle) : base(handle)
         {
+            NavigationController.SetNavigationBarHidden(false, false);
         }
 
         public async override void ViewDidLoad()

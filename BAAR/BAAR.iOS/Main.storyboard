@@ -202,7 +202,7 @@
         <!--Navigation Controller-->
         <scene sceneID="18">
             <objects>
-                <navigationController navigationBarHidden="YES" id="19" sceneMemberID="viewController">
+                <navigationController navigationBarHidden="NO" id="19" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="21">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -218,7 +218,7 @@
         <!--ButtonPage-->
         <scene sceneID="191">
             <objects>
-                <viewController storyboardIdentifier="SecondaryScreen" title="ButtonPage" useStoryboardIdentifierAsRestorationIdentifier="YES" id="192" customClass="ButtonPage" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SecondaryScreen" title="Badge" useStoryboardIdentifierAsRestorationIdentifier="YES" id="192" customClass="ButtonPage" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="189"/>
                         <viewControllerLayoutGuide type="bottom" id="190"/>
@@ -265,7 +265,7 @@
                                 </variation>
                                 <connections>
                                     <action selector="UIButton985_TouchUpInside:" destination="192" eventType="touchUpInside" id="1221"/>
-                                    <segue destination="283" kind="show" id="1342"/>
+                                    <segue destination="283" kind="push" id="1342"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Click Badge To Start Scan" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1430">

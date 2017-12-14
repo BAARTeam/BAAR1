@@ -44,7 +44,12 @@ namespace BAAR.iOS
         public async override void ViewDidLoad()
         {
             base.ViewDidLoad();
-
+            foreach (UIView view in TicketHolder.Subviews)
+            {
+                view.RemoveFromSuperview();
+            }
+            NumberOfTickets = 0;
+            AllReturned.Clear();
             try
             {
                 BarcodeScanReturn Returned = await StartBarcodeScanner();
@@ -58,7 +63,7 @@ namespace BAAR.iOS
             }
             catch
             {
-                Console.WriteLine("Something went stupid");
+                Console.WriteLine("Something went Wrong");
             }
 
             SubmitButton.TouchUpInside += (sender, e) =>
@@ -69,7 +74,7 @@ namespace BAAR.iOS
                     string EmailBuildingLocation = LayoutSpinner[i][1].Selected;
                     string EmailLocation = LayoutSpinner[i][2].Selected;
                     string EmailName = AllReturned[i].FirstName.ToString();
-                    Thread EmailThread = new Thread(new ThreadStart(new EmailInfo(AllReturned[i].StudentName, "dakotastickney@gmail.com", AllReturned[i].SecondaryAddress, AllReturned[i].StudentAddress, EmailLocation, EmailBehaviour).BackgroundEmail));
+                    Thread EmailThread = new Thread(new ThreadStart(new EmailInfo(AllReturned[i].StudentName, AllReturned[i].PrimaryEmailAddress, AllReturned[i].SecondaryAddress, AllReturned[i].StudentAddress, EmailLocation, EmailBehaviour).BackgroundEmail));
                     EmailThread.Start();
 
                     var thisinfo = JsonConvert.SerializeObject(new
@@ -204,7 +209,7 @@ namespace BAAR.iOS
 
 
             ImageView.Frame = new CoreGraphics.CGRect(15, 15, 50, 50);
-            StudentName.Frame = new RectangleF(75, 18, 90, 20);
+            StudentName.Frame = new RectangleF(75, 18, 500, 20);
             StudentNumber.Frame = new RectangleF(75, 36, 90, 20);
             Ticket.AddSubview(ImageView);
 
@@ -361,6 +366,7 @@ namespace BAAR.iOS
                     var fromAddress = new MailAddress("GoingPro@kentisd.org", "Going Pro");
                     string subject = " " + this.Name + " was positively recognized today at Kent ISD!";
                     string body = String.Format("A staff member at Kent ISD secondary campus schools recognized " + this.Name + " for " + this.Action + " in the " + this.Location + " today! \n This recognition comes with our campus initiative, “Going Pro at Kent ISD”, which is preparing students to be college and career ready by focusing on positive behaviors.\n Be Professional. Be Respectful. Be Responsible. Demonstrate Initiative. Be Safe. \n Please make sure to congratulate " + this.Name + " tonight!" + "\n Sincerely <a href=\"mailto:{1}?GoingPro\" target=\"_top\">{0}</a>", ViewController.StaffFirst + " " + ViewController.StaffLast, ViewController.StaffEmail);
+
                     const string ejkrj9858 = oysd8fh376sdflsdfo8;
                     if (PrimaryAddress != null)
                     {
@@ -385,6 +391,7 @@ namespace BAAR.iOS
                         {
                             if (GuardianEmail != null)
                             {
+                                GuardianEmail.CC.Add(ViewController.StaffEmail);
                                 smtp.Send(GuardianEmail);
                             }
                         }
@@ -396,15 +403,21 @@ namespace BAAR.iOS
                         EnableSsl = true,
                         DeliveryMethod = SmtpDeliveryMethod.Network,
                         UseDefaultCredentials = false,
-                        Credentials = new NetworkCredential(fromAddress.Address, ejkrj9858)
+                        Credentials = new NetworkCredential(fromAddress.Address, ejkrj9858),
+                        
+                        
                     };
+                    MailMessage New = new MailMessage();
+                    
                     if (this.SecondaryAddress != null)
                     {
                         using (var GuardianEmail2 = new MailMessage(fromAddress, new MailAddress(this.SecondaryAddress))
                         {
                             Subject = subject,
                             IsBodyHtml = true,
-                            Body = body
+                            Body = body,
+
+
                         })
                         {
                             if (GuardianEmail2 != null)

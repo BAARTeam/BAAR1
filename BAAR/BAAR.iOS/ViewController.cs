@@ -28,9 +28,12 @@ namespace BAAR.iOS
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
+            NavigationController.SetNavigationBarHidden(true,false);
             // Perform any additional setup after loading the view, typically from a nib.
-            UserNameTextField.Text = SaveUser;
-            Password.Text = SavePass;
+            if (SaveUser != "")
+            { UserNameTextField.Text = SaveUser; }
+            if (SavePass != "")
+            { Password.Text = SavePass; }
             Login.AccessibilityIdentifier = "myButton";
             Login.TouchUpInside += delegate
             {
